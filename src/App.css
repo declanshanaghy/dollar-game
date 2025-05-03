@@ -1,0 +1,293 @@
+/* Base styles */
+:root {
+  --primary-color: #2a9d8f;
+  --secondary-color: #e9c46a;
+  --negative-color: #e76f51;
+  --positive-color: #f7fff7;
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --border-color: #6c757d;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* App container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--border-color);
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+/* Main game container */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .game-container {
+    flex-direction: row;
+  }
+}
+
+/* Graph section */
+.graph-section {
+  flex: 2;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.graph-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Vertex styles */
+.vertex {
+  transition: all 0.3s ease;
+}
+
+.vertex-actionable {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(42, 157, 143, 0.6));
+}
+
+.vertex-actionable:hover {
+  filter: drop-shadow(0 0 8px rgba(42, 157, 143, 0.8));
+  transform: scale(1.05);
+}
+
+/* Action menu styles */
+.action-menu {
+  pointer-events: all;
+}
+
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:not(.disabled):hover rect {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+.action-button.disabled {
+  cursor: not-allowed;
+}
+
+.action-button.disabled title {
+  display: block;
+}
+
+/* Preview chip styles */
+.preview-chip {
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+/* Animated dashed lines */
+.animated-dash {
+  pointer-events: none;
+}
+
+@keyframes dashGive {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+@keyframes dashReceive {
+  to {
+    stroke-dashoffset: 10;
+  }
+}
+
+.give-animation {
+  stroke-dashoffset: 0;
+  animation: dashGive 1s linear infinite;
+}
+
+.receive-animation {
+  stroke-dashoffset: 0;
+  animation: dashReceive 1s linear infinite;
+}
+
+/* Controls section */
+.controls-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-controls {
+  background-color: white;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  outline: none;
+  border-radius: 4px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.control-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.reset-button:hover {
+  background-color: #248277;
+}
+
+.undo-button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.undo-button:hover {
+  background-color: #d4b35b;
+}
+
+.undo-button.disabled {
+  background-color: #e9e9e9;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Win message */
+.win-message {
+  background-color: rgba(42, 157, 143, 0.1);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.win-message h2 {
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+/* Game info */
+.game-info {
+  text-align: left;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.game-info h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.game-instructions {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.game-instructions li {
+  margin-bottom: 0.5rem;
+}
+
+.tip {
+  background-color: rgba(233, 196, 106, 0.2);
+  border-left: 3px solid var(--secondary-color);
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Footer */
+.app-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  color: var(--border-color);
+  font-size: 0.9rem;
+}

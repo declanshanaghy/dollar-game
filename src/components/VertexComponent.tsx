@@ -1,0 +1,358 @@
+import React, { useState, useEffect } from 'react';
+import { Vertex, Graph } from '../types';
+import { ActionType } from '../types';
+import { getVertexDegree, getNeighbors } from '../gameLogic';
+
+interface VertexComponentProps {
+  vertex: Vertex;
+  canGive: boolean;
+  canReceive: boolean;
+  giveDisabledReason: string | null;
+  receiveDisabledReason: string | null;
+  onAction: (vertexId: number, actionType: ActionType) => void;
+  graph: Graph; // Added to calculate preview states
+}
+
+interface NeighborPreview {
+  id: number;
+  position: { x: number; y: number };
+  newChips: number;
+}
+
+const VertexComponent: React.FC<VertexComponentProps> = ({
+  vertex,
+  canGive,
+  canReceive,
+  giveDisabledReason,
+  receiveDisabledReason,
+  onAction,
+  graph
+}) => {
+  const { id, chips, position } = vertex;
+  const [showMenu, setShowMenu] = useState(false);
+  const [hoveredAction, setHoveredAction] = useState<ActionType | null>(null);
+  const [neighborPreviews, setNeighborPreviews] = useState<NeighborPreview[]>([]);
+  
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (_: MouseEvent) => {
+      setShowMenu(false);
+      setHoveredAction(null);
+    };
+    
+    if (showMenu) {
+      // Add the event listener with a slight delay to prevent immediate closing
+      const timer = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 100);
+      
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [showMenu]);
+  
+  // Determine color based on chip count and action abilities
+  const getColor = () => {
+    if (chips < 0) return '#ff6b6b'; // Red for negative
+    if (canGive || canReceive) return '#4ecdc4';   // Teal for actionable
+    return '#f7fff7';                // White for positive but not actionable
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
+    if (!showMenu) {
+      setHoveredAction(null);
+    }
+  };
+
+  const handleAction = (actionType: ActionType) => {
+    onAction(id, actionType);
+    setShowMenu(false);
+    setHoveredAction(null);
+  };
+
+  // Calculate preview chip count based on action type
+  const getPreviewChipCount = (actionType: ActionType): number => {
+    if (!actionType) return chips;
+    
+    const degree = getVertexDegree(graph, id);
+    
+    if (actionType === ActionType.GIVE) {
+      // When giving, vertex loses one chip per neighbor
+      return chips - degree;
+    } else if (actionType === ActionType.RECEIVE) {
+      // When receiving, vertex gains one chip per neighbor
+      return chips + degree;
+    }
+    
+    return chips;
+  };
+  
+  // Calculate preview for neighbors
+  const calculateNeighborPreviews = (actionType: ActionType) => {
+    if (!actionType) {
+      setNeighborPreviews([]);
+      return;
+    }
+    
+    const neighbors = getNeighbors(graph, id);
+    const previews: NeighborPreview[] = [];
+    
+    neighbors.forEach(neighborId => {
+      const neighbor = graph.vertices.find(v => v.id === neighborId);
+      if (neighbor) {
+        let newChips = neighbor.chips;
+        
+        if (actionType === ActionType.GIVE) {
+          // Neighbor receives 1 chip
+          newChips = neighbor.chips + 1;
+        } else if (actionType === ActionType.RECEIVE) {
+          // Neighbor gives 1 chip
+          newChips = neighbor.chips - 1;
+        }
+        
+        previews.push({
+          id: neighborId,
+          position: neighbor.position,
+          newChips
+        });
+      }
+    });
+    
+    setNeighborPreviews(previews);
+  };
+
+  // Handle mouse enter for action buttons
+  const handleMouseEnter = (actionType: ActionType) => {
+    setHoveredAction(actionType);
+    calculateNeighborPreviews(actionType);
+  };
+
+  // Handle mouse leave for action buttons
+  const handleMouseLeave = () => {
+    setHoveredAction(null);
+    setNeighborPreviews([]);
+  };
+  
+  // Create animated dashed lines to neighbors
+  const renderAnimatedLines = () => {
+    if (!hoveredAction || neighborPreviews.length === 0) return null;
+    
+    return neighborPreviews.map(neighbor => {
+      // Calculate direction vector
+      const dx = neighbor.position.x - position.x;
+      const dy = neighbor.position.y - position.y;
+      
+      // Calculate start and end points (slightly offset from vertices)
+      const length = Math.sqrt(dx * dx + dy * dy);
+      const unitX = dx / length;
+      const unitY = dy / length;
+      
+      const startX = position.x + unitX * 30; // Start at edge of vertex
+      const startY = position.y + unitY * 30;
+      const endX = neighbor.position.x - unitX * 30; // End at edge of neighbor
+      const endY = neighbor.position.y - unitY * 30;
+      
+      return (
+        <line
+          key={`preview-line-${id}-${neighbor.id}`}
+          x1={startX}
+          y1={startY}
+          x2={endX}
+          y2={endY}
+          stroke={hoveredAction === ActionType.GIVE ? "rgba(42, 157, 143, 0.7)" : "rgba(233, 196, 106, 0.7)"}
+          strokeWidth={2}
+          strokeDasharray="5,5"
+          className={`animated-dash ${hoveredAction === ActionType.GIVE ? 'give-animation' : 'receive-animation'}`}
+        />
+      );
+    });
+  };
+  
+  return (
+    <g
+      transform={`translate(${position.x}, ${position.y})`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
+      <circle
+        r={30}
+        fill={getColor()}
+        stroke={(canGive || canReceive) ? '#2a9d8f' : '#6c757d'}
+        strokeWidth={2}
+        className={(canGive || canReceive) ? 'vertex-actionable' : 'vertex'}
+      />
+      <text
+        textAnchor="middle"
+        dy=".3em"
+        fontSize="16"
+        fontWeight="bold"
+        fill="#212529"
+      >
+        {chips}
+      </text>
+
+      {/* Action Menu */}
+      {showMenu && (
+        <g className="action-menu">
+          {/* Semi-transparent background */}
+          <rect
+            x={-80}
+            y={-100}
+            width={160}
+            height={80}
+            rx={5}
+            ry={5}
+            fill="rgba(255, 255, 255, 0.95)"
+            stroke="#6c757d"
+            strokeWidth={1}
+          />
+          
+          {/* Give Button */}
+          <g
+            transform="translate(-60, -70)"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (canGive) handleAction(ActionType.GIVE);
+            }}
+            onMouseEnter={() => handleMouseEnter(ActionType.GIVE)}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              cursor: canGive ? 'pointer' : 'not-allowed',
+              opacity: canGive ? 1 : 0.5
+            }}
+            className={`action-button ${canGive ? '' : 'disabled'}`}
+          >
+            <rect
+              x={0}
+              y={0}
+              width={50}
+              height={30}
+              rx={5}
+              ry={5}
+              fill={canGive ? "#2a9d8f" : "#cccccc"}
+              stroke="#6c757d"
+              strokeWidth={1}
+            />
+            <text
+              x={25}
+              y={20}
+              textAnchor="middle"
+              fontSize={12}
+              fill="white"
+            >
+              Give
+            </text>
+            {!canGive && giveDisabledReason && (
+              <title>{giveDisabledReason}</title>
+            )}
+          </g>
+          
+          {/* Receive Button */}
+          <g
+            transform="translate(10, -70)"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (canReceive) handleAction(ActionType.RECEIVE);
+            }}
+            onMouseEnter={() => handleMouseEnter(ActionType.RECEIVE)}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              cursor: canReceive ? 'pointer' : 'not-allowed',
+              opacity: canReceive ? 1 : 0.5
+            }}
+            className={`action-button ${canReceive ? '' : 'disabled'}`}
+          >
+            <rect
+              x={0}
+              y={0}
+              width={50}
+              height={30}
+              rx={5}
+              ry={5}
+              fill={canReceive ? "#e9c46a" : "#cccccc"}
+              stroke="#6c757d"
+              strokeWidth={1}
+            />
+            <text
+              x={25}
+              y={20}
+              textAnchor="middle"
+              fontSize={12}
+              fill="white"
+            >
+              Receive
+            </text>
+            {!canReceive && receiveDisabledReason && (
+              <title>{receiveDisabledReason}</title>
+            )}
+          </g>
+        </g>
+      )}
+
+      {/* Animated lines to neighbors */}
+      {hoveredAction && renderAnimatedLines()}
+      
+      {/* Preview Chip for current vertex (shown when hovering over an action) */}
+      {hoveredAction && (
+        <g
+          transform={`translate(${12}, ${12})`}
+          className="preview-chip"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <circle
+            r={30}
+            fill={getPreviewChipCount(hoveredAction) < 0 ? 'rgba(255, 107, 107, 0.7)' : 'rgba(78, 205, 196, 0.7)'}
+            stroke={(canGive || canReceive) ? 'rgba(42, 157, 143, 0.7)' : 'rgba(108, 117, 125, 0.7)'}
+            strokeWidth={2}
+            strokeDasharray="4 2"
+          />
+          <text
+            textAnchor="middle"
+            dy=".3em"
+            fontSize="16"
+            fontWeight="bold"
+            fill="rgba(33, 37, 41, 0.7)"
+          >
+            {getPreviewChipCount(hoveredAction)}
+          </text>
+        </g>
+      )}
+      
+      {/* Preview Chips for neighbors */}
+      {neighborPreviews.map(neighbor => {
+        // Position calculation is handled in the transform attribute
+        return (
+          <g
+            key={`preview-${neighbor.id}`}
+            transform={`translate(${neighbor.position.x + 12}, ${neighbor.position.y + 12})`}
+            className="preview-chip"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <circle
+              r={30}
+              fill={neighbor.newChips < 0 ? 'rgba(255, 107, 107, 0.7)' : 'rgba(78, 205, 196, 0.7)'}
+              stroke={'rgba(108, 117, 125, 0.7)'}
+              strokeWidth={2}
+              strokeDasharray="4 2"
+            />
+            <text
+              textAnchor="middle"
+              dy=".3em"
+              fontSize="16"
+              fontWeight="bold"
+              fill="rgba(33, 37, 41, 0.7)"
+            >
+              {neighbor.newChips}
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+};
+
+export default VertexComponent;

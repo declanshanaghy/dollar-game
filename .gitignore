@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Temporary files
+tmp/
+
+# Terraform
+infrastructure/.terraform/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

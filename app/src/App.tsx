@@ -6,7 +6,7 @@ import { GameState, VertexAction, ActionType } from './types';
 import { initializeGameState, performMove, undoMove, resetGame } from './gameLogic';
 
 function App() {
-  const [gameState, setGameState] = useState<GameState>(initializeGameState());
+  const [gameState, setGameState] = useState<GameState>(initializeGameState(5, 30, 5));
 
   // Handle vertex actions (give or receive)
   const handleVertexAction = (vertexId: number, actionType: ActionType) => {
@@ -15,8 +15,8 @@ function App() {
   };
 
   // Handle resetting the game
-  const handleReset = (numVertices: number) => {
-    setGameState(resetGame(numVertices));
+  const handleReset = (numVertices: number, edgeDensity: number, totalMoney: number) => {
+    setGameState(resetGame(numVertices, edgeDensity, totalMoney));
   };
 
   // Handle undoing a move

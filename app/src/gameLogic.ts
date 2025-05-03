@@ -1,9 +1,14 @@
 import { Graph, Vertex, Edge, GameState, VertexAction, ActionType } from './types';
 
 /**
- * Creates a new graph with the specified number of vertices
+ * Creates a new graph with the specified number of vertices, edge density, and total money
  */
-export const createGraph = (numVertices: number, randomize: boolean = true): Graph => {
+export const createGraph = (
+  numVertices: number,
+  edgeDensity: number = 30,
+  totalMoney: number = 5,
+  randomize: boolean = true
+): Graph => {
   const vertices: Vertex[] = [];
   const edges: Edge[] = [];
   
@@ -11,7 +16,7 @@ export const createGraph = (numVertices: number, randomize: boolean = true): Gra
   for (let i = 0; i < numVertices; i++) {
     vertices.push({
       id: i,
-      chips: randomize ? Math.floor(Math.random() * 5) - 2 : 0, // Random between -2 and 2
+      chips: 0, // Initialize with 0, we'll distribute money later
       position: {
         x: 100 + Math.cos(2 * Math.PI * i / numVertices) * 150,
         y: 100 + Math.sin(2 * Math.PI * i / numVertices) * 150,
@@ -25,20 +30,83 @@ export const createGraph = (numVertices: number, randomize: boolean = true): Gra
       source: i,
       target: (i + 1) % numVertices,
     });
+  }
+  
+  // Add additional edges based on edge density
+  if (randomize && numVertices > 3) {
+    // Calculate maximum possible additional edges (fully connected graph minus the cycle)
+    const maxPossibleEdges = (numVertices * (numVertices - 1)) / 2 - numVertices;
     
-    // Add some random edges for more interesting graphs
-    if (randomize && numVertices > 3 && Math.random() > 0.7) {
+    // Calculate how many additional edges to add based on density
+    const additionalEdgesToAdd = Math.floor((maxPossibleEdges * edgeDensity) / 100);
+    
+    // Add random edges
+    let addedEdges = 0;
+    let attempts = 0;
+    const maxAttempts = maxPossibleEdges * 3; // Avoid infinite loop
+    
+    while (addedEdges < additionalEdgesToAdd && attempts < maxAttempts) {
+      attempts++;
+      
+      const source = Math.floor(Math.random() * numVertices);
       let target = Math.floor(Math.random() * numVertices);
-      while (target === i || edges.some(e => 
-        (e.source === i && e.target === target) || 
-        (e.source === target && e.target === i))) {
-        target = Math.floor(Math.random() * numVertices);
+      
+      // Avoid self-loops and duplicate edges
+      if (target === source || edges.some(e =>
+        (e.source === source && e.target === target) ||
+        (e.source === target && e.target === source))) {
+        continue;
       }
       
       edges.push({
-        source: i,
+        source,
         target,
       });
+      
+      addedEdges++;
+    }
+  }
+  
+  // Distribute money among vertices
+  if (randomize && totalMoney > 0) {
+    // First, distribute money randomly
+    let remainingMoney = totalMoney;
+    
+    // Ensure each vertex has a chance to get money
+    for (let i = 0; i < numVertices && remainingMoney > 0; i++) {
+      const amount = Math.floor(Math.random() * 3) + 1; // 1-3 chips
+      const actualAmount = Math.min(amount, remainingMoney);
+      
+      vertices[i].chips = actualAmount;
+      remainingMoney -= actualAmount;
+    }
+    
+    // Distribute any remaining money randomly
+    while (remainingMoney > 0) {
+      const vertexIndex = Math.floor(Math.random() * numVertices);
+      vertices[vertexIndex].chips += 1;
+      remainingMoney -= 1;
+    }
+    
+    // Make some vertices negative to make the game challenging
+    // The sum of all chips should still equal totalMoney
+    for (let i = 0; i < Math.min(numVertices / 2, 3); i++) {
+      const vertexIndex = Math.floor(Math.random() * numVertices);
+      const negativeAmount = Math.floor(Math.random() * 3) + 1; // 1-3 negative chips
+      
+      // Find a vertex with enough positive chips to balance
+      const positiveVertices = vertices.filter(v => v.chips > negativeAmount);
+      if (positiveVertices.length > 0) {
+        const positiveIndex = Math.floor(Math.random() * positiveVertices.length);
+        const positiveVertex = positiveVertices[positiveIndex];
+        
+        // Make the selected vertex negative
+        vertices[vertexIndex].chips -= negativeAmount;
+        
+        // Add the same amount to the positive vertex to maintain the total
+        const positiveVertexIndex = vertices.findIndex(v => v.id === positiveVertex.id);
+        vertices[positiveVertexIndex].chips += negativeAmount;
+      }
     }
   }
   
@@ -154,8 +222,12 @@ export const checkWinCondition = (graph: Graph): boolean => {
 /**
  * Initializes a new game state
  */
-export const initializeGameState = (numVertices: number = 5): GameState => {
-  const graph = createGraph(numVertices);
+export const initializeGameState = (
+  numVertices: number = 5,
+  edgeDensity: number = 30,
+  totalMoney: number = 5
+): GameState => {
+  const graph = createGraph(numVertices, edgeDensity, totalMoney);
   
   return {
     graph,
@@ -218,8 +290,12 @@ export const getActionDisabledReason = (
 /**
  * Resets the game to a new random state
  */
-export const resetGame = (numVertices: number = 5): GameState => {
-  return initializeGameState(numVertices);
+export const resetGame = (
+  numVertices: number = 5,
+  edgeDensity: number = 30,
+  totalMoney: number = 5
+): GameState => {
+  return initializeGameState(numVertices, edgeDensity, totalMoney);
 };
 
 /**

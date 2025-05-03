@@ -50,6 +50,7 @@ jobs:
       
       # Step 3: Install dependencies and build
       - name: Install dependencies and build
+        working-directory: ./app
         run: |
           npm ci
           npm test || echo "No tests found, skipping..."
@@ -68,7 +69,7 @@ jobs:
       # Step 3: Deploy to S3
       - name: Deploy to S3
         run: |
-          aws s3 sync dist/ s3://${{ env.S3_BUCKET }} --delete
+          aws s3 sync app/dist/ s3://${{ env.S3_BUCKET }} --delete
       
       # Step 4: Verify deployment
       - name: Verify deployment

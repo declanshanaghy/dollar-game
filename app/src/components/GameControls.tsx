@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface GameControlsProps {
-  onReset: (numVertices: number) => void;
+  onReset: (numVertices: number, edgeDensity: number, totalMoney: number) => void;
   onUndo: () => void;
   canUndo: boolean;
   isWon: boolean;
@@ -14,6 +14,8 @@ const GameControls: React.FC<GameControlsProps> = ({
   isWon,
 }) => {
   const [numVertices, setNumVertices] = useState<number>(5);
+  const [edgeDensity, setEdgeDensity] = useState<number>(30);
+  const [totalMoney, setTotalMoney] = useState<number>(5);
 
   return (
     <div className="game-controls">
@@ -29,10 +31,36 @@ const GameControls: React.FC<GameControlsProps> = ({
           className="slider"
         />
       </div>
+
+      <div className="control-group">
+        <label htmlFor="edges-slider">Edge Density: {edgeDensity}%</label>
+        <input
+          id="edges-slider"
+          type="range"
+          min="0"
+          max="100"
+          value={edgeDensity}
+          onChange={(e) => setEdgeDensity(parseInt(e.target.value))}
+          className="slider"
+        />
+      </div>
+
+      <div className="control-group">
+        <label htmlFor="money-slider">Total Money: {totalMoney}</label>
+        <input
+          id="money-slider"
+          type="range"
+          min="0"
+          max="20"
+          value={totalMoney}
+          onChange={(e) => setTotalMoney(parseInt(e.target.value))}
+          className="slider"
+        />
+      </div>
       
       <div className="button-group">
-        <button 
-          onClick={() => onReset(numVertices)}
+        <button
+          onClick={() => onReset(numVertices, edgeDensity, totalMoney)}
           className="control-button reset-button"
         >
           New Game

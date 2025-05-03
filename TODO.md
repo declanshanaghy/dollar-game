@@ -5,11 +5,18 @@ TODO Things
 [X] Configure a GitHub action to deploy the app on every commit to the master branch if any of it's files have changed
 [X] Verify that the github actions are working as expected by executing them locally
 [X] Create an md file desribing the architecture of the github actions
-[] Create a git commit which includes all changes since last commit on this branch 
-Generate a a summary of changes from the diff of all changed files and the context here. 
+[X] Create a git commit which includes all changes since last commit on this branch 
+[X] Generate a a summary of changes from the diff of all changed files and the context here.
 Ensure to include Development Cost Metrics. Don't use $ in API Cost, replace it with USD xx.yy
 Disable the pager for all git commands while figuring out the diff
 Use the latest API cost of this task for the API Cost metric.
 Use time difference between now and the last commit timestamp for the development time metric
-[] Move the react app into a subdirectory called "app"
-[] The overlays are not disappearing properly after a choice has been made, investigate that using the browser
+[X] Move the react app into a subdirectory called "app"
+[X] The overlays are not disappearing properly after a choice has been made, investigate that using the browser
+[X] Fix UI positioning issues with overlays and menus:
+   - Ensure overlays clearly indicate where dollars are coming from and going to
+   - Keep all overlays visible within the canvas
+   - Keep menus visible within the canvas, even when vertices are near the edge
+[X] Update the app so that there are separate sliders for the number of vertices and the number of edges and the total amount of money to be used in the game
+[] Generate a a summary of changes from the diff of all changed files and the context here and commit to git
+[] Read ~/Downloads/DollarGameProblem.pdf and implement the "Betti number" in the game but call it genus. Display a message on screen when the user changes the vertices, edges or money to determine if the game can be won

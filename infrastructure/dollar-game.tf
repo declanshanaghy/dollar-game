@@ -1,3 +1,15 @@
+# Terraform/OpenTofu Backend Configuration
+terraform {
+  backend "s3" {
+    bucket         = "dollar-game-terraform-state"
+    key            = "dollar-game/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "dollar-game-terraform-locks"
+    encrypt        = true
+    profile        = "dollar-game"
+  }
+}
+
 # AWS Provider Configuration
 provider "aws" {
   profile = "dollar-game"

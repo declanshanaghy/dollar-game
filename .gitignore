@@ -28,3 +28,6 @@ infrastructure/.terraform/
 *.njsproj
 *.sln
 *.sw?
+
+# Secrets
+*secret*

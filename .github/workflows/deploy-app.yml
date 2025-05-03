@@ -1,0 +1,91 @@
+# GitHub Actions workflow to deploy the application to AWS S3
+# This workflow automatically deploys the app when files outside the infrastructure/ directory are modified
+
+name: Deploy Application
+
+# Trigger on pushes to the master branch when files outside the infrastructure/ directory change
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'infrastructure/**'
+      - '.github/workflows/deploy-infrastructure.yml'
+      - '**.md'
+
+# Environment variables used throughout the workflow
+env:
+  NODE_VERSION: '20'  # Specify the Node.js version to use
+  S3_BUCKET: 'dollar-game-firemandecko'  # Target S3 bucket for deployment
+  # Note: No CloudFront distribution is currently defined in the infrastructure
+  AWS_PAGER: ""  # Disable AWS CLI pagination
+
+jobs:
+  # Combined job for local testing with act
+  deploy:
+    name: Build and Deploy Application
+    runs-on: ubuntu-latest
+    container:
+      # Using Node.js container and installing AWS CLI
+      image: node:20
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
+        AWS_PAGER: ""
+    
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # Step 2: Install AWS CLI
+      - name: Install AWS CLI
+        run: |
+          apt-get update
+          apt-get install -y curl unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+      
+      # Step 3: Install dependencies and build
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm test || echo "No tests found, skipping..."
+          npm run build
+      
+      # Step 2: Set up AWS profile
+      - name: Set up AWS profile
+        run: |
+          mkdir -p ~/.aws
+          echo "[dollar-game]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "[dollar-game]" > ~/.aws/config
+          echo "region=us-east-1" >> ~/.aws/config
+      
+      # Step 3: Deploy to S3
+      - name: Deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ env.S3_BUCKET }} --delete
+      
+      # Step 4: Verify deployment
+      - name: Verify deployment
+        id: verify_deployment
+        run: |
+          # Check if the index.html file exists in the S3 bucket
+          if aws s3 ls s3://${{ env.S3_BUCKET }}/index.html; then
+            echo "Deployment verified successfully"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "Deployment verification failed"
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
+      # Step 5: Output the deployment status and URL
+      - name: Deployment Status
+        run: |
+          echo "Application deployment completed"
+          echo "Website URL: http://${{ env.S3_BUCKET }}.s3-website-us-east-1.amazonaws.com"

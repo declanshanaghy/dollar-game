@@ -1,13 +1,15 @@
 TODO Things
 
-[] Setup a new git repo for dollar-game, then push it up to GitHub in a public repo
-[] Configure a GitHub action to deploy the infrastructure on every commit to the master branch if any of it's files have changed
-[] Configure a GitHub action to deploy the app on every commit to the master branch if any of it's files have changed
-[] The overlays are not disappearing properly after a choice has been made, investigate that using the browser
+[X] Setup a new git repo for dollar-game, then push it up to GitHub in a public repo
+[X] Configure a GitHub action to deploy the infrastructure on every commit to the master branch if any of it's files have changed
+[X] Configure a GitHub action to deploy the app on every commit to the master branch if any of it's files have changed
+[X] Verify that the github actions are working as expected by executing them locally
+[X] Create an md file desribing the architecture of the github actions
 [] Create a git commit which includes all changes since last commit on this branch 
 Generate a a summary of changes from the diff of all changed files and the context here. 
 Ensure to include Development Cost Metrics. Don't use $ in API Cost, replace it with USD xx.yy
 Disable the pager for all git commands while figuring out the diff
 Use the latest API cost of this task for the API Cost metric.
 Use time difference between now and the last commit timestamp for the development time metric
-
+[] Move the react app into a subdirectory called "app"
+[] The overlays are not disappearing properly after a choice has been made, investigate that using the browser

@@ -118,6 +118,12 @@ Use time difference between now and the last commit timestamp for the developmen
 - [x] Move the logo to the top of the page in @/README.md, in the left cell. Replace the text that's there with the logo on it's own.
 - [x] Rewrite @dev_workflow.mdc anywhere that it mentions task-master, replace that with a logical equivalent of how we're managing tasks in TODO.md now.
 - [x] When a person visits the game for the first time, give a short overlay introduction to the game witn interactive guidance on where to click and what it means.
+- [] Fix CloudFront 403 Forbidden errors:
+   - Investigate why CloudFront is returning 403 Forbidden errors for the website
+   - Add a CloudFront invalidation step to the GitHub Actions workflow after deploying to S3
+   - Ensure the CloudFront distribution is properly configured to serve the latest files from the S3 bucket
+   - Test the website after implementing the fix to verify the errors are resolved
+   - Update relevant documentation to reflect the changes
 - [] Replace the circles with stacks of cash and update the tutorial and README.md accordingly.
    - The cash icons are stored in @/apps/frontend/public/icons/cash_icons
    - each file is named according to the amount of cash it represents form -50 to +50

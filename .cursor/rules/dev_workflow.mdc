@@ -250,12 +250,18 @@ Once a task has been broken down into subtasks using `expand_task` or similar me
      *   **IMPORTANT**: After committing all changes to git (as described in step 8) and verifying the implementation, mark the task or subtask as completed: `set_task_status` / `task-master set-status --id=<taskId> --status=done`.
      *   Remember that git commits are REQUIRED for BOTH tasks and subtasks before marking them as complete.
 
-10. **Validate on Raspberry Pi:**
-    *   **ALL code changes must be validated on the Raspberry Pi before a task is marked as completed:**
-        *   Deploy the changes to a Raspberry Pi using the `deploy-to-raspi.sh` script.
-        *   Test the implementation to verify functionality.
-        *   Document any issues or optimizations in the task details.
-        *   Make necessary adjustments based on testing results.
+10. **Run Development Server for Testing:**
+     *   **The user must run the dev server before all validation of game functionality can be completed.**
+     *   This is essential for testing web applications, interactive UIs, and browser-based features.
+     *   Use appropriate commands based on the project (e.g., `npm run dev`, `yarn start`).
+     *   Ensure the server is running before attempting to validate functionality in the browser.
+
+11. **Validate on Raspberry Pi:**
+     *   **ALL code changes must be validated on the Raspberry Pi before a task is marked as completed:**
+         *   Deploy the changes to a Raspberry Pi using the `deploy-to-raspi.sh` script.
+         *   Test the implementation to verify functionality.
+         *   Document any issues or optimizations in the task details.
+         *   Make necessary adjustments based on testing results.
     *   For hardware-related implementations or changes that interact with physical components:
         *   Verify that parallel computing techniques are working correctly for hardware communication.
         *   Test with actual hardware components to ensure proper interaction.

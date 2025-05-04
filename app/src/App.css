@@ -254,6 +254,39 @@ body {
   margin-top: 0;
 }
 
+/* Genus info */
+.genus-info {
+  text-align: left;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.genus-info h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.winnable-message {
+  background-color: rgba(42, 157, 143, 0.1);
+  border-left: 3px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 0 4px 4px 0;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.unwinnable-message {
+  background-color: rgba(231, 111, 81, 0.1);
+  border-left: 3px solid var(--negative-color);
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 0 4px 4px 0;
+  font-weight: bold;
+  color: var(--negative-color);
+}
+
 /* Game info */
 .game-info {
   text-align: left;

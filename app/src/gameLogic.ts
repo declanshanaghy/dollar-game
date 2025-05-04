@@ -1,6 +1,33 @@
 import { Graph, Vertex, Edge, GameState, VertexAction, ActionType } from './types';
 
 /**
+ * Calculates the genus (Betti number) of the graph
+ * Formula: E - V + 1 (where E is the number of edges and V is the number of vertices)
+ */
+export const calculateGenus = (graph: Graph): number => {
+  const numEdges = graph.edges.length;
+  const numVertices = graph.vertices.length;
+  return numEdges - numVertices + 1;
+};
+
+/**
+ * Calculates the total money in the graph
+ */
+export const calculateTotalMoney = (graph: Graph): number => {
+  return graph.vertices.reduce((sum, vertex) => sum + vertex.chips, 0);
+};
+
+/**
+ * Determines if the game is winnable based on the genus
+ * A game is winnable if the total money >= genus
+ */
+export const isGameWinnable = (graph: Graph): boolean => {
+  const genus = calculateGenus(graph);
+  const totalMoney = calculateTotalMoney(graph);
+  return totalMoney >= genus;
+};
+
+/**
  * Creates a new graph with the specified number of vertices, edge density, and total money
  */
 export const createGraph = (
@@ -228,11 +255,14 @@ export const initializeGameState = (
   totalMoney: number = 5
 ): GameState => {
   const graph = createGraph(numVertices, edgeDensity, totalMoney);
+  const genus = calculateGenus(graph);
   
   return {
     graph,
     history: [graph],
     isWon: checkWinCondition(graph),
+    genus: genus,
+    isWinnable: isGameWinnable(graph),
   };
 };
 
@@ -247,10 +277,14 @@ export const performMove = (state: GameState, action: VertexAction): GameState =
     return state;
   }
   
+  const genus = calculateGenus(newGraph);
+  
   return {
     graph: newGraph,
     history: [...state.history, newGraph],
     isWon: checkWinCondition(newGraph),
+    genus: genus,
+    isWinnable: isGameWinnable(newGraph),
   };
 };
 
@@ -309,10 +343,13 @@ export const undoMove = (state: GameState): GameState => {
   const newHistory = [...state.history];
   newHistory.pop();
   const newGraph = newHistory[newHistory.length - 1];
+  const genus = calculateGenus(newGraph);
   
   return {
     graph: newGraph,
     history: newHistory,
     isWon: checkWinCondition(newGraph),
+    genus: genus,
+    isWinnable: isGameWinnable(newGraph),
   };
 };

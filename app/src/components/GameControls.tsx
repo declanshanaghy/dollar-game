@@ -5,6 +5,9 @@ interface GameControlsProps {
   onUndo: () => void;
   canUndo: boolean;
   isWon: boolean;
+  genus: number;
+  isWinnable: boolean;
+  currentTotalMoney: number;
 }
 
 const GameControls: React.FC<GameControlsProps> = ({
@@ -12,6 +15,9 @@ const GameControls: React.FC<GameControlsProps> = ({
   onUndo,
   canUndo,
   isWon,
+  genus,
+  isWinnable,
+  currentTotalMoney,
 }) => {
   const [numVertices, setNumVertices] = useState<number>(5);
   const [edgeDensity, setEdgeDensity] = useState<number>(30);
@@ -81,6 +87,21 @@ const GameControls: React.FC<GameControlsProps> = ({
           <p>All vertices have non-negative values.</p>
         </div>
       )}
+      
+      <div className="genus-info">
+        <h3>Graph Analysis:</h3>
+        <p>
+          <strong>Genus:</strong> {genus} (E - V + 1)
+        </p>
+        <p>
+          <strong>Total Money:</strong> {currentTotalMoney}
+        </p>
+        <p className={isWinnable ? "winnable-message" : "unwinnable-message"}>
+          {isWinnable
+            ? "✅ This game is winnable (Total Money ≥ Genus)"
+            : "❌ This game is not winnable (Total Money < Genus)"}
+        </p>
+      </div>
       
       <div className="game-info">
         <h3>How to Play:</h3>

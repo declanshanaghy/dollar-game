@@ -29,6 +29,8 @@ export interface GameState {
   graph: Graph;
   history: Graph[];  // History of graph states for undo functionality
   isWon: boolean;
+  genus: number;     // The genus (Betti number) of the graph
+  isWinnable: boolean; // Whether the game is winnable (total money >= genus)
 }
 
 // Action types

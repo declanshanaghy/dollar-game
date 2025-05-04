@@ -43,11 +43,14 @@ function App() {
         </div>
 
         <div className="controls-section">
-          <GameControls 
+          <GameControls
             onReset={handleReset}
             onUndo={handleUndo}
             canUndo={canUndo}
             isWon={gameState.isWon}
+            genus={gameState.genus}
+            isWinnable={gameState.isWinnable}
+            currentTotalMoney={gameState.graph.vertices.reduce((sum, vertex) => sum + vertex.chips, 0)}
           />
         </div>
       </main>

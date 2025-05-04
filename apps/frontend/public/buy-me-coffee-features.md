@@ -6,11 +6,12 @@ This document outlines the Buy Me a Coffee features that have been implemented f
 
 ### 1. Buy Me a Coffee Button
 
-The official Buy Me a Coffee button has been added to the top right corner of the game interface. This button:
+The official Buy Me a Coffee button has been added as a floating element in the bottom right corner of the game interface. This button:
 - Uses the official Buy Me a Coffee button image from buymeacoffee.com
 - Links to https://buymeacoffee.com/firemandecko
 - Has hover effects that match the buymeacoffee.com style
 - Is responsive and properly positioned on all screen sizes
+- Features special animations when the game is won
 
 ### 2. Buy Me a Coffee Header
 
@@ -56,9 +57,10 @@ To update your profile on buymeacoffee.com:
 To test the implementation:
 1. Run the application with `cd apps/frontend && pnpm run dev`
 2. Open http://localhost:5173 in your browser
-3. Verify that the Buy Me a Coffee button and header are displayed correctly
+3. Verify that the Buy Me a Coffee button is floating in the bottom right corner and the header is displayed correctly
 4. Click on the button or header link to ensure they navigate to https://buymeacoffee.com/firemandecko
 5. Test on different screen sizes to ensure responsive design works properly
+6. Win the game to see the special animation of the Buy Me a Coffee button
 
 ## Additional Notes
 

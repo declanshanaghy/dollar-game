@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { trackThemeToggle } from '../services/analyticsService';
 
 interface ThemeToggleProps {
   className?: string;
@@ -11,6 +12,9 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
+    
+    // Track theme toggle event
+    trackThemeToggle(newTheme);
   };
 
   return (

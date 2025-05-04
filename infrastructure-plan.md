@@ -1,8 +1,8 @@
-# HTTPS Implementation Plan for Dollar Game
+# HTTPS Implementation Plan for Dollar Game (Future Implementation)
 
 ## Overview
 
-This document outlines the plan for implementing HTTPS with AWS Certificate Manager (ACM) certificates for the Dollar Game project, transitioning from the current S3 website to a secure CloudFront distribution with a custom domain.
+This document outlines the plan for implementing HTTPS with AWS Certificate Manager (ACM) certificates for the Dollar Game project, transitioning from the current S3 website to a secure CloudFront distribution with a custom domain. **This is a plan for future implementation and has not yet been executed.**
 
 ## Current Infrastructure
 
@@ -264,7 +264,7 @@ gantt
     title HTTPS Implementation Timeline
     dateFormat  YYYY-MM-DD
     section Infrastructure
-    Update Terraform Configuration    :a1, 2025-05-04, 2d
+    Update Terraform Configuration    :a1, 2025-06-01, 2d
     Request ACM Certificate          :a2, after a1, 1d
     Wait for Certificate Validation  :a3, after a2, 1d
     Create CloudFront Distribution   :a4, after a3, 1d
@@ -272,7 +272,7 @@ gantt
     Update DNS Records               :b1, after a2, 1d
     Verify DNS Propagation           :b2, after b1, 1d
     section Application
-    Update Application Configuration :c1, 2025-05-04, 1d
+    Update Application Configuration :c1, 2025-06-01, 1d
     Update GitHub Actions            :c2, after a1, 1d
     section Documentation
     Update README.md                 :d1, after a4, 1d
@@ -310,8 +310,9 @@ For a low-traffic site, this might add approximately $1-5 per month to your AWS 
 
 ## Next Steps
 
-1. Implement the Terraform configuration changes
-2. Deploy the updated infrastructure
-3. Update DNS records
-4. Verify HTTPS functionality
-5. Update application and documentation
+1. Schedule the implementation for June 2025
+2. Implement the Terraform configuration changes
+3. Deploy the updated infrastructure
+4. Update DNS records
+5. Verify HTTPS functionality
+6. Update application and documentation

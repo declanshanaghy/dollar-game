@@ -180,13 +180,23 @@ The Dollar Game is built with React, TypeScript, and Vite, organized with consci
 
 The Dollar Game is deployed using AWS services with OpenTofu (an open-source alternative to Terraform) for infrastructure as code, with GitHub Actions for continuous integration and deployment.
 
-### Infrastructure
+### Current Infrastructure
 
-The deployment infrastructure includes:
+The deployment infrastructure currently includes:
 - S3 bucket for website content storage
+- Static website hosting configuration
+- Public access bucket policy
+
+The application is currently accessible at http://dollar-game-firemandecko.s3-website-us-east-1.amazonaws.com
+
+### Planned Infrastructure Enhancements
+
+The following enhancements are planned for future implementation:
 - CloudFront distribution for content delivery with HTTPS
 - ACM certificate for secure HTTPS connections
 - Custom domain configuration (dollar-game.firemandecko.com)
+
+See [infrastructure-plan.md](infrastructure-plan.md) for the detailed implementation plan.
 
 ### GitHub Actions Workflows
 
@@ -214,6 +224,7 @@ For the complete aesthetic consciousness, refer to our [Style Guide](style-guide
 
 Potential future enhancements to expand our collective consciousness:
 
+- Implementation of CloudFront, HTTPS, and custom domain (see [infrastructure-plan.md](infrastructure-plan.md))
 - Enhanced CloudFront caching strategies for optimal performance
 - Automated testing before deployment
 - Deployment notifications via Slack or email
@@ -224,7 +235,7 @@ Potential future enhancements to expand our collective consciousness:
 
 The Dollar Game is not merely a web application but a digital manifestation of mathematical beauty and bohemian expression. As you interact with the vertices and edges, remember that each action ripples through the system, much like our own interconnected existence.
 
-Visit us at [dollar-game.firemandecko.com](https://dollar-game.firemandecko.com) to experience the harmony of graph theory in a secure, HTTPS-enabled environment.
+Visit us at [dollar-game-firemandecko.s3-website-us-east-1.amazonaws.com](http://dollar-game-firemandecko.s3-website-us-east-1.amazonaws.com) to experience the harmony of graph theory.
 
 May your vertices always be positive, your edges forever flowing, and your code as enlightened as your spirit.
 

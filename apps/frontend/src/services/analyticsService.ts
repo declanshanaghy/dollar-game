@@ -9,7 +9,7 @@ export enum AnalyticsCategory {
 }
 
 // Initialize Google Analytics with the tracking ID
-export const initializeGA = (trackingId: string = 'G-PLACEHOLDER'): void => {
+export const initializeGA = (trackingId: string = 'G-Y815G3KT82'): void => {
   ReactGA.initialize(trackingId);
   console.log('Google Analytics initialized with ID:', trackingId);
 };

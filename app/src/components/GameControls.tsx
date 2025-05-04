@@ -24,9 +24,9 @@ const GameControls: React.FC<GameControlsProps> = ({
   const [totalMoney, setTotalMoney] = useState<number>(5);
 
   return (
-    <div className="game-controls">
+    <div className="game-controls consciousness-slider">
       <div className="control-group">
-        <label htmlFor="vertices-slider">Number of Vertices: {numVertices}</label>
+        <label htmlFor="vertices-slider">V3rt3x D3ns1ty 🔮: {numVertices}</label>
         <input
           id="vertices-slider"
           type="range"
@@ -34,12 +34,12 @@ const GameControls: React.FC<GameControlsProps> = ({
           max="10"
           value={numVertices}
           onChange={(e) => setNumVertices(parseInt(e.target.value))}
-          className="slider"
+          className="slider wooden-slider"
         />
       </div>
 
       <div className="control-group">
-        <label htmlFor="edges-slider">Edge Density: {edgeDensity}%</label>
+        <label htmlFor="edges-slider">C0nn3ct10n Fl0w 🧠: {edgeDensity}%</label>
         <input
           id="edges-slider"
           type="range"
@@ -47,12 +47,12 @@ const GameControls: React.FC<GameControlsProps> = ({
           max="100"
           value={edgeDensity}
           onChange={(e) => setEdgeDensity(parseInt(e.target.value))}
-          className="slider"
+          className="slider wooden-slider"
         />
       </div>
 
       <div className="control-group">
-        <label htmlFor="money-slider">Total Money: {totalMoney}</label>
+        <label htmlFor="money-slider">K4rm4 B4l4nc3 ✨: {totalMoney}</label>
         <input
           id="money-slider"
           type="range"
@@ -60,16 +60,17 @@ const GameControls: React.FC<GameControlsProps> = ({
           max="20"
           value={totalMoney}
           onChange={(e) => setTotalMoney(parseInt(e.target.value))}
-          className="slider"
+          className="slider wooden-slider"
         />
       </div>
       
       <div className="button-group">
         <button
           onClick={() => onReset(numVertices, edgeDensity, totalMoney)}
-          className="control-button reset-button"
+          className="control-button reset-button cosmic-button primary-action"
         >
-          New Game
+          <span className="button-aura"></span>
+          <span className="button-text">Initiate Harmony 🌱</span>
         </button>
         
         <button
@@ -77,50 +78,50 @@ const GameControls: React.FC<GameControlsProps> = ({
           disabled={!canUndo}
           className={`control-button undo-button ${!canUndo ? 'disabled' : ''}`}
         >
-          Undo
+          Undo Vibration 🔄
         </button>
       </div>
       
       {isWon && (
         <div className="win-message">
-          <h2>You Won! 🎉</h2>
-          <p>All vertices have non-negative values.</p>
+          <h2>Cosmic Harmony Achieved! 🎉✨</h2>
+          <p>All nodes have reached energetic equilibrium, like the carefully extracted notes of a single-origin Ethiopian pour-over.</p>
         </div>
       )}
       
       <div className="genus-info">
-        <h3>Graph Analysis:</h3>
+        <h3>Algorithmic Consciousness:</h3>
         <p>
-          <strong>Genus:</strong> {genus} (E - V + 1)
+          <strong>Genus Potential:</strong> {genus} (E - V + 1) 🧮
         </p>
         <p>
-          <strong>Total Money:</strong> {currentTotalMoney}
+          <strong>Energy Flow Total:</strong> {currentTotalMoney} 💫
         </p>
         <p className={isWinnable ? "winnable-message" : "unwinnable-message"}>
           {isWinnable
-            ? "✅ This game is winnable (Total Money ≥ Genus)"
-            : "❌ This game is not winnable (Total Money < Genus)"}
+            ? "This graph vibrates with winnable potential (Energy ≥ Genus)"
+            : "This graph requires additional cosmic energy (Energy < Genus)"}
         </p>
       </div>
       
       <div className="game-info">
-        <h3>How to Play:</h3>
+        <h3>Metaphysical Interactions:</h3>
         <p>
-          Click on a vertex to show action options:
+          Channel your energy through each vertex with mindful clicks:
         </p>
         <ul className="game-instructions">
           <li>
-            <strong>Give:</strong> The vertex gives one chip to each of its neighbors.
+            <strong>Give Energy 🌊:</strong> The node shares its essence with all connected neighbors, like a pour-over releasing its aromatic notes.
           </li>
           <li>
-            <strong>Receive:</strong> Each neighbor gives one chip to the vertex.
+            <strong>Receive Energy 🌈:</strong> The node draws in the collective energy from its neighbors, like a deep meditation gathering cosmic vibrations.
           </li>
         </ul>
         <p>
-          The goal is to make all vertices have non-negative values.
+          Seek to balance all nodes into positive or neutral energy states, achieving universal harmony.
         </p>
         <p className="tip">
-          <strong>Tip:</strong> You can now give from vertices with negative chips!
+          <strong>Cosmic Insight:</strong> Even nodes with negative energy can give! The universe works in mysterious ways. 🔮
         </p>
       </div>
     </div>

@@ -55,9 +55,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   
   // Determine color based on chip count and action abilities
   const getColor = () => {
-    if (chips < 0) return '#ff6b6b'; // Red for negative
-    if (canGive || canReceive) return '#4ecdc4';   // Teal for actionable
-    return '#f7fff7';                // White for positive but not actionable
+    if (chips < 0) return 'var(--negative-space)'; // Red for negative
+    if (chips === 0) return 'var(--neutral-karma)'; // Yellow for zero
+    if (canGive || canReceive) return 'var(--positive-energy)';   // Teal for actionable
+    return 'var(--meditation-moss)';  // Green for positive but not actionable
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -181,21 +182,35 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
     >
+      {/* Aura layer for positive vertices */}
+      {chips >= 0 && (canGive || canReceive) && (
+        <circle
+          r={38}
+          fill="none"
+          stroke={chips > 0 ? 'var(--positive-energy)' : 'var(--neutral-karma)'}
+          strokeWidth={3}
+          strokeOpacity={0.4}
+          className="aura-layer"
+        />
+      )}
+      
       <circle
         r={30}
         fill={getColor()}
-        stroke={(canGive || canReceive) ? '#2a9d8f' : '#6c757d'}
+        stroke={(canGive || canReceive) ? 'var(--amethyst-awareness)' : 'var(--sunset-clay)'}
         strokeWidth={2}
-        className={(canGive || canReceive) ? 'vertex-actionable' : 'vertex'}
+        className={(canGive || canReceive) ? 'vertex-actionable vertex-core' : 'vertex vertex-core'}
       />
+      
       <text
         textAnchor="middle"
         dy=".3em"
         fontSize="16"
         fontWeight="bold"
-        fill="#212529"
+        fill="var(--terminal-black)"
+        className="dollar-value"
       >
-        {chips}
+        {chips > 0 ? `+${chips}` : chips}
       </text>
 
       {/* Action Menu */}
@@ -245,11 +260,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                 y={menuY}
                 width={160}
                 height={80}
-                rx={5}
-                ry={5}
-                fill="rgba(255, 255, 255, 0.95)"
-                stroke="#6c757d"
-                strokeWidth={1}
+                rx={12}
+                ry={12}
+                fill="rgba(255, 255, 255, 0.85)"
+                stroke="var(--sunset-clay)"
+                strokeWidth={1.5}
+                strokeDasharray="2 1"
               />
             );
           })()}
@@ -321,9 +337,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     height={30}
                     rx={5}
                     ry={5}
-                    fill={canGive ? "#2a9d8f" : "#cccccc"}
-                    stroke="#6c757d"
-                    strokeWidth={1}
+                    fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
+                    stroke="var(--cosmic-soil)"
+                    strokeWidth={1.5}
                   />
                   <text
                     x={25}
@@ -332,7 +348,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     fontSize={12}
                     fill="white"
                   >
-                    Give
+                    Give ✨
                   </text>
                   {!canGive && giveDisabledReason && (
                     <title>{giveDisabledReason}</title>
@@ -361,9 +377,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     height={30}
                     rx={5}
                     ry={5}
-                    fill={canReceive ? "#e9c46a" : "#cccccc"}
-                    stroke="#6c757d"
-                    strokeWidth={1}
+                    fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
+                    stroke="var(--cosmic-soil)"
+                    strokeWidth={1.5}
                   />
                   <text
                     x={25}
@@ -372,7 +388,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     fontSize={12}
                     fill="white"
                   >
-                    Receive
+                    Receive 🌈
                   </text>
                   {!canReceive && receiveDisabledReason && (
                     <title>{receiveDisabledReason}</title>
@@ -396,8 +412,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
         >
           <circle
             r={30}
-            fill={getPreviewChipCount(hoveredAction) < 0 ? 'rgba(255, 107, 107, 0.7)' : 'rgba(78, 205, 196, 0.7)'}
-            stroke={(canGive || canReceive) ? 'rgba(42, 157, 143, 0.7)' : 'rgba(108, 117, 125, 0.7)'}
+            fill={getPreviewChipCount(hoveredAction) < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
+            stroke={(canGive || canReceive) ? 'rgba(155, 93, 229, 0.7)' : 'rgba(193, 127, 88, 0.7)'}
             strokeWidth={2}
             strokeDasharray="4 2"
           />
@@ -435,8 +451,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               >
                 <circle
                   r={25}
-                  fill={neighbor.newChips < 0 ? 'rgba(255, 107, 107, 0.7)' : 'rgba(78, 205, 196, 0.7)'}
-                  stroke={'rgba(108, 117, 125, 0.7)'}
+                  fill={neighbor.newChips < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
+                  stroke={'rgba(155, 93, 229, 0.7)'}
                   strokeWidth={2}
                   strokeDasharray="4 2"
                 />

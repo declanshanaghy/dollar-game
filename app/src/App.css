@@ -1,18 +1,50 @@
-/* Base styles */
+/* ✨ Cosmic Base Styles ✨ */
 :root {
-  --primary-color: #2a9d8f;
-  --secondary-color: #e9c46a;
-  --negative-color: #e76f51;
-  --positive-color: #f7fff7;
-  --background-color: #f8f9fa;
-  --text-color: #212529;
-  --border-color: #6c757d;
+  /* Earth Tones */
+  --cosmic-soil: #5E4B36;
+  --meditation-moss: #7D9471;
+  --sunset-clay: #C17F58;
+  
+  /* Jewel Tones */
+  --amethyst-awareness: #9B5DE5;
+  --ruby-recursion: #F15BB5;
+  --sapphire-syntax: #00BBF9;
+  
+  /* Tech Accents */
+  --quantum-lime: #B8F84A;
+  --binary-magenta: #FF00FF;
+  --terminal-black: #1A1A1A;
+  
+  /* Semantic Colors */
+  --positive-energy: #00F5D4;
+  --negative-space: #FF3366;
+  --neutral-karma: #F9C80E;
+  
+  /* Legacy color mapping for compatibility */
+  --primary-color: var(--meditation-moss);
+  --secondary-color: var(--neutral-karma);
+  --negative-color: var(--negative-space);
+  --positive-color: var(--positive-energy);
+  --background-color: #F8F9FA;
+  --text-color: var(--cosmic-soil);
+  --border-color: var(--sunset-clay);
+  
+  /* Spacing */
+  --cosmic-unit: 8px;
+  --inner-space: calc(var(--cosmic-unit) * 2);
+  --outer-space: calc(var(--cosmic-unit) * 4);
+  
+  /* Typography */
+  --heading-font: 'Playfair Display', serif;
+  --body-font: 'Source Sans Pro', sans-serif;
+  --leetspeak-font: 'Courier New', monospace;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--body-font);
+  line-height: 1.6;
 }
 
 #root {
@@ -31,19 +63,23 @@ body {
 
 /* Header */
 .app-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--outer-space);
 }
 
 .app-header h1 {
-  color: var(--primary-color);
-  font-size: 2.5rem;
+  color: var(--cosmic-soil);
+  font-family: var(--heading-font);
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  color: var(--border-color);
-  font-size: 1.2rem;
+  color: var(--sunset-clay);
+  font-size: 1.3rem;
   margin-top: 0;
+  font-style: italic;
 }
 
 /* Main game container */
@@ -63,11 +99,24 @@ body {
 /* Graph section */
 .graph-section {
   flex: 2;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1rem;
+  border: 2px solid var(--sunset-clay);
+  border-radius: 12px;
+  padding: var(--inner-space);
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px rgba(94, 75, 54, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--amethyst-awareness), var(--ruby-recursion), var(--sapphire-syntax));
+  opacity: 0.7;
 }
 
 .graph-container {
@@ -81,19 +130,33 @@ body {
   height: 100%;
 }
 
-/* Vertex styles */
+/* ✨ Vertex styles ✨ */
 .vertex {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 .vertex-actionable {
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 0 4px rgba(42, 157, 143, 0.6));
+  transition: all 0.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  filter: drop-shadow(0 0 6px rgba(0, 245, 212, 0.5));
 }
 
 .vertex-actionable:hover {
-  filter: drop-shadow(0 0 8px rgba(42, 157, 143, 0.8));
-  transform: scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(0, 245, 212, 0.8));
+  transform: scale(1.08);
+}
+
+.vertex-core {
+  transition: all 0.3s ease;
+}
+
+.aura-layer {
+  animation: aura-pulse 3s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+@keyframes aura-pulse {
+  0% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+  100% { opacity: 0.5; transform: scale(1); }
 }
 
 /* Action menu styles */
@@ -125,31 +188,43 @@ body {
   pointer-events: none;
 }
 
-/* Animated dashed lines */
+/* ✨ Animated flowing energy ✨ */
 .animated-dash {
   pointer-events: none;
 }
 
 @keyframes dashGive {
   to {
-    stroke-dashoffset: -10;
+    stroke-dashoffset: -12;
   }
 }
 
 @keyframes dashReceive {
   to {
-    stroke-dashoffset: 10;
+    stroke-dashoffset: 12;
   }
 }
 
 .give-animation {
   stroke-dashoffset: 0;
-  animation: dashGive 1s linear infinite;
+  animation: dashGive 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  stroke: var(--positive-energy);
+  opacity: 0.8;
 }
 
 .receive-animation {
   stroke-dashoffset: 0;
-  animation: dashReceive 1s linear infinite;
+  animation: dashReceive 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  stroke: var(--neutral-karma);
+  opacity: 0.8;
+}
+
+.edge-path {
+  transition: all 0.3s ease;
+}
+
+.flowing-energy {
+  opacity: 0.7;
 }
 
 /* Controls section */
@@ -161,13 +236,26 @@ body {
 
 .game-controls {
   background-color: white;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.5rem;
+  border: 2px solid var(--sunset-clay);
+  border-radius: 12px;
+  padding: var(--outer-space);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: var(--outer-space);
+  box-shadow: 0 8px 15px rgba(94, 75, 54, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-controls::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sapphire-syntax), var(--quantum-lime), var(--ruby-recursion));
+  opacity: 0.7;
 }
 
 .control-group {
@@ -183,22 +271,35 @@ body {
 
 .slider {
   width: 100%;
-  height: 8px;
+  height: 10px;
   -webkit-appearance: none;
   appearance: none;
-  background: #ddd;
+  background: linear-gradient(to right, var(--cosmic-soil), var(--meditation-moss));
   outline: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.slider:hover {
+  opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--amethyst-awareness);
   cursor: pointer;
+  box-shadow: 0 0 8px rgba(155, 93, 229, 0.5);
+  transition: all 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(155, 93, 229, 0.7);
 }
 
 .button-group {
@@ -208,95 +309,176 @@ body {
 
 .control-button {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.2rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  position: relative;
+  overflow: hidden;
+  font-family: var(--body-font);
+  letter-spacing: 0.5px;
+}
+
+.control-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.control-button:hover::before {
+  left: 100%;
 }
 
 .reset-button {
-  background-color: var(--primary-color);
+  background-color: var(--meditation-moss);
   color: white;
+  box-shadow: 0 4px 8px rgba(125, 148, 113, 0.3);
 }
 
 .reset-button:hover {
-  background-color: #248277;
+  background-color: #6a8060;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(125, 148, 113, 0.4);
 }
 
 .undo-button {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
+  background-color: var(--neutral-karma);
+  color: var(--terminal-black);
+  box-shadow: 0 4px 8px rgba(249, 200, 14, 0.3);
 }
 
 .undo-button:hover {
-  background-color: #d4b35b;
+  background-color: #e0b50c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(249, 200, 14, 0.4);
 }
 
 .undo-button.disabled {
   background-color: #e9e9e9;
   color: #999;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* Win message */
+.undo-button.disabled:hover {
+  transform: none;
+}
+
+/* ✨ Win message ✨ */
 .win-message {
-  background-color: rgba(42, 157, 143, 0.1);
-  border: 2px solid var(--primary-color);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-top: 1rem;
+  background: linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(184, 248, 74, 0.1));
+  border: 2px solid var(--positive-energy);
+  border-radius: 12px;
+  padding: var(--inner-space);
+  margin-top: var(--inner-space);
+  position: relative;
+  overflow: hidden;
+}
+
+.win-message::after {
+  content: "✨";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px;
+  opacity: 0.5;
 }
 
 .win-message h2 {
-  color: var(--primary-color);
+  color: var(--meditation-moss);
   margin-top: 0;
+  font-family: var(--heading-font);
+  letter-spacing: -0.03em;
 }
 
-/* Genus info */
+/* ✨ Genus info ✨ */
 .genus-info {
   text-align: left;
-  border-top: 1px solid #ddd;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
+  border-top: 1px solid rgba(193, 127, 88, 0.3);
+  padding-top: var(--inner-space);
+  margin-bottom: var(--inner-space);
+  position: relative;
+}
+
+.genus-info::before {
+  content: "🧮";
+  position: absolute;
+  top: var(--inner-space);
+  right: 0;
+  font-size: 20px;
+  opacity: 0.7;
 }
 
 .genus-info h3 {
   margin-top: 0;
-  color: var(--primary-color);
+  color: var(--cosmic-soil);
+  font-family: var(--heading-font);
+  letter-spacing: -0.03em;
 }
 
 .winnable-message {
-  background-color: rgba(42, 157, 143, 0.1);
-  border-left: 3px solid var(--primary-color);
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
-  border-radius: 0 4px 4px 0;
+  background: linear-gradient(to right, rgba(0, 245, 212, 0.1), rgba(184, 248, 74, 0.05));
+  border-left: 3px solid var(--positive-energy);
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.7rem;
+  border-radius: 0 8px 8px 0;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--meditation-moss);
+  position: relative;
+}
+
+.winnable-message::after {
+  content: "✨";
+  margin-left: 8px;
+  font-size: 16px;
 }
 
 .unwinnable-message {
-  background-color: rgba(231, 111, 81, 0.1);
-  border-left: 3px solid var(--negative-color);
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
-  border-radius: 0 4px 4px 0;
+  background: linear-gradient(to right, rgba(255, 51, 102, 0.1), rgba(255, 0, 255, 0.05));
+  border-left: 3px solid var(--negative-space);
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.7rem;
+  border-radius: 0 8px 8px 0;
   font-weight: bold;
-  color: var(--negative-color);
+  color: var(--negative-space);
+  position: relative;
 }
 
-/* Game info */
+.unwinnable-message::after {
+  content: "🔮";
+  margin-left: 8px;
+  font-size: 16px;
+}
+
+/* ✨ Game info ✨ */
 .game-info {
   text-align: left;
-  border-top: 1px solid #ddd;
-  padding-top: 1rem;
+  border-top: 1px solid rgba(193, 127, 88, 0.3);
+  padding-top: var(--inner-space);
+  position: relative;
+}
+
+.game-info::before {
+  content: "📜";
+  position: absolute;
+  top: var(--inner-space);
+  right: 0;
+  font-size: 20px;
+  opacity: 0.7;
 }
 
 .game-info h3 {
   margin-top: 0;
-  color: var(--primary-color);
+  color: var(--cosmic-soil);
+  font-family: var(--heading-font);
+  letter-spacing: -0.03em;
 }
 
 .game-instructions {
@@ -309,18 +491,56 @@ body {
 }
 
 .tip {
-  background-color: rgba(233, 196, 106, 0.2);
-  border-left: 3px solid var(--secondary-color);
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  border-radius: 0 4px 4px 0;
+  background: linear-gradient(to right, rgba(249, 200, 14, 0.15), rgba(249, 200, 14, 0.05));
+  border-left: 3px solid var(--neutral-karma);
+  padding: 0.6rem 1.2rem;
+  margin-top: var(--inner-space);
+  border-radius: 0 8px 8px 0;
+  position: relative;
 }
 
-/* Footer */
+.tip::before {
+  content: "💡";
+  margin-right: 8px;
+}
+
+/* ✨ Footer ✨ */
 .app-footer {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
-  color: var(--border-color);
-  font-size: 0.9rem;
+  margin-top: var(--outer-space);
+  padding-top: var(--inner-space);
+  border-top: 1px solid rgba(193, 127, 88, 0.3);
+  color: var(--sunset-clay);
+  font-size: 0.95rem;
+  font-style: italic;
+  position: relative;
+}
+
+.app-footer::before {
+  content: "☕";
+  margin-right: 8px;
+}
+
+/* Additional animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.cosmic-button {
+  position: relative;
+}
+
+.button-aura {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(8px);
+  background: var(--amethyst-awareness);
+  animation: aura-pulse 3s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }

@@ -28,21 +28,21 @@ function App() {
   const canUndo = gameState.history.length > 1;
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>The Dollar Game</h1>
-        <p className="subtitle">A Graph Theory Puzzle</p>
+    <div className="app-container cosmic-container">
+      <header className="app-header enlightened-header">
+        <h1>The Dollar Game ✨</h1>
+        <p className="subtitle cosmic-subtitle">A Graph Theory Odyssey 🌌</p>
       </header>
 
-      <main className="game-container">
-        <div className="graph-section">
+      <main className="game-container game-experience">
+        <div className="graph-section graph-universe">
           <GraphComponent
             graph={gameState.graph}
             onVertexAction={handleVertexAction}
           />
         </div>
 
-        <div className="controls-section">
+        <div className="controls-section control-dimension">
           <GameControls
             onReset={handleReset}
             onUndo={handleUndo}
@@ -55,9 +55,9 @@ function App() {
         </div>
       </main>
 
-      <footer className="app-footer">
-        <p>
-          The Dollar Game is based on the mathematical concept of chip-firing games in graph theory.
+      <footer className="app-footer grounded-footer">
+        <p className="mindful-text">
+          Crafted with conscious code & single-origin coffee 🧘‍♂️ | Based on the mathematical concept of chip-firing games in graph theory
         </p>
       </footer>
     </div>

@@ -130,9 +130,10 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           target="_blank"
           rel="noopener noreferrer"
           className="link-card"
+          data-tooltip="Project documentation and mathematical foundation"
           onClick={() => trackExternalLinkClick('https://github.com/declanshanaghy/dollar-game/blob/master/README.md')}
         >
-          <div className="card-icon" title="Project documentation and mathematical foundation">
+          <div className="card-icon">
             <img src="/icons/card_icons/BohemianMathTome.webp" alt="Documentation" width="56" height="56" />
           </div>
         </a>
@@ -142,9 +143,10 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           target="_blank"
           rel="noopener noreferrer"
           className="link-card"
+          data-tooltip="Numberphile's video explaining the Dollar Game concept"
           onClick={() => trackExternalLinkClick('https://www.youtube.com/watch?v=U33dsEcKgeQ')}
         >
-          <div className="card-icon" title="Numberphile's video explaining the Dollar Game concept">
+          <div className="card-icon">
             <img src="/icons/card_icons/BohemianTechProjector.webp" alt="Video" width="56" height="56" />
           </div>
         </a>
@@ -154,9 +156,10 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           target="_blank"
           rel="noopener noreferrer"
           className="link-card"
+          data-tooltip="Wikipedia article on chip-firing games in graph theory"
           onClick={() => trackExternalLinkClick('https://en.wikipedia.org/wiki/Chip-firing_game')}
         >
-          <div className="card-icon" title="Wikipedia article on chip-firing games in graph theory">
+          <div className="card-icon">
             <img src="/icons/card_icons/ChakraGraphMandala.webp" alt="Graph Theory" width="56" height="56" />
           </div>
         </a>

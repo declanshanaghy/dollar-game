@@ -1397,7 +1397,7 @@ body {
 .card-icon {
   position: relative;
   transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  cursor: help;
+  cursor: pointer;
 }
 
 .card-text {
@@ -1419,34 +1419,44 @@ body {
   filter: drop-shadow(0 0 12px var(--amethyst-awareness)) brightness(1.1);
 }
 
-/* Tooltip styling */
-.card-icon::after {
-  content: attr(title);
+/* Move tooltip to the link-card instead of card-icon */
+.link-card {
+  position: relative;
+  overflow: visible;
+}
+
+/* Popup drawer overlay styling */
+.link-card::after {
+  content: attr(data-tooltip);
   position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--card-background);
-  color: var(--text-color);
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  box-shadow: 0 2px 5px var(--card-shadow);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+  font-size: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
   pointer-events: none;
   border: 1px solid var(--border-color);
-  z-index: 100;
-  max-width: 200px;
+  z-index: 1000;
   text-align: center;
+  width: calc(100% - 2px); /* Account for border */
+  min-height: 40px;
+  overflow: visible;
+  white-space: normal;
+  line-height: 1.4;
+  box-sizing: border-box;
 }
 
-.card-icon:hover::after {
+.link-card:hover::after {
   opacity: 1;
   visibility: visible;
-  bottom: -45px;
 }
 
 @media (max-width: 768px) {

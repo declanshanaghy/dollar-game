@@ -76,7 +76,7 @@ Use time difference between now and the last commit timestamp for the developmen
 - [X] When the game is won or not startable disable all interactivity with the app
    - Display a starburst animation on the canvas when the game is won
    - Make the animation like a fireworks show
-- [] Update the give & receive buttons to be bigger and ensure there is some padding between the buttons and the border   
+- [x] Update the give & receive buttons to be bigger and ensure there is some padding between the buttons and the border
 - [] Fix the build error in https://github.com/declanshanaghy/dollar-game/actions/runs/14820365036/job/41606475816
 - [] Embed https://www.youtube.com/watch?v=mRJUrLD8w9Y in the README.md file as the girst generation of this app
 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import '../App.css';
 import GraphComponent from '../components/GraphComponent';
 import GameControls from '../components/GameControls';
+import GameInstructions from '../components/GameInstructions';
+import ThemeToggle from '../components/ThemeToggle';
 import { GameState, VertexAction, ActionType } from '../types';
 import { initializeGameState, performMove, undoMove, resetGame } from '../gameLogic';
 
@@ -31,14 +33,20 @@ const HomePage = () => {
 
   return (
     <div className="app-container cosmic-container">
-      <a href="https://buymeacoffee.com/firemandecko" target="_blank" rel="noopener noreferrer" className="coffee-link">
-        <span className="coffee-icon">☕</span>
-        <span className="coffee-text">Buy M3 4 C0ff33</span>
-      </a>
-      <header className="app-header enlightened-header">
-        <h1>The Dollar Game ✨</h1>
-        <p className="subtitle cosmic-subtitle">A Graph Theory Odyssey 🌌</p>
-      </header>
+      <ThemeToggle />
+      
+      <div className="header-container">
+        <header className="app-header enlightened-header">
+          <a href="https://en.wikipedia.org/wiki/Chip-firing_game" target="_blank" rel="noopener noreferrer" className="title-link">
+            <h1>The Dollar Game ✨</h1>
+            <p className="subtitle cosmic-subtitle">A Graph Theory Odyssey 🌌</p>
+          </a>
+        </header>
+        
+        <a href="https://www.buymeacoffee.com/firemandecko" target="_blank" rel="noopener noreferrer" className="coffee-link">
+          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" />
+        </a>
+      </div>
 
       <main className="game-container game-experience">
         <div className="graph-section graph-universe">
@@ -60,6 +68,10 @@ const HomePage = () => {
           />
         </div>
       </main>
+
+      <section className="instructions-section">
+        <GameInstructions />
+      </section>
 
       <footer className="app-footer grounded-footer">
         <p className="mindful-text">

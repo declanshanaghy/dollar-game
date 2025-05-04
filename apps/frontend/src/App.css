@@ -20,15 +20,6 @@
   --negative-space: #FF3366;
   --neutral-karma: #F9C80E;
   
-  /* Legacy color mapping for compatibility */
-  --primary-color: var(--meditation-moss);
-  --secondary-color: var(--neutral-karma);
-  --negative-color: var(--negative-space);
-  --positive-color: var(--positive-energy);
-  --background-color: #F8F9FA;
-  --text-color: var(--cosmic-soil);
-  --border-color: var(--sunset-clay);
-  
   /* Spacing */
   --cosmic-unit: 8px;
   --inner-space: calc(var(--cosmic-unit) * 2);
@@ -40,11 +31,56 @@
   --leetspeak-font: 'Courier New', monospace;
 }
 
+/* Light Theme (Default) */
+:root {
+  /* Legacy color mapping for compatibility */
+  --primary-color: var(--meditation-moss);
+  --secondary-color: var(--neutral-karma);
+  --negative-color: var(--negative-space);
+  --positive-color: var(--positive-energy);
+  
+  /* Theme Colors */
+  --background-color: #F8F9FA;
+  --text-color: var(--cosmic-soil);
+  --border-color: var(--sunset-clay);
+  --card-background: #FFFFFF;
+  --card-shadow: rgba(94, 75, 54, 0.15);
+  --button-background: #f9f9f9;
+  --button-text: var(--terminal-black);
+  --header-background: #FFFFFF;
+  --footer-background: #F8F9FA;
+  --menu-background: #FFFFFF;
+  --hover-overlay: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Legacy color mapping for compatibility */
+  --primary-color: var(--meditation-moss);
+  --secondary-color: var(--neutral-karma);
+  --negative-color: var(--negative-space);
+  --positive-color: var(--positive-energy);
+  
+  /* Theme Colors */
+  --background-color: #121212;
+  --text-color: #E0E0E0;
+  --border-color: #444444;
+  --card-background: #1E1E1E;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --button-background: #333333;
+  --button-text: #E0E0E0;
+  --header-background: #1A1A1A;
+  --footer-background: #1A1A1A;
+  --menu-background: #2A2A2A;
+  --hover-overlay: rgba(0, 0, 0, 0.2);
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--body-font);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -66,8 +102,33 @@ body {
 }
 
 /* Header */
-.app-header {
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-bottom: var(--outer-space);
+  padding: var(--inner-space) 0;
+  position: relative;
+}
+
+.app-header {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title-link {
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.title-link:hover h1 {
+  color: var(--amethyst-awareness);
+}
+
+.title-link:hover .subtitle {
+  color: var(--ruby-recursion);
 }
 
 .app-header h1 {
@@ -106,8 +167,8 @@ body {
   border: 2px solid var(--sunset-clay);
   border-radius: 12px;
   padding: 0;
-  background-color: white;
-  box-shadow: 0 8px 15px rgba(94, 75, 54, 0.15);
+  background-color: var(--card-background);
+  box-shadow: 0 8px 15px var(--card-shadow);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -251,14 +312,14 @@ body {
 }
 
 .game-controls {
-  background-color: white;
-  border: 2px solid var(--sunset-clay);
+  background-color: var(--card-background);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   padding: var(--outer-space);
   display: flex;
   flex-direction: column;
   gap: var(--outer-space);
-  box-shadow: 0 8px 15px rgba(94, 75, 54, 0.15);
+  box-shadow: 0 8px 15px var(--card-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -344,7 +405,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--hover-overlay), transparent);
   transition: all 0.5s ease;
 }
 
@@ -601,54 +662,35 @@ body {
   animation: aura-pulse 3s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
-/* ✨ Buy Me a Coffee Link ✨ */
+/* ✨ Buy Me a Coffee Styles ✨ */
+
+/* Coffee Button */
 .coffee-link {
-  position: absolute;
-  top: var(--inner-space);
-  left: var(--inner-space);
   display: flex;
   align-items: center;
-  gap: 8px;
   text-decoration: none;
-  background: linear-gradient(135deg, var(--sunset-clay), var(--cosmic-soil));
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  box-shadow: 0 4px 8px rgba(193, 127, 88, 0.3);
   z-index: 10;
-  font-family: var(--leetspeak-font);
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-  position: relative;
+  transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  margin-left: var(--inner-space);
 }
 
-.coffee-link::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: all 0.5s ease;
+.coffee-button-img {
+  height: 60px;
+  width: auto;
+  transition: transform 0.3s ease;
+  box-shadow: 0 6px 12px var(--card-shadow);
+  border-radius: 8px;
 }
 
-.coffee-link:hover::before {
-  left: 100%;
-}
-
-.coffee-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(193, 127, 88, 0.4);
-  background: linear-gradient(135deg, var(--sunset-clay), var(--amethyst-awareness));
+.coffee-link:hover .coffee-button-img {
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 10px 20px var(--card-shadow);
 }
 
 .coffee-icon {
   font-size: 1.2rem;
   animation: float 3s ease-in-out infinite;
+  color: #FFDD00;
 }
 
 .coffee-text {
@@ -656,12 +698,18 @@ body {
 }
 
 @media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: var(--inner-space);
+  }
+  
   .coffee-link {
-    position: relative;
-    top: 0;
-    left: 0;
-    align-self: flex-start;
-    margin-bottom: var(--inner-space);
+    margin-left: 0;
+    align-self: center;
+  }
+  
+  .app-header {
+    margin-top: var(--inner-space);
   }
 }
 
@@ -990,6 +1038,39 @@ body {
   margin: 0;
 }
 
+/* ✨ Theme Toggle Button ✨ */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 1000;
+  background-color: var(--card-background);
+  border: 2px solid var(--border-color);
+  box-shadow: 0 2px 10px var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px) rotate(15deg);
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
 .cosmic-success {
   background: linear-gradient(135deg, rgba(0, 245, 212, 0.2), rgba(184, 248, 74, 0.1));
   border-radius: 8px;
@@ -1003,4 +1084,33 @@ body {
   color: var(--positive-energy);
   font-weight: bold;
   margin: 0;
+}
+
+/* ✨ Instructions Section ✨ */
+.instructions-section {
+  margin: var(--outer-space) 0;
+  width: 100%;
+}
+
+.game-instructions-panel {
+  background-color: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: var(--outer-space);
+  box-shadow: 0 8px 15px var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.game-instructions-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ruby-recursion), var(--quantum-lime), var(--sapphire-syntax));
+  opacity: 0.7;
 }

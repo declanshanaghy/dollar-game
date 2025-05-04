@@ -38,8 +38,18 @@ Use time difference between now and the last commit timestamp for the developmen
   - Ensure the game is aligned at the top center of the screen
   - Refer to https://www.youtube.com/watch?v=U33dsEcKgeQ as an inspiration for the game
   - Incdlude a link and summary of the video in README.md
-[] Generate a profile description for firemandecko as the architect of the game accoring to the stylistic rules
-[] Update the game to include a header in the top left to "Buy Me a Coffee" with a link to https://buymeacoffee.com/firemandecko
+[X] Update the Buy Me a Coffee button to utilize the stylistics guidelines of https://buymeacoffee.com/
+  - Implemented official Buy Me a Coffee button in the top right corner
+  - Used the official button image from buymeacoffee.com
+  - Added hover effects matching the buymeacoffee.com style
+[X] Generate a profile description for firemandecko as the architect of the game according to the stylistic rules
+  - Created profile in l33tc0dzr architect style with leetspeak
+  - Incorporated coffee culture references and bohemian themes
+  - Added technical philosophy and digital journey sections
+[X] Update the game to include a header in the top left to "Buy Me a Coffee" with a link to https://buymeacoffee.com/firemandecko
+  - Added header with coffee cup icon and "Buy Me a Coffee" text
+  - Used dark background matching buymeacoffee.com brand style
+  - Made header responsive for different screen sizes
 [X] Generate a logo for the game and add it to the app
  - Created a CLI tool for logo selection instead of a frontend page:
    - Generates 6 SVG logos using Claude AI
@@ -49,9 +59,5 @@ Use time difference between now and the last commit timestamp for the developmen
  - Tool is located in tools/logo-selection directory
  - Removed server dependency and backend components
  - Simplified the project structure
-[] Update the infrastructure to use HTTPS with an ACME certificate from zerossl.com in the terraform and github actions
- - Update the DNS record for the domain name to point to the new infrastructure
- - Update the GitHub action to deploy the infrastructure
- - Update the README.md to include the new domain name
- - Update the app to use the new domain name
- - Update the app to use the new ACME certificate
+[] Update the app to support a dark mode theme based on the user's system settings
+[] Validate the application is working as expected on the new infrastructure

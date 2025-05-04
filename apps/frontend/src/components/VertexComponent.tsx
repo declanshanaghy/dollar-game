@@ -207,7 +207,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
         dy=".3em"
         fontSize="22"
         fontWeight="bold"
-        fill="var(--terminal-black)"
+        fill={chips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
         className="dollar-value"
       >
         {chips > 0 ? `+${chips}` : chips}
@@ -262,7 +262,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                 height={80}
                 rx={12}
                 ry={12}
-                fill="rgba(255, 255, 255, 0.85)"
+                fill="var(--card-background)"
                 stroke="var(--sunset-clay)"
                 strokeWidth={1.5}
                 strokeDasharray="2 1"
@@ -422,7 +422,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             dy=".3em"
             fontSize="16"
             fontWeight="bold"
-            fill="rgba(33, 37, 41, 0.7)"
+            fill={getPreviewChipCount(hoveredAction) >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
           >
             {getPreviewChipCount(hoveredAction)}
           </text>
@@ -461,7 +461,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   dy=".3em"
                   fontSize="16"
                   fontWeight="bold"
-                  fill="rgba(33, 37, 41, 0.7)"
+                  fill={neighbor.newChips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
                 >
                   {neighbor.newChips}
                 </text>

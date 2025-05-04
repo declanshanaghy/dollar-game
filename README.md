@@ -8,7 +8,7 @@ The Dollar Game is a digital implementation of the mathematical chip-firing game
 
 Like the carefully extracted notes of a single-origin Ethiopian pour-over, each vertex in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all vertices resonate with positive or neutral vibrations.
 
-![Dollar Game Screenshot](https://via.placeholder.com/800x400?text=Dollar+Game+Visualization)
+![Dollar Game Logo](./apps/frontend/public/selected-logo.svg)
 
 ## 🧮 Mathematical Foundation
 
@@ -177,14 +177,15 @@ The Dollar Game is built with React, TypeScript, and Vite, organized with consci
 
 ## ☁️ Deployment Harmony
 
-The Dollar Game is deployed to AWS S3 using OpenTofu (an open-source alternative to Terraform) for infrastructure as code, with GitHub Actions for continuous integration and deployment.
+The Dollar Game is deployed using AWS services with OpenTofu (an open-source alternative to Terraform) for infrastructure as code, with GitHub Actions for continuous integration and deployment.
 
 ### Infrastructure
 
 The deployment infrastructure includes:
-- S3 bucket for website hosting
-- S3 bucket configuration for static website
-- S3 bucket policy for public access
+- S3 bucket for website content storage
+- CloudFront distribution for content delivery with HTTPS
+- ACM certificate for secure HTTPS connections
+- Custom domain configuration (dollar-game.firemandecko.com)
 
 ### GitHub Actions Workflows
 
@@ -212,7 +213,7 @@ For the complete aesthetic consciousness, refer to our [Style Guide](style-guide
 
 Potential future enhancements to expand our collective consciousness:
 
-- CloudFront distribution for CDN capabilities
+- Enhanced CloudFront caching strategies for optimal performance
 - Automated testing before deployment
 - Deployment notifications via Slack or email
 - Staging environments for pre-production testing
@@ -221,6 +222,8 @@ Potential future enhancements to expand our collective consciousness:
 ## 🧘‍♂️ Concluding Thoughts
 
 The Dollar Game is not merely a web application but a digital manifestation of mathematical beauty and bohemian expression. As you interact with the vertices and edges, remember that each action ripples through the system, much like our own interconnected existence.
+
+Visit us at [dollar-game.firemandecko.com](https://dollar-game.firemandecko.com) to experience the harmony of graph theory in a secure, HTTPS-enabled environment.
 
 May your vertices always be positive, your edges forever flowing, and your code as enlightened as your spirit.
 

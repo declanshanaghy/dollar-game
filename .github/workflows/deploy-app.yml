@@ -17,7 +17,6 @@ on:
 env:
   NODE_VERSION: '20'  # Specify the Node.js version to use
   S3_BUCKET: 'dollar-game-firemandecko'  # Target S3 bucket for deployment
-  # Note: No CloudFront distribution is currently defined in the infrastructure
   AWS_PAGER: ""  # Disable AWS CLI pagination
 
 jobs:
@@ -50,7 +49,7 @@ jobs:
       
       # Step 3: Install dependencies and build
       - name: Install dependencies and build
-        working-directory: ./app
+        working-directory: ./apps/frontend
         run: |
           npm ci
           npm test || echo "No tests found, skipping..."
@@ -69,7 +68,7 @@ jobs:
       # Step 3: Deploy to S3
       - name: Deploy to S3
         run: |
-          aws s3 sync app/dist/ s3://${{ env.S3_BUCKET }} --delete
+          aws s3 sync apps/frontend/dist/ s3://${{ env.S3_BUCKET }} --delete
       
       # Step 4: Verify deployment
       - name: Verify deployment
@@ -85,8 +84,40 @@ jobs:
             exit 1
           fi
       
-      # Step 5: Output the deployment status and URL
+      # Step 5: Invalidate CloudFront cache
+      - name: Invalidate CloudFront cache
+        run: |
+          # Get the CloudFront distribution ID from Terraform state
+          DISTRIBUTION_ID=$(cd infrastructure && aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@, 'dollar-game.firemandecko.com')]].Id" --output text)
+          
+          if [ -n "$DISTRIBUTION_ID" ]; then
+            echo "Invalidating CloudFront distribution: $DISTRIBUTION_ID"
+            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+          else
+            echo "CloudFront distribution not found. Skipping invalidation."
+          fi
+      
+      # Step 6: Output the deployment status and URLs
       - name: Deployment Status
         run: |
           echo "Application deployment completed"
-          echo "Website URL: http://${{ env.S3_BUCKET }}.s3-website-us-east-1.amazonaws.com"
+          
+          # Get URLs from Terraform outputs
+          if [ -d "infrastructure" ]; then
+            cd infrastructure
+            if command -v tofu &> /dev/null; then
+              echo "S3 Website URL (internal only):"
+              tofu output s3_website_url || echo "http://${{ env.S3_BUCKET }}.s3-website-us-east-1.amazonaws.com"
+              echo "CloudFront URL:"
+              tofu output cloudfront_url || echo "CloudFront URL not available yet"
+              echo "Custom Domain (once DNS is configured):"
+              tofu output custom_domain || echo "https://dollar-game.firemandecko.com"
+            else
+              echo "OpenTofu not available. Using default URLs:"
+              echo "S3 Website URL (internal only): http://${{ env.S3_BUCKET }}.s3-website-us-east-1.amazonaws.com"
+              echo "Custom Domain: https://dollar-game.firemandecko.com"
+            fi
+          else
+            echo "S3 Website URL (internal only): http://${{ env.S3_BUCKET }}.s3-website-us-east-1.amazonaws.com"
+            echo "Custom Domain: https://dollar-game.firemandecko.com"
+          fi

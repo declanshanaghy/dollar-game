@@ -44,7 +44,7 @@ resource "aws_s3_bucket_public_access_block" "website_public_access" {
   restrict_public_buckets = false
 }
 
-# S3 Bucket Policy for Public Read Access
+# S3 Bucket Policy for Public Access
 resource "aws_s3_bucket_policy" "website_bucket_policy" {
   bucket = aws_s3_bucket.website_bucket.id
   policy = jsonencode({
@@ -64,9 +64,10 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
   depends_on = [aws_s3_bucket_public_access_block.website_public_access]
 }
 
-# Output the website URL
-output "website_url" {
+# Output the S3 website URL
+output "s3_website_url" {
   value = "http://${aws_s3_bucket.website_bucket.bucket}.s3-website-${data.aws_region.current.name}.amazonaws.com"
+  description = "S3 website URL"
 }
 
 # Current region data source

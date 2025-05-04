@@ -195,6 +195,7 @@ Once a task has been broken down into subtasks using `expand_task` or similar me
 
 8.  **Commit Changes to Git (REQUIRED for EVERY Task):**
      *   Stage the relevant code changes and any updated/new rule files (`git add .`).
+     *   **IMPORTANT**: Never save git summaries into separate files. The content should be used directly as commit messages.
      *   Craft a Git commit message following this strict format:
          * A one-line summary of all the changes (e.g., `feat(module): Implement feature X for subtask <subtaskId>`)
          * One blank line separator (crucial for proper formatting)
@@ -212,7 +213,7 @@ Once a task has been broken down into subtasks using `expand_task` or similar me
                     - Development Time: 2 hours 30 minutes
                     - API Cost: USD 69.78
               - Use the latest API cost of this task for Development Cost
-              - Use time difference between now and the last commit timestamp for the Development Time metric taking into account that the days may have rolled over. 
+              - Use time difference between now and the last commit timestamp for the Development Time metric taking into account that the days may have rolled over.
               - Assume no development work took place between 10pm and 8am between days
         * Pepper the l33tc0dzer markup style throughout the langugage lightly
         * Don't list filenames in the commit message

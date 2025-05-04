@@ -109,7 +109,7 @@ Use time difference between now and the last commit timestamp for the developmen
    - Move 🧘‍♂️ Concluding Thoughts to the bottom of the page
    - Suggest if any of the sections can be removed or combined or moved to their own pages
    - Generate a TOC.md for navigating around all the documentation
-- [] Commit all changes to git with a summarized commit message and push it
+- [x] Commit all changes to git with a summarized commit message and push it
 - [X] The Buy Me a Coffee button is off the bottom of the page on mobile, fix that.
 - [X] Include a Buy Me a Coffee button in the header of the @README.md file
 - [x] Add to @/.cursor/rules/dev_workflow.mdc that the user will run the dev server. Confirm that it's up yourself before running and if it's not ask the user to start it

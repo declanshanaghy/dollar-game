@@ -88,9 +88,23 @@ jobs:
             exit 1
           fi
       
-      # CloudFront step removed as it's not being used
+      # Step 9: Invalidate CloudFront cache
+      - name: Invalidate CloudFront cache
+        run: |
+          # Get the CloudFront distribution ID
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@, 'dollar-game.firemandecko.com')]].Id" --output text)
+          
+          if [ -n "$DISTRIBUTION_ID" ]; then
+            echo "Invalidating CloudFront distribution: $DISTRIBUTION_ID"
+            # Create invalidation for all files
+            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+            echo "CloudFront invalidation created successfully"
+          else
+            echo "CloudFront distribution ID not found. Skipping invalidation."
+            echo "Please check the CloudFront distribution configuration."
+          fi
       
-      # Step 9: Output the deployment status and URLs
+      # Step 10: Output the deployment status and URLs
       - name: Deployment Status
         run: |
           echo "Application deployment completed"

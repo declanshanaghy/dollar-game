@@ -54,20 +54,20 @@ const IntroductionOverlay: React.FC<IntroductionOverlayProps> = ({
       )
     },
     {
-      title: "The Circles 🔮",
+      title: "The Cash Stacks 💵",
       content: (
         <div>
           <p>
-            These circles are <strong>vertices</strong>. The number shows dollars.
+            These cash stacks are <strong>vertices</strong>. Each stack shows dollars.
           </p>
           <div className="color-legend">
-            <div><span style={{ color: 'var(--positive-energy)' }}>Green (+)</span>: Has dollars</div>
-            <div><span style={{ color: 'var(--negative-space)' }}>Red (-)</span>: In debt</div>
-            <div><span style={{ color: 'var(--neutral-karma)' }}>Yellow (0)</span>: No dollars</div>
+            <div><span style={{ color: 'var(--positive-energy)' }}>Green stacks (+)</span>: Has dollars</div>
+            <div><span style={{ color: 'var(--negative-space)' }}>Red stacks (-)</span>: In debt</div>
+            <div><span style={{ color: 'var(--neutral-karma)' }}>Yellow stack (0)</span>: No dollars</div>
           </div>
           <div className="action-hint">
             <div className="click-indicator pulse-animation">👁️</div>
-            <div>Look at the colored circles</div>
+            <div>Look at the cash stacks</div>
           </div>
         </div>
       ),
@@ -78,14 +78,14 @@ const IntroductionOverlay: React.FC<IntroductionOverlayProps> = ({
       content: (
         <div>
           <p>
-            <strong>Try it:</strong> Click any circle, then click "Give"
+            <strong>Try it:</strong> Click any cash stack, then click "Give"
           </p>
           <p>
             When giving, a vertex gives 1 dollar to each connected neighbor.
           </p>
           <div className="action-hint">
             <div className="click-indicator pulse-animation">👆</div>
-            <div>Click any circle now</div>
+            <div>Click any cash stack now</div>
           </div>
         </div>
       ),
@@ -96,14 +96,14 @@ const IntroductionOverlay: React.FC<IntroductionOverlayProps> = ({
       content: (
         <div>
           <p>
-            <strong>Try it:</strong> Click any circle, then click "Receive"
+            <strong>Try it:</strong> Click any cash stack, then click "Receive"
           </p>
           <p>
             When receiving, a vertex takes 1 dollar from each connected neighbor.
           </p>
           <div className="action-hint">
             <div className="click-indicator pulse-animation">👆</div>
-            <div>Click any circle now</div>
+            <div>Click any cash stack now</div>
           </div>
         </div>
       ),
@@ -118,7 +118,7 @@ const IntroductionOverlay: React.FC<IntroductionOverlayProps> = ({
           </p>
           <div className="action-hint">
             <div className="click-indicator">🎮</div>
-            <div>Keep giving and receiving until all circles are green or yellow</div>
+            <div>Keep giving and receiving until all cash stacks are positive or zero</div>
           </div>
         </div>
       )

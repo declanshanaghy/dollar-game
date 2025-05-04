@@ -1,4 +1,4 @@
-# Dollar Game S3 Website Resources
+# Dollar Game Infrastructure Resources
 
 ## S3 Bucket
 - **Name**: dollar-game-firemandecko
@@ -24,9 +24,11 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "PublicReadGetObject",
+            "Sid": "CloudFrontReadGetObject",
             "Effect": "Allow",
-            "Principal": "*",
+            "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity [OAI_ID]"
+            },
             "Action": "s3:GetObject",
             "Resource": "arn:aws:s3:::dollar-game-firemandecko/*"
         }
@@ -44,12 +46,27 @@
 }
 ```
 
-## Cost Optimization
-This setup is optimized for the lowest possible cost:
-- Uses S3 Standard storage class
-- No CloudFront distribution
-- No Route 53 or custom domain
-- Minimal bucket policies
+## CloudFront Distribution
+- **Domain**: dollar-game.firemandecko.com
+- **Aliases**: dollar-game.firemandecko.com, www.dollar-game.firemandecko.com
+- **Origin**: S3 bucket (dollar-game-firemandecko)
+- **Origin Access Identity**: Used to secure S3 bucket access
+- **Default Root Object**: index.html
+- **Price Class**: PriceClass_100 (North America and Europe edge locations)
+- **SSL Certificate**: ACM Certificate for dollar-game.firemandecko.com
+- **Custom Error Response**: 404 errors return index.html with 200 status code (for SPA routing)
+
+## Route 53 and DNS
+- **Hosted Zone**: firemandecko.com
+- **DNS Records**:
+  - dollar-game.firemandecko.com -> CloudFront distribution
+  - www.dollar-game.firemandecko.com -> CloudFront distribution
+
+## SSL/TLS Certificate
+- **Domain**: dollar-game.firemandecko.com
+- **Alternative Names**: www.dollar-game.firemandecko.com
+- **Validation Method**: DNS
+- **Region**: us-east-1 (required for CloudFront)
 
 ## Estimated Costs
 
@@ -58,33 +75,48 @@ This setup is optimized for the lowest possible cost:
 | S3 Standard Storage | ~$0.023 per GB (likely < $0.01 for small app) |
 | S3 GET Requests | $0.0004 per 1,000 requests |
 | S3 PUT Requests | $0.005 per 1,000 requests (only during deployment) |
-| Data Transfer Out | $0.09 per GB (first 10TB) |
+| CloudFront Data Transfer | $0.085 per GB (first 10TB) |
+| CloudFront Requests | $0.01 per 10,000 HTTPS requests |
+| Route 53 Hosted Zone | $0.50 per hosted zone |
+| ACM Certificate | Free |
 
-**Total Estimated Monthly Cost**: Less than $1 for low traffic sites
+**Total Estimated Monthly Cost**: $1-5 for low traffic sites
 
-## Deployment Steps
+## Deployment Process
 
-To deploy the application to this S3 bucket:
+The application is deployed automatically using GitHub Actions workflows:
 
-1. Build the React application:
+1. **Infrastructure Deployment** (.github/workflows/deploy-infrastructure.yml):
+   - Triggered when files in the infrastructure/ directory change
+   - Uses OpenTofu to apply infrastructure changes
+   - Waits for certificate validation and DNS propagation
+
+2. **Application Deployment** (.github/workflows/deploy-app.yml):
+   - Triggered when application files change
+   - Builds the application using pnpm
+   - Deploys the built files to S3
+   - Invalidates the CloudFront cache to ensure the latest content is served
+   - Verifies the deployment
+
+## CloudFront Cache Invalidation
+
+When new content is deployed to S3, the CloudFront cache is invalidated to ensure the latest content is served to users. This is done automatically as part of the GitHub Actions workflow.
+
+To manually invalidate the CloudFront cache:
+
 ```bash
-cd dollar-game
-npm run build
+# Get the CloudFront distribution ID
+DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@, 'dollar-game.firemandecko.com')]].Id" --output text --profile dollar-game)
+
+# Create invalidation for all files
+aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*" --profile dollar-game
 ```
 
-2. Upload the built files to S3:
-```bash
-aws s3 sync dist/ s3://dollar-game-firemandecko/ --profile dollar-game
-```
+## Troubleshooting
 
-## Maintenance and Updates
+If you encounter 403 Forbidden errors from CloudFront:
 
-To update the application:
-1. Make changes to the code
-2. Rebuild the application
-3. Sync the new build to the S3 bucket
-
-```bash
-cd dollar-game
-npm run build
-aws s3 sync dist/ s3://dollar-game-firemandecko/ --profile dollar-game
+1. Check that the S3 bucket policy allows access from the CloudFront Origin Access Identity
+2. Verify that the CloudFront distribution is properly configured to use the OAI
+3. Ensure that the CloudFront cache has been invalidated after deploying new content
+4. Check the CloudFront distribution status in the AWS Console

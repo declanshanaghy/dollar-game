@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './VertexComponent.css'; // Import CSS for animations
 import { Vertex, Graph } from '../types';
 import { ActionType } from '../types';
 import { getVertexDegree, getNeighbors } from '../gameLogic';
@@ -167,9 +168,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           y1={startY}
           x2={endX}
           y2={endY}
-          stroke={hoveredAction === ActionType.GIVE ? "rgba(42, 157, 143, 0.7)" : "rgba(233, 196, 106, 0.7)"}
-          strokeWidth={2}
-          strokeDasharray="5,5"
+          stroke={hoveredAction === ActionType.GIVE ? "rgba(42, 157, 143, 0.9)" : "rgba(233, 196, 106, 0.9)"}
+          strokeWidth={3}
+          strokeDasharray="8,4"
           className={`animated-dash ${hoveredAction === ActionType.GIVE ? 'give-animation' : 'receive-animation'}`}
         />
       );
@@ -182,36 +183,76 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
     >
-      {/* Aura layer for positive vertices */}
-      {chips >= 0 && (canGive || canReceive) && (
-        <circle
-          r={40}
-          fill="none"
-          stroke={chips > 0 ? 'var(--positive-energy)' : 'var(--neutral-karma)'}
-          strokeWidth={2}
-          strokeOpacity={0.4}
-          className="aura-layer"
-        />
+      {/* Aura layer for vertices */}
+      {/* For negative values (red cash stacks), always show the circle */}
+      {(chips < 0 || (chips >= 0 && (canGive || canReceive))) && (
+        <>
+          {/* Outer glow effect */}
+          <circle
+            r={48}
+            fill="none"
+            stroke={
+              chips < 0
+                ? 'var(--negative-space)'
+                : (chips > 0
+                    ? 'var(--positive-energy)'
+                    : 'var(--neutral-karma)')
+            }
+            strokeWidth={1.5}
+            strokeOpacity={0.4}
+            filter="blur(3px)"
+            className="aura-outer-glow"
+          />
+          {/* Main circle with increased thickness */}
+          <circle
+            r={45}
+            fill="none"
+            stroke={
+              chips < 0
+                ? 'var(--negative-space)'
+                : (chips > 0
+                    ? 'var(--positive-energy)'
+                    : 'var(--neutral-karma)')
+            }
+            strokeWidth={chips < 0 ? 8 : 6.5}
+            strokeOpacity={chips < 0 ? 0.9 : 0.85}
+            className="aura-layer"
+            style={{
+              animation: `${chips < 0 ? 'pulseNegative' : 'pulsePositive'} 3s infinite ease-in-out`,
+            }}
+          />
+          {/* Inner highlight for added dimension */}
+          <circle
+            r={42}
+            fill="none"
+            stroke={
+              chips < 0
+                ? 'rgba(255, 107, 107, 0.7)'
+                : (chips > 0
+                    ? 'rgba(42, 207, 193, 0.7)'
+                    : 'rgba(253, 216, 126, 0.7)')
+            }
+            strokeWidth={1.5}
+            strokeOpacity={0.6}
+            className="aura-inner-highlight"
+          />
+        </>
       )}
       
-      <circle
-        r={32}
-        fill={getColor()}
-        stroke={(canGive || canReceive) ? 'var(--amethyst-awareness)' : 'var(--sunset-clay)'}
-        strokeWidth={2}
+      {/* Cash icon image */}
+      <image
+        href={`/icons/cash_icons/cash_${chips >= 0 ? '+' : ''}${chips}.png`}
+        x={-40}
+        y={-40}
+        width={80}
+        height={80}
         className={(canGive || canReceive) ? 'vertex-actionable vertex-core' : 'vertex vertex-core'}
+        style={{
+          filter: (canGive || canReceive)
+            ? 'drop-shadow(0 0 5px var(--amethyst-awareness)) brightness(1.1)'
+            : 'drop-shadow(0 0 3px var(--sunset-clay))'
+        }}
       />
-      
-      <text
-        textAnchor="middle"
-        dy=".3em"
-        fontSize="18"
-        fontWeight="bold"
-        fill={chips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
-        className="dollar-value"
-      >
-        {chips > 0 ? `+${chips}` : chips}
-      </text>
 
       {/* Action Menu */}
             {showMenu && (
@@ -456,22 +497,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           className="preview-chip"
           onClick={(e) => e.stopPropagation()}
         >
-          <circle
-            r={25}
-            fill={getPreviewChipCount(hoveredAction) < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
-            stroke={(canGive || canReceive) ? 'rgba(155, 93, 229, 0.7)' : 'rgba(193, 127, 88, 0.7)'}
-            strokeWidth={1.5}
-            strokeDasharray="3 2"
+          {/* Preview cash icon with transparency */}
+          <image
+            href={`/icons/cash_icons/cash_${getPreviewChipCount(hoveredAction) >= 0 ? '+' : ''}${getPreviewChipCount(hoveredAction)}.png`}
+            x={-30}
+            y={-30}
+            width={60}
+            height={60}
+            opacity={0.7}
+            style={{
+              filter: 'drop-shadow(0 0 5px rgba(155, 93, 229, 0.8))'
+            }}
           />
-          <text
-            textAnchor="middle"
-            dy=".3em"
-            fontSize="14"
-            fontWeight="bold"
-            fill={getPreviewChipCount(hoveredAction) >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
-          >
-            {getPreviewChipCount(hoveredAction)}
-          </text>
         </g>
       )}
       
@@ -495,22 +532,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                 className="preview-chip"
                 onClick={(e) => e.stopPropagation()}
               >
-                <circle
-                  r={20}
-                  fill={neighbor.newChips < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
-                  stroke={'rgba(155, 93, 229, 0.7)'}
-                  strokeWidth={1.5}
-                  strokeDasharray="3 2"
+                {/* Neighbor preview cash icon with transparency */}
+                <image
+                  href={`/icons/cash_icons/cash_${neighbor.newChips >= 0 ? '+' : ''}${neighbor.newChips}.png`}
+                  x={-25}
+                  y={-25}
+                  width={50}
+                  height={50}
+                  opacity={0.7}
+                  style={{
+                    filter: 'drop-shadow(0 0 5px rgba(155, 93, 229, 0.8))'
+                  }}
                 />
-                <text
-                  textAnchor="middle"
-                  dy=".3em"
-                  fontSize="14"
-                  fontWeight="bold"
-                  fill={neighbor.newChips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
-                >
-                  {neighbor.newChips}
-                </text>
               </g>
             );
           })}

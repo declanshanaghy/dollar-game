@@ -44,16 +44,16 @@ This initial implementation demonstrates the core concepts of the Dollar Game in
 
 ### Game Mechanics
 
-1. **Give Energy 🌊**: A vertex shares its essence with all connected neighbors, losing one dollar per connection while each neighbor gains one dollar.
+1. **Give Energy 🌊**: A cash stack shares its essence with all connected neighbors, losing one dollar per connection while each neighbor gains one dollar.
 
-2. **Receive Energy 🌈**: A vertex draws in the collective energy from its neighbors, gaining one dollar per connection while each neighbor loses one dollar.
+2. **Receive Energy 🌈**: A cash stack draws in the collective energy from its neighbors, gaining one dollar per connection while each neighbor loses one dollar.
 
-3. **Winning State ✨**: Achieve universal harmony by ensuring all vertices have zero or positive dollars. When you win, a cosmic starburst animation celebrates your achievement!
+3. **Winning State ✨**: Achieve universal harmony by ensuring all cash stacks have zero or positive dollars. When you win, a cosmic starburst animation celebrates your achievement!
 
 4. **Game States**:
-   - **Won**: When all vertices have zero or positive dollars, the game is won. All interactivity is disabled, and a celebratory starburst animation appears.
+   - **Won**: When all cash stacks have zero or positive dollars, the game is won. All interactivity is disabled, and a celebratory starburst animation appears.
    - **Not Winnable**: When the total money is less than the genus, the game cannot be won. Interactivity is disabled, and a message is displayed.
-   - **In Progress**: When the game is in progress and winnable, you can interact with vertices to give or receive energy.
+   - **In Progress**: When the game is in progress and winnable, you can interact with cash stacks to give or receive energy.
 
 ### Algorithmic Consciousness
 
@@ -143,7 +143,7 @@ The Dollar Game is built with React, TypeScript, and Vite, organized with consci
 
 ### Key Components
 
-- **VertexComponent**: Renders vertices with their dollar values and handles user interactions
+- **VertexComponent**: Renders cash stacks with their dollar values and handles user interactions
 - **EdgeComponent**: Creates organic, flowing connections between vertices
 - **GraphComponent**: Orchestrates the visualization of the entire graph
 - **GameControls**: Provides sliders for adjusting vertex density, connection flow, and karma balance
@@ -180,7 +180,7 @@ For more details on the GitHub Actions architecture, see [github-actions-archite
 
 The Dollar Game is a digital implementation of the mathematical chip-firing game, reimagined through the lens of bohemian-tech aesthetics. This application invites you to explore the elegant complexity of graph theory while engaging with a visually captivating interface that balances technical precision with free-spirited energy.
 
-Like the carefully extracted notes of a single-origin Ethiopian pour-over, each vertex in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all vertices resonate with positive or neutral vibrations.
+Like the carefully extracted notes of a single-origin Ethiopian pour-over, each cash stack in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all cash stacks resonate with positive or neutral vibrations.
 
 ## 🧮 Mathematical Foundation
 
@@ -214,10 +214,10 @@ Potential future enhancements to expand our collective consciousness:
 
 ## 🧘‍♂️ Concluding Thoughts
 
-The Dollar Game is not merely a web application but a digital manifestation of mathematical beauty and bohemian expression. As you interact with the vertices and edges, remember that each action ripples through the system, much like our own interconnected existence.
+The Dollar Game is not merely a web application but a digital manifestation of mathematical beauty and bohemian expression. As you interact with the cash stacks and edges, remember that each action ripples through the system, much like our own interconnected existence.
 
 Visit us at [dollar-game.firemandecko.com](https://dollar-game.firemandecko.com) to experience the harmony of graph theory through secure cosmic vibrations.
 
-May your vertices always be positive, your edges forever flowing, and your code as enlightened as your spirit.
+May your cash stacks always be positive, your edges forever flowing, and your code as enlightened as your spirit.
 
 *~ The Cosmic Architect ~*

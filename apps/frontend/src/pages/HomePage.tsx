@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import '../App.css';
 import GraphComponent from '../components/GraphComponent';
 import GameControls from '../components/GameControls';
-import GameInstructions from '../components/GameInstructions';
 import ThemeToggle from '../components/ThemeToggle';
 import { GameState, VertexAction, ActionType } from '../types';
 import { initializeGameState, performMove, undoMove, resetGame } from '../gameLogic';
@@ -82,26 +81,6 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
       
       <div className="header-container" style={{ position: 'relative', width: '100%' }}>
         <header className="app-header enlightened-header" style={{ width: '100%', minHeight: '80px', position: 'relative' }}>
-          <a
-            href="https://en.wikipedia.org/wiki/Chip-firing_game"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="title-link"
-            style={{ display: 'block', width: '100%', textAlign: 'center' }}
-            onClick={() => trackExternalLinkClick('https://en.wikipedia.org/wiki/Chip-firing_game')}
-          >
-            <img
-              src="/logos/logo.png"
-              alt="The Dollar Game Logo"
-              style={{
-                maxWidth: '800px',
-                maxHeight: '450px',
-                width: '100%',
-                height: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          </a>
         </header>
         
         <a
@@ -117,6 +96,15 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
 
       <main className="game-container game-experience">
         <div className="graph-section graph-universe">
+          {/* Floating background header image */}
+          <div className="floating-header-background">
+            <img
+              src="/logos/logo.png"
+              alt="The Dollar Game Logo Background"
+              className="floating-header-image"
+            />
+          </div>
+          
           <GraphComponent
             graph={gameState.graph}
             onVertexAction={handleVertexAction}
@@ -141,8 +129,39 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
         </div>
       </main>
 
-      <section className="instructions-section">
-        <GameInstructions />
+      <section className="link-cards-section">
+        <a
+          href="https://github.com/declanshanaghy/dollar-game/blob/master/README.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-card"
+          onClick={() => trackExternalLinkClick('https://github.com/declanshanaghy/dollar-game/blob/master/README.md')}
+        >
+          <div className="card-icon">📚</div>
+          <div className="card-text">Project documentation and mathematical foundation</div>
+        </a>
+        
+        <a
+          href="https://www.youtube.com/watch?v=U33dsEcKgeQ"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-card"
+          onClick={() => trackExternalLinkClick('https://www.youtube.com/watch?v=U33dsEcKgeQ')}
+        >
+          <div className="card-icon">🎬</div>
+          <div className="card-text">Numberphile's video explaining the Dollar Game concept</div>
+        </a>
+        
+        <a
+          href="https://en.wikipedia.org/wiki/Chip-firing_game"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-card"
+          onClick={() => trackExternalLinkClick('https://en.wikipedia.org/wiki/Chip-firing_game')}
+        >
+          <div className="card-icon">🧩</div>
+          <div className="card-text">Wikipedia article on chip-firing games in graph theory</div>
+        </a>
       </section>
 
       <footer className="app-footer grounded-footer">

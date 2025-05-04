@@ -59,48 +59,10 @@ jobs:
         working-directory: ./infrastructure
         run: tofu apply tfplan
         
-      # Step 6: Install AWS CLI for certificate validation check
-      - name: Install AWS CLI
-        run: |
-          apt-get update
-          apt-get install -y curl unzip jq
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          ./aws/install
-          
-      # Step 7: Output certificate validation records
-      - name: Output Certificate Validation Records
-        working-directory: ./infrastructure
-        run: |
-          echo "Certificate validation records:"
-          tofu output -json certificate_validation_records | jq
-          echo "Please add these CNAME records to your DNS configuration to validate the certificate"
-      
-      # Step 8: Output the deployment status
+      # Step 6: Output the deployment status
       - name: Deployment Status
         working-directory: ./infrastructure
         run: |
           echo "Infrastructure deployment completed"
           echo "S3 Website URL (internal only):"
           tofu output s3_website_url
-          echo "CloudFront URL:"
-          tofu output cloudfront_url
-          echo "Custom Domain (once DNS is configured):"
-          tofu output custom_domain
-          
-      # Step 9: Provide DNS configuration instructions
-      - name: DNS Configuration Instructions
-        run: |
-          echo "============================================================"
-          echo "IMPORTANT: DNS CONFIGURATION REQUIRED"
-          echo "============================================================"
-          echo "To complete the HTTPS setup, please add the following DNS records:"
-          echo ""
-          echo "1. CNAME record for dollar-game.firemandecko.com"
-          echo "   pointing to the CloudFront distribution domain"
-          echo ""
-          echo "2. CNAME record for www.dollar-game.firemandecko.com"
-          echo "   pointing to the CloudFront distribution domain"
-          echo ""
-          echo "3. Certificate validation CNAME records as shown above"
-          echo "============================================================"

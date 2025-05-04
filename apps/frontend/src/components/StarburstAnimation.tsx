@@ -62,7 +62,6 @@ const StarburstAnimation: React.FC<StarburstAnimationProps> = ({ centerX, center
     const duration = 10000; // 10 seconds
     
     // Pre-calculate some values for better performance
-    const colorCount = colors.length;
     const PI2 = Math.PI * 2;
     
     // Use a fixed frame rate for better performance

@@ -77,6 +77,8 @@ Use time difference between now and the last commit timestamp for the developmen
    - Display a starburst animation on the canvas when the game is won
    - Make the animation like a fireworks show
 - [x] Update the give & receive buttons to be bigger and ensure there is some padding between the buttons and the border
-- [] Fix the build error in https://github.com/declanshanaghy/dollar-game/actions/runs/14820365036/job/41606475816
+- [x] Fix the build error in https://github.com/declanshanaghy/dollar-game/actions/runs/14820365036/job/41606475816
 - [] Embed https://www.youtube.com/watch?v=mRJUrLD8w9Y in the README.md file as the girst generation of this app
-
+- [] Update the buy me a coffee button so it always floats in the bottom right corner
+- [] Update all the documentation, all .md files to ensure they all have the latest information
+- [] Walk me through setting up SSL for the game

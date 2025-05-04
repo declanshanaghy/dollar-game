@@ -60,6 +60,14 @@ For trees (graphs with no cycles), any non-negative total makes the game winnabl
 
 Beyond its mathematical elegance, the Dollar Game serves as an intuitive model for understanding complex systems where resources flow between interconnected entities, making it relevant to fields ranging from economics to network theory.
 
+### First Generation Implementation
+
+The first generation of the Dollar Game application can be seen in this video:
+
+[![First Generation of the Dollar Game](https://img.youtube.com/vi/mRJUrLD8w9Y/0.jpg)](https://www.youtube.com/watch?v=mRJUrLD8w9Y)
+
+This initial implementation demonstrates the core concepts of the Dollar Game in a digital format, serving as the foundation for our current more advanced version.
+
 ## 🚀 Conscious Interaction
 
 ### Game Mechanics

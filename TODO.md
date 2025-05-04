@@ -147,3 +147,16 @@ Use time difference between now and the last commit timestamp for the developmen
        ELIFECYCLE  Command failed with exit code 2.
       Error: Process completed with exit code 2.
    - Ensure linter rules with autofix are run on local code changes before commiting.
+- [x] Generate prompts to replace the icons in the cards at the bottom.
+   - Write the prompts to a new md file in @/design/card-icons.md
+   - Wait for the user to give the prompts to a different AI to generate the icons
+   - Replace the icons in the cards with the new icons
+   - Update the README.md file to reflect the new icons
+   - Remove from the footer along with the icons and the underline
+   ```
+   Crafted with conscious code & single-origin coffee 🧘‍♂️ | Based on chip-firing games in graph theory
+
+Inspired by Numberphile's "The Dollar Game"
+   ```
+   - Commit to git before finishing
+

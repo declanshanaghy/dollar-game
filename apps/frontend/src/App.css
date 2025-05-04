@@ -84,9 +84,9 @@ body {
 }
 
 #root {
-  max-width: 1000px;
+  max-width: 850px;
   margin: 0 auto;
-  padding: 0.5rem;
+  padding: 0.4rem;
   text-align: center;
   align-self: flex-start;
   width: 100%;
@@ -117,8 +117,8 @@ body {
 }
 
 .floating-header-image {
-  width: 100%;
-  max-width: 1200px;
+  width: 90%;
+  max-width: 800px;
   height: auto;
   opacity: 0.15; /* Dimmed down to not obscure content */
   filter: blur(3px); /* Subtle blur for visual separation */
@@ -146,24 +146,7 @@ body {
   color: var(--text-color);
 }
 
-/* Header */
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: calc(var(--outer-space) * 0.5);
-  padding: calc(var(--inner-space) * 0.5) 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.app-header {
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
-  background-color: var(--header-background);
-}
+/* Coffee button positioning */
 
 .title-link {
   text-decoration: none;
@@ -225,17 +208,17 @@ body {
 .graph-section {
   flex: 3;
   border: 2px solid var(--sunset-clay);
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 0;
   background-color: var(--card-background);
-  box-shadow: 0 6px 12px var(--card-shadow);
+  box-shadow: 0 5px 10px var(--card-shadow);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 50vh;
+  min-height: 45vh;
   height: 100%;
 }
 
@@ -384,12 +367,12 @@ body {
 .game-controls {
   background-color: var(--card-background);
   border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: calc(var(--outer-space) * 0.5);
+  border-radius: 8px;
+  padding: calc(var(--outer-space) * 0.4);
   display: flex;
   flex-direction: column;
-  gap: calc(var(--outer-space) * 0.5);
-  box-shadow: 0 6px 12px var(--card-shadow);
+  gap: calc(var(--outer-space) * 0.4);
+  box-shadow: 0 5px 10px var(--card-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -663,16 +646,10 @@ body {
 .app-footer {
   margin-top: calc(var(--outer-space) * 0.7);
   padding-top: calc(var(--inner-space) * 0.7);
-  border-top: 1px solid rgba(193, 127, 88, 0.3);
   color: var(--sunset-clay);
   font-size: 0.85rem;
   font-style: italic;
   position: relative;
-}
-
-.app-footer::before {
-  content: "☕";
-  margin-right: 8px;
 }
 
 /* Attribution link */
@@ -755,10 +732,10 @@ body {
 }
 
 .coffee-button-img {
-  height: 60px;
+  height: 55px;
   width: auto;
-  box-shadow: 0 6px 12px var(--card-shadow);
-  border-radius: 8px;
+  box-shadow: 0 5px 10px var(--card-shadow);
+  border-radius: 7px;
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -779,9 +756,9 @@ body {
 }
 
 .coffee-link.celebration-mode .coffee-button-img {
-  height: 80px;
+  height: 70px;
   animation: coffee-spin 2s forwards, coffee-glow 3s infinite alternate;
-  box-shadow: 0 0 30px rgba(255, 221, 0, 0.7);
+  box-shadow: 0 0 25px rgba(255, 221, 0, 0.7);
 }
 
 @keyframes coffee-land {
@@ -867,7 +844,7 @@ body {
   }
   
   .coffee-button-img {
-    height: 40px; /* Smaller on mobile */
+    height: 35px; /* Smaller on mobile */
   }
   
   /* Adjust celebration mode positioning */
@@ -877,7 +854,7 @@ body {
   }
   
   .coffee-link.celebration-mode .coffee-button-img {
-    height: 60px; /* Slightly smaller on mobile */
+    height: 55px; /* Slightly smaller on mobile */
   }
   
   /* Adjust animation for mobile */
@@ -936,7 +913,7 @@ body {
   }
   
   .coffee-button-img {
-    height: 35px; /* Even smaller on very small screens */
+    height: 30px; /* Even smaller on very small screens */
   }
 }
 
@@ -1368,19 +1345,25 @@ body {
 .link-cards-section {
   display: flex;
   justify-content: center;
-  gap: var(--inner-space);
-  padding: var(--inner-space);
+  gap: calc(var(--inner-space) * 0.8);
+  padding: calc(var(--inner-space) * 0.8);
   flex-wrap: wrap;
-  margin: calc(var(--outer-space) * 0.7) 0;
+  margin: calc(var(--outer-space) * 0.5) 0;
   width: 100%;
 }
 
 .link-card {
   background-color: var(--card-background);
   border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: calc(var(--inner-space) * 0.8);
-  box-shadow: 0 6px 12px var(--card-shadow);
+  border-radius: 8px;
+  padding: calc(var(--inner-space) * 0.6);
+  box-shadow: 0 4px 8px var(--card-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1/1;
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
@@ -1405,27 +1388,65 @@ body {
 }
 
 .link-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px var(--card-shadow);
+  transform: translateY(-7px) scale(1.05);
+  box-shadow: 0 12px 24px var(--card-shadow);
+  border-color: var(--amethyst-awareness);
 }
 
 /* Card icon and text styles */
 .card-icon {
-  font-size: 2rem;
-  margin-bottom: var(--inner-space);
+  position: relative;
   transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  cursor: help;
 }
 
 .card-text {
   text-align: center;
   font-family: var(--body-font);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.4;
   color: var(--text-color);
 }
 
-.link-card:hover .card-icon {
-  transform: scale(1.1);
+.card-icon img {
+  width: 70px;
+  height: 70px;
+  transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.link-card:hover .card-icon img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px var(--amethyst-awareness)) brightness(1.1);
+}
+
+/* Tooltip styling */
+.card-icon::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--card-background);
+  color: var(--text-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px var(--card-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  border: 1px solid var(--border-color);
+  z-index: 100;
+  max-width: 200px;
+  text-align: center;
+}
+
+.card-icon:hover::after {
+  opacity: 1;
+  visibility: visible;
+  bottom: -45px;
 }
 
 @media (max-width: 768px) {
@@ -1435,12 +1456,12 @@ body {
   }
   
   .link-card {
-    width: 80%;
-    margin-bottom: 15px;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
   }
   
   .card-icon {
-    font-size: 1.8rem;
     margin-bottom: calc(var(--inner-space) * 0.7);
   }
   

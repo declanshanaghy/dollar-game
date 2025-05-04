@@ -53,14 +53,6 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       };
     }
   }, [showMenu]);
-  
-  // Determine color based on chip count and action abilities
-  const getColor = () => {
-    if (chips < 0) return 'var(--negative-space)'; // Red for negative
-    if (chips === 0) return 'var(--neutral-karma)'; // Yellow for zero
-    if (canGive || canReceive) return 'var(--positive-energy)';   // Teal for actionable
-    return 'var(--meditation-moss)';  // Green for positive but not actionable
-  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -189,7 +181,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
         <>
           {/* Outer glow effect */}
           <circle
-            r={48}
+            r={40}
             fill="none"
             stroke={
               chips < 0
@@ -205,7 +197,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           />
           {/* Main circle with increased thickness */}
           <circle
-            r={45}
+            r={37}
             fill="none"
             stroke={
               chips < 0
@@ -214,7 +206,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     ? 'var(--positive-energy)'
                     : 'var(--neutral-karma)')
             }
-            strokeWidth={chips < 0 ? 8 : 6.5}
+            strokeWidth={chips < 0 ? 6 : 5}
             strokeOpacity={chips < 0 ? 0.9 : 0.85}
             className="aura-layer"
             style={{
@@ -223,7 +215,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           />
           {/* Inner highlight for added dimension */}
           <circle
-            r={42}
+            r={34}
             fill="none"
             stroke={
               chips < 0
@@ -242,14 +234,14 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       {/* Cash icon image */}
       <image
         href={`/icons/cash_icons/cash_${chips >= 0 ? '+' : ''}${chips}.png`}
-        x={-40}
-        y={-40}
-        width={80}
-        height={80}
+        x={-32}
+        y={-32}
+        width={64}
+        height={64}
         className={(canGive || canReceive) ? 'vertex-actionable vertex-core' : 'vertex vertex-core'}
         style={{
           filter: (canGive || canReceive)
-            ? 'drop-shadow(0 0 5px var(--amethyst-awareness)) brightness(1.1)'
+            ? 'drop-shadow(0 0 4px var(--amethyst-awareness)) brightness(1.1)'
             : 'drop-shadow(0 0 3px var(--sunset-clay))'
         }}
       />
@@ -320,10 +312,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               <rect
                 x={menuX}
                 y={menuY}
-                width={170}
-                height={85}
-                rx={10}
-                ry={10}
+                width={140}
+                height={70}
+                rx={8}
+                ry={8}
                 fill="var(--card-background)"
                 stroke="var(--sunset-clay)"
                 strokeWidth={1.5}
@@ -420,8 +412,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={55}
-                    height={30}
+                    width={48}
+                    height={26}
                     rx={6}
                     ry={6}
                     fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
@@ -429,10 +421,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     strokeWidth={1.5}
                   />
                   <text
-                    x={27.5}
-                    y={20}
+                    x={24}
+                    y={18}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={10}
                     fill="white"
                   >
                     Give ✨
@@ -460,8 +452,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={55}
-                    height={30}
+                    width={48}
+                    height={26}
                     rx={6}
                     ry={6}
                     fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
@@ -469,10 +461,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     strokeWidth={1.5}
                   />
                   <text
-                    x={27.5}
-                    y={20}
+                    x={24}
+                    y={18}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={10}
                     fill="white"
                   >
                     Receive 🌈
@@ -500,10 +492,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           {/* Preview cash icon with transparency */}
           <image
             href={`/icons/cash_icons/cash_${getPreviewChipCount(hoveredAction) >= 0 ? '+' : ''}${getPreviewChipCount(hoveredAction)}.png`}
-            x={-30}
-            y={-30}
-            width={60}
-            height={60}
+            x={-25}
+            y={-25}
+            width={50}
+            height={50}
             opacity={0.7}
             style={{
               filter: 'drop-shadow(0 0 5px rgba(155, 93, 229, 0.8))'
@@ -535,10 +527,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                 {/* Neighbor preview cash icon with transparency */}
                 <image
                   href={`/icons/cash_icons/cash_${neighbor.newChips >= 0 ? '+' : ''}${neighbor.newChips}.png`}
-                  x={-25}
-                  y={-25}
-                  width={50}
-                  height={50}
+                  x={-20}
+                  y={-20}
+                  width={40}
+                  height={40}
                   opacity={0.7}
                   style={{
                     filter: 'drop-shadow(0 0 5px rgba(155, 93, 229, 0.8))'

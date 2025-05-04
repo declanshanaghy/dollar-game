@@ -79,20 +79,15 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
     <div className="app-container cosmic-container">
       <ThemeToggle />
       
-      <div className="header-container" style={{ position: 'relative', width: '100%' }}>
-        <header className="app-header enlightened-header" style={{ width: '100%', minHeight: '80px', position: 'relative' }}>
-        </header>
-        
-        <a
-          href="https://www.buymeacoffee.com/firemandecko"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`coffee-link ${coffeeButtonClass}`}
-          onClick={() => trackExternalLinkClick('https://www.buymeacoffee.com/firemandecko')}
-        >
-          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" />
-        </a>
-      </div>
+      <a
+        href="https://www.buymeacoffee.com/firemandecko"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`coffee-link ${coffeeButtonClass}`}
+        onClick={() => trackExternalLinkClick('https://www.buymeacoffee.com/firemandecko')}
+      >
+        <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" />
+      </a>
 
       <main className="game-container game-experience">
         <div className="graph-section graph-universe">
@@ -137,8 +132,9 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           className="link-card"
           onClick={() => trackExternalLinkClick('https://github.com/declanshanaghy/dollar-game/blob/master/README.md')}
         >
-          <div className="card-icon">📚</div>
-          <div className="card-text">Project documentation and mathematical foundation</div>
+          <div className="card-icon" title="Project documentation and mathematical foundation">
+            <img src="/icons/card_icons/BohemianMathTome.webp" alt="Documentation" width="56" height="56" />
+          </div>
         </a>
         
         <a
@@ -148,8 +144,9 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           className="link-card"
           onClick={() => trackExternalLinkClick('https://www.youtube.com/watch?v=U33dsEcKgeQ')}
         >
-          <div className="card-icon">🎬</div>
-          <div className="card-text">Numberphile's video explaining the Dollar Game concept</div>
+          <div className="card-icon" title="Numberphile's video explaining the Dollar Game concept">
+            <img src="/icons/card_icons/BohemianTechProjector.webp" alt="Video" width="56" height="56" />
+          </div>
         </a>
         
         <a
@@ -159,24 +156,13 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           className="link-card"
           onClick={() => trackExternalLinkClick('https://en.wikipedia.org/wiki/Chip-firing_game')}
         >
-          <div className="card-icon">🧩</div>
-          <div className="card-text">Wikipedia article on chip-firing games in graph theory</div>
+          <div className="card-icon" title="Wikipedia article on chip-firing games in graph theory">
+            <img src="/icons/card_icons/ChakraGraphMandala.webp" alt="Graph Theory" width="56" height="56" />
+          </div>
         </a>
       </section>
 
       <footer className="app-footer grounded-footer">
-        <p className="mindful-text" style={{ fontSize: "0.8rem", margin: "0.2rem 0" }}>
-          Crafted with conscious code & single-origin coffee 🧘‍♂️ | Based on chip-firing games in graph theory
-        </p>
-        <p className="attribution-text" style={{ fontSize: "0.8rem", margin: "0.2rem 0" }}>
-          Inspired by <a
-            href="https://www.youtube.com/watch?v=U33dsEcKgeQ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="attribution-link"
-            onClick={() => trackExternalLinkClick('https://www.youtube.com/watch?v=U33dsEcKgeQ')}
-          >Numberphile's "The Dollar Game"</a>
-        </p>
       </footer>
     </div>
   );

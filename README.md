@@ -201,6 +201,16 @@ The Dollar Game embraces a unique "l33tc0dzr, l4tt3 drinking, hippy trousers arc
 
 For the complete aesthetic consciousness, refer to our [Style Guide](style-guide.md).
 
+### Card Icons
+
+The application features custom-designed icons that embody our bohemian-tech aesthetic:
+
+- **Bohemian Math Tome**: A mystical book of mathematical knowledge representing project documentation
+- **Bohemian Tech Projector**: A fusion of vintage and digital technology representing educational video content
+- **Chakra Graph Mandala**: A sacred geometry visualization of graph theory concepts
+
+These icons were generated using AI based on prompts that capture our unique aesthetic. The design process is documented in [design/card-icons.md](design/card-icons.md).
+
 ## 🔮 Future Vibrations
 
 Potential future enhancements to expand our collective consciousness:

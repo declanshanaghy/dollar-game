@@ -43,15 +43,19 @@
   filter: drop-shadow(0 0 8px rgba(42, 157, 143, 0.9));
   stroke-linecap: round;
   stroke-linejoin: round;
+  z-index: 5; /* Ensure lines are displayed above stack icons */
+  opacity: 0.9;
 }
 
 .animated-dash.receive-animation {
-  stroke-dasharray: 10, 5;
-  animation: dashReceive 1.5s linear infinite;
-  stroke-width: 4;
+  stroke-dasharray: 8, 4; /* Different dash pattern for visual distinction */
+  animation: dashReceive 1.4s linear infinite; /* Slightly faster animation */
+  stroke-width: 3.5; /* Slightly thinner line */
   filter: drop-shadow(0 0 8px rgba(233, 196, 106, 0.9));
   stroke-linecap: round;
   stroke-linejoin: round;
+  z-index: 5; /* Ensure lines are displayed above stack icons */
+  opacity: 0.85;
 }
 
 @keyframes dashGive {
@@ -62,7 +66,7 @@
 
 @keyframes dashReceive {
   to {
-    stroke-dashoffset: 45;
+    stroke-dashoffset: 40; /* Slightly different speed for visual distinction */
   }
 }
 
@@ -148,4 +152,53 @@ g.action-button:not(.disabled):hover text {
 .receive-animation-icon {
   filter: drop-shadow(0 0 8px rgba(233, 196, 106, 0.9));
   animation: float 1.2s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95) !important;
+}
+
+/* Arrow head animations - enhanced for better visibility */
+.arrow-head {
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
+  transform-origin: center;
+  transform-box: fill-box;
+  z-index: 10; /* Ensure arrows are displayed on top */
+}
+
+.give-animation-arrow {
+  filter: drop-shadow(0 0 6px rgba(42, 157, 143, 1));
+  animation: pulseGiveArrow 1.5s infinite alternate ease-in-out;
+}
+
+.receive-animation-arrow {
+  filter: drop-shadow(0 0 6px rgba(233, 196, 106, 1));
+  animation: pulseReceiveArrow 1.4s infinite alternate ease-in-out;
+}
+
+/* Different animations for give vs receive arrows */
+@keyframes pulseGiveArrow {
+  0% { opacity: 0.8; transform: scale(0.9); filter: brightness(0.9); }
+  50% { opacity: 1; transform: scale(1.2); filter: brightness(1.3); }
+  100% { opacity: 0.9; transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes pulseReceiveArrow {
+  0% { opacity: 0.85; transform: scale(0.95) rotate(-2deg); filter: brightness(0.95); }
+  50% { opacity: 1; transform: scale(1.15) rotate(2deg); filter: brightness(1.25); }
+  100% { opacity: 0.9; transform: scale(1) rotate(-1deg); filter: brightness(1.05); }
+}
+
+/* Mobile touch support enhancements */
+@media (max-width: 768px) {
+  /* Make touch targets larger on mobile */
+  .action-button rect {
+    transform: scale(1.1);
+  }
+  
+  /* Ensure vertex is easier to tap */
+  .vertex-core {
+    touch-action: manipulation;
+  }
+  
+  /* Prevent unwanted scrolling when interacting with the game */
+  .graph-svg {
+    touch-action: none;
+  }
 }

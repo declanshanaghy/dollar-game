@@ -1,4 +1,14 @@
 import React, { useState, useEffect } from 'react';
+// Global state to track which vertex has an open menu
+const globalMenuState: {
+  openVertexId: number | null;
+  setOpenVertexId: (id: number | null) => void;
+} = {
+  openVertexId: null,
+  setOpenVertexId: (id: number | null) => {
+    globalMenuState.openVertexId = id;
+  }
+};
 import './VertexComponent.css'; // Import CSS for animations
 import { Vertex, Graph } from '../types';
 import { ActionType } from '../types';
@@ -62,6 +72,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       window.clearTimeout(menuTimeoutRef.current);
       menuTimeoutRef.current = null;
     }
+    
+    // Close any other open menus
+    if (globalMenuState.openVertexId !== null && globalMenuState.openVertexId !== id) {
+      globalMenuState.openVertexId = null;
+      // Force a re-render of all vertices
+      document.querySelectorAll('.vertex-core').forEach(el => {
+        el.dispatchEvent(new Event('mouseleave', { bubbles: true }));
+      });
+    }
+    
+    // Set this vertex as the one with open menu
+    globalMenuState.setOpenVertexId(id);
     setShowMenu(true);
   };
 
@@ -71,6 +93,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
     menuTimeoutRef.current = window.setTimeout(() => {
       setShowMenu(false);
       setHoveredAction(null);
+      globalMenuState.setOpenVertexId(null);
     }, 500); // 500ms delay before hiding
   };
 
@@ -159,94 +182,210 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
     setNeighborPreviews([]);
   };
   
-  // Create animated curved lines to neighbors with cash icons
+  // Create animated curved lines to neighbors with cash icons and arrows
   const renderAnimatedLines = () => {
     if (!hoveredAction || neighborPreviews.length === 0) return null;
     
-    return neighborPreviews.map(neighbor => {
-      // Calculate direction vector
-      const dx = neighbor.position.x - position.x;
-      const dy = neighbor.position.y - position.y;
-      
-      // Calculate start and end points (slightly offset from vertices)
-      const length = Math.sqrt(dx * dx + dy * dy);
-      const unitX = dx / length;
-      const unitY = dy / length;
-      
-      // Start at edge of current vertex, end at edge of neighbor vertex
-      // These coordinates are relative to the SVG, not the vertex transform
-      const startX = unitX * 30; // Relative to current vertex position
-      const startY = unitY * 30;
-      const endX = dx - unitX * 30; // Relative to current vertex position
-      const endY = dy - unitY * 30;
-      
-      // Calculate control point for curved path (perpendicular to line)
-      const midX = (startX + endX) / 2;
-      const midY = (startY + endY) / 2;
-      
-      // Perpendicular vector for curve control point
-      const perpX = -unitY * (length * 0.2); // Adjust multiplier for curve intensity
-      const perpY = unitX * (length * 0.2);
-      
-      // Control point
-      const ctrlX = midX + perpX;
-      const ctrlY = midY + perpY;
-      
-      // Path for curved line
-      const pathD = `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
-      
-      // Determine animation class and color based on action type
-      const isGiving = hoveredAction === ActionType.GIVE;
-      const animationClass = isGiving ? 'give-animation' : 'receive-animation';
-      const lineColor = isGiving ? "rgba(42, 157, 143, 0.9)" : "rgba(233, 196, 106, 0.9)";
-      
-      // Calculate position for animated cash icon along the path
-      const cashIconPosition = 0.5; // Position along the path (0-1)
-      
-      return (
-        <g key={`preview-line-${id}-${neighbor.id}`}>
-          {/* Curved path */}
-          <path
-            d={pathD}
-            fill="none"
-            stroke={lineColor}
-            strokeWidth={3}
-            strokeDasharray="8,4"
-            className={`animated-dash ${animationClass}`}
-          />
+    // Create a single cash stack for all lines
+    const isGiving = hoveredAction === ActionType.GIVE;
+    const animationClass = isGiving ? 'give-animation' : 'receive-animation';
+    const lineColor = isGiving ? "rgba(42, 157, 143, 0.9)" : "rgba(233, 196, 106, 0.9)";
+    
+    // Calculate position for the single cash icon
+    // We'll place it near the vertex but not on top of it
+    // Position it away from the vertex and slightly to the side to avoid overlap with lines
+    const cashIconOffset = 50; // Increased distance from vertex center
+    const cashIconPosition = {
+      x: isGiving ? cashIconOffset : -cashIconOffset,
+      y: isGiving ? -15 : 15 // Offset vertically to avoid direct overlap with lines
+    };
+    
+    return (
+      <g>
+        {/* Single cash icon that applies to all lines */}
+        <image
+          key={`cash-icon-${id}`}
+          href={`/icons/cash_icons/cash_${isGiving ? 'plus' : 'minus'}1.png`}
+          x={cashIconPosition.x - 12}
+          y={cashIconPosition.y - 12}
+          width={24}
+          height={24}
+          opacity={0.9}
+          className={`cash-flow-icon ${animationClass}-icon`}
+          style={{
+            animation: `float 1.2s infinite alternate ease-in-out`
+          }}
+        />
+        
+        {/* Render all the lines */}
+        {neighborPreviews.map(neighbor => {
+          // Calculate direction vector
+          const dx = neighbor.position.x - position.x;
+          const dy = neighbor.position.y - position.y;
           
-          {/* Single animated cash icon along the path */}
-          {(() => {
-            // Calculate point along the quadratic curve
-            // For a quadratic curve: P = (1-t)²P₀ + 2(1-t)tP₁ + t²P₂
-            const t = cashIconPosition;
-            const oneMinusT = 1 - t;
-            const xPos = oneMinusT * oneMinusT * startX + 2 * oneMinusT * t * ctrlX + t * t * endX;
-            const yPos = oneMinusT * oneMinusT * startY + 2 * oneMinusT * t * ctrlY + t * t * endY;
+          // Calculate start and end points with different logic for give vs receive
+          const length = Math.sqrt(dx * dx + dy * dy);
+          const unitX = dx / length;
+          const unitY = dy / length;
+          
+          // Calculate the position of the cash stack icon
+          // The cash stack is positioned at an offset from the vertex center
+          const cashIconOffset = isGiving ? 50 : -50; // From line 198-200
+          const cashIconX = isGiving ? cashIconOffset : -cashIconOffset;
+          const cashIconY = isGiving ? -15 : 15;
+          
+          // Calculate start and end points differently for give vs receive
+          let startX, startY, endX, endY;
+          
+          if (isGiving) {
+            // For giving: start at current vertex cash stack, end at neighbor's cash stack
+            // Start at the current vertex's cash stack
+            startX = cashIconX;
+            startY = cashIconY;
             
-            // Determine which cash icon to use based on action
-            const iconSize = 24; // Slightly larger for better visibility
-            const iconOffset = iconSize / 2;
+            // End at the neighbor's cash stack position
+            // Calculate the position of the neighbor's cash stack
+            const neighborCashOffset = 50; // Same offset as used for cash icons
+            const neighborCashX = neighbor.position.x - position.x; // Vector to neighbor
+            const neighborCashY = neighbor.position.y - position.y;
             
-            return (
-              <image
-                key={`cash-icon-${id}-${neighbor.id}`}
-                href={`/icons/cash_icons/cash_${isGiving ? 'plus' : 'minus'}1.png`}
-                x={xPos - iconOffset}
-                y={yPos - iconOffset}
-                width={iconSize}
-                height={iconSize}
-                opacity={0.9}
-                className={`cash-flow-icon ${animationClass}-icon`}
+            // Position the endpoint at the neighbor's cash stack
+            endX = neighborCashX - unitX * neighborCashOffset * 0.5; // Adjust to hit the cash stack
+            endY = neighborCashY - unitY * neighborCashOffset * 0.5;
+          } else {
+            // For receiving: start at neighbor's cash stack, end at current vertex's cash stack
+            // Calculate position of the neighbor's cash stack
+            const neighborCashOffset = 50; // Same offset as used for cash icons
+            startX = dx - unitX * neighborCashOffset * 0.5; // Start at neighbor's cash stack
+            startY = dy - unitY * neighborCashOffset * 0.5;
+            
+            // End at the current vertex's cash stack
+            endX = cashIconX;
+            endY = cashIconY;
+          }
+          
+          // Calculate different control points for give vs receive actions
+          // This creates visually distinct paths for each action type
+          const midX = (startX + endX) / 2;
+          const midY = (startY + endY) / 2;
+          
+          // Base curve intensity - higher for more pronounced curves
+          const baseCurveIntensity = showMenu ? 0.5 : 0.3;
+          
+          // Determine curve direction based on relative positions and action type
+          const shouldCurveUp = isGiving ?
+            // For giving: curve based on relative angle between vertices
+            (Math.atan2(dy, dx) > 0) :
+            // For receiving: curve in opposite direction to giving
+            (Math.atan2(dy, dx) <= 0);
+          
+          // Different curve intensities for give vs receive
+          // Give actions have more pronounced curves
+          const curveIntensity = isGiving ?
+            baseCurveIntensity * 1.2 : // More curved for giving
+            baseCurveIntensity * 0.8;  // Less curved for receiving
+          
+          // Calculate perpendicular vector with different approaches for give vs receive
+          let perpX, perpY;
+          
+          if (isGiving) {
+            // For giving: create a more arched path
+            perpX = -unitY * (length * curveIntensity) * (shouldCurveUp ? 1 : -1);
+            perpY = unitX * (length * curveIntensity) * (shouldCurveUp ? 1 : -1);
+          } else {
+            // For receiving: create a flatter, more direct path
+            // Rotate the perpendicular vector slightly for visual distinction
+            const rotationFactor = shouldCurveUp ? 0.8 : -0.8;
+            perpX = (-unitY * Math.cos(rotationFactor) - unitX * Math.sin(rotationFactor)) * (length * curveIntensity);
+            perpY = (unitX * Math.cos(rotationFactor) - unitY * Math.sin(rotationFactor)) * (length * curveIntensity);
+          }
+          
+          // Control point
+          const ctrlX = midX + perpX;
+          const ctrlY = midY + perpY;
+          
+          // Path for curved line
+          const pathD = `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
+          
+          // Calculate arrow points with improved orientation
+          // Use a position closer to the end for more accurate direction calculation
+          const t = isGiving ? 0.98 : 0.02; // Position along the curve for calculating direction
+          const oneMinusT = 1 - t;
+          
+          // Calculate the point on the curve at position t
+          const pointX = oneMinusT * oneMinusT * startX + 2 * oneMinusT * t * ctrlX + t * t * endX;
+          const pointY = oneMinusT * oneMinusT * startY + 2 * oneMinusT * t * ctrlY + t * t * endY;
+          
+          // Calculate tangent direction at point t with improved accuracy
+          const tangentX = 2 * (1 - t) * (ctrlX - startX) + 2 * t * (endX - ctrlX);
+          const tangentY = 2 * (1 - t) * (ctrlY - startY) + 2 * t * (endY - ctrlY);
+          
+          // Normalize the tangent vector
+          const tangentLength = Math.sqrt(tangentX * tangentX + tangentY * tangentY);
+          const normalizedTangentX = tangentX / tangentLength;
+          const normalizedTangentY = tangentY / tangentLength;
+          
+          // Calculate arrow points with improved alignment
+          const arrowSize = 12; // Size of arrow head
+          const arrowAngle = Math.PI / 7; // Narrower angle (25.7 degrees) for sharper arrows
+          
+          // Calculate arrow points based on action type
+          let leftArrowX, leftArrowY, rightArrowX, rightArrowY;
+          let arrowBaseX, arrowBaseY;
+          
+          if (isGiving) {
+            // For giving, arrow points toward neighbor's cash stack
+            // Position the arrow at the end of the path
+            arrowBaseX = endX;
+            arrowBaseY = endY;
+            
+            // Calculate arrow points with reversed direction (pointing into the target)
+            leftArrowX = arrowBaseX - arrowSize * (normalizedTangentX * Math.cos(arrowAngle) - normalizedTangentY * Math.sin(arrowAngle));
+            leftArrowY = arrowBaseY - arrowSize * (normalizedTangentY * Math.cos(arrowAngle) + normalizedTangentX * Math.sin(arrowAngle));
+            rightArrowX = arrowBaseX - arrowSize * (normalizedTangentX * Math.cos(arrowAngle) + normalizedTangentY * Math.sin(arrowAngle));
+            rightArrowY = arrowBaseY - arrowSize * (normalizedTangentY * Math.cos(arrowAngle) - normalizedTangentX * Math.sin(arrowAngle));
+          } else {
+            // For receiving, arrow points toward current vertex's cash stack
+            // Position the arrow at the start of the path
+            arrowBaseX = startX;
+            arrowBaseY = startY;
+            
+            // Calculate arrow points with direction pointing into the current vertex
+            leftArrowX = arrowBaseX + arrowSize * (normalizedTangentX * Math.cos(arrowAngle) - normalizedTangentY * Math.sin(arrowAngle));
+            leftArrowY = arrowBaseY + arrowSize * (normalizedTangentY * Math.cos(arrowAngle) + normalizedTangentX * Math.sin(arrowAngle));
+            rightArrowX = arrowBaseX + arrowSize * (normalizedTangentX * Math.cos(arrowAngle) + normalizedTangentY * Math.sin(arrowAngle));
+            rightArrowY = arrowBaseY + arrowSize * (normalizedTangentY * Math.cos(arrowAngle) - normalizedTangentX * Math.sin(arrowAngle));
+          }
+          
+          return (
+            <g key={`preview-line-${id}-${neighbor.id}`}>
+              {/* Curved path */}
+              <path
+                d={pathD}
+                fill="none"
+                stroke={lineColor}
+                strokeWidth={3}
+                strokeDasharray="8,4"
+                className={`animated-dash ${animationClass}`}
+              />
+              
+              {/* Arrow at the appropriate end of the path - enhanced with stroke for better visibility */}
+              <polygon
+                points={`${isGiving ? endX : startX},${isGiving ? endY : startY} ${leftArrowX},${leftArrowY} ${rightArrowX},${rightArrowY}`}
+                fill={lineColor}
+                stroke={lineColor}
+                strokeWidth={1.5}
+                strokeLinejoin="round"
+                className={`arrow-head ${animationClass}-arrow`}
                 style={{
-                  animation: `float 1.2s infinite alternate ease-in-out`
+                  filter: `drop-shadow(0 0 3px ${lineColor})`
                 }}
               />
-            );
-          })()}
-        </g>
-      );
-    });
+            </g>
+          );
+        })}
+      </g>
+    );
   };
   
   return (
@@ -254,6 +393,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       transform={`translate(${position.x}, ${position.y})`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleMouseEnter} // Add touch support for mobile
+      onTouchEnd={(e) => {
+        // Prevent default to avoid unwanted behaviors
+        e.preventDefault();
+        // Don't immediately close the menu on touch end
+      }}
       style={{ cursor: 'pointer' }}
     >
       {/* Aura layer for vertices */}
@@ -311,6 +456,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           />
         </>
       )}
+      
+      {/* Animated lines to neighbors - render before action menu but after circles */}
+      {hoveredAction && renderAnimatedLines()}
       
       {/* Cash icon image */}
       <image
@@ -482,6 +630,14 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   }}
                   onMouseEnter={() => handleActionButtonMouseEnter(ActionType.GIVE)}
                   onMouseLeave={handleActionButtonMouseLeave}
+                  onTouchStart={(e) => {
+                    e.stopPropagation();
+                    handleActionButtonMouseEnter(ActionType.GIVE);
+                  }}
+                  onTouchEnd={(e) => {
+                    e.stopPropagation();
+                    if (canGive) handleAction(ActionType.GIVE);
+                  }}
                   style={{
                     cursor: canGive ? 'pointer' : 'not-allowed',
                     opacity: canGive ? 1 : 0.5
@@ -522,6 +678,14 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   }}
                   onMouseEnter={() => handleActionButtonMouseEnter(ActionType.RECEIVE)}
                   onMouseLeave={handleActionButtonMouseLeave}
+                  onTouchStart={(e) => {
+                    e.stopPropagation();
+                    handleActionButtonMouseEnter(ActionType.RECEIVE);
+                  }}
+                  onTouchEnd={(e) => {
+                    e.stopPropagation();
+                    if (canReceive) handleAction(ActionType.RECEIVE);
+                  }}
                   style={{
                     cursor: canReceive ? 'pointer' : 'not-allowed',
                     opacity: canReceive ? 1 : 0.5
@@ -557,9 +721,6 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           })()}
         </g>
       )}
-
-      {/* Animated lines to neighbors */}
-      {hoveredAction && renderAnimatedLines()}
       
       {/* Preview Chip for current vertex (shown when hovering over an action) */}
       {hoveredAction && (

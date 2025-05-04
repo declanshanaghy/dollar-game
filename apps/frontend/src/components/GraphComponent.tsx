@@ -123,7 +123,14 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
         height="100%"
         className="graph-svg"
         onClick={handleBackgroundClick}
-        style={{ display: 'block', marginTop: 0, width: '100%', height: '100%' }}
+        onTouchStart={() => {}} // Add empty touch handler to ensure touch events are captured
+        style={{
+          display: 'block',
+          marginTop: 0,
+          width: '100%',
+          height: '100%',
+          touchAction: 'none' // Prevent default touch actions like scrolling
+        }}
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Semi-transparent overlay to capture clicks */}
@@ -134,6 +141,7 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
           height="10000"
           fill="transparent"
           pointerEvents={interactivityDisabled ? "none" : "all"}
+          style={{ touchAction: 'none' }} // Prevent default touch actions
         />
         
         {/* Render edges first so they appear behind vertices */}

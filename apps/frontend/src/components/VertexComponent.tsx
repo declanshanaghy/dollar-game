@@ -239,8 +239,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               }
               
               // Check if menu would go off right edge
-              if (position.x + menuX + 160 > minX + svgWidth - 10) {
-                menuX = (minX + svgWidth) - (position.x + 160) - 10;
+              if (position.x + menuX + 170 > minX + svgWidth - 10) {
+                menuX = (minX + svgWidth) - (position.x + 170) - 10;
               }
               
               // Check if menu would go off top edge
@@ -249,8 +249,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               }
               
               // Check if menu would go off bottom edge
-              if (position.y + menuY + 80 > minY + svgHeight - 10) {
-                menuY = (minY + svgHeight) - (position.y + 80) - 10;
+              if (position.y + menuY + 85 > minY + svgHeight - 10) {
+                menuY = (minY + svgHeight) - (position.y + 85) - 10;
               }
             }
             
@@ -258,8 +258,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               <rect
                 x={menuX}
                 y={menuY}
-                width={140}
-                height={70}
+                width={170}
+                height={85}
                 rx={10}
                 ry={10}
                 fill="var(--card-background)"
@@ -293,8 +293,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               }
               
               // Check if menu would go off right edge
-              if (position.x + menuX + 160 > minX + svgWidth - 10) {
-                menuX = (minX + svgWidth) - (position.x + 160) - 10;
+              if (position.x + menuX + 170 > minX + svgWidth - 10) {
+                menuX = (minX + svgWidth) - (position.x + 170) - 10;
               }
               
               // Check if menu would go off top edge
@@ -303,15 +303,15 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               }
               
               // Check if menu would go off bottom edge
-              if (position.y + menuY + 80 > minY + svgHeight - 10) {
-                menuY = (minY + svgHeight) - (position.y + 80) - 10;
+              if (position.y + menuY + 85 > minY + svgHeight - 10) {
+                menuY = (minY + svgHeight) - (position.y + 85) - 10;
               }
             }
             
-            // Calculate button positions based on menu position
-            const giveButtonX = menuX + 15;
-            const receiveButtonX = menuX + 80;
-            const buttonY = menuY + 25;
+            // Calculate button positions based on menu position with padding
+            const giveButtonX = menuX + 20;
+            const receiveButtonX = menuX + 95;
+            const buttonY = menuY + 30;
             
             return (
               <>
@@ -333,19 +333,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={45}
-                    height={25}
-                    rx={4}
-                    ry={4}
+                    width={55}
+                    height={30}
+                    rx={6}
+                    ry={6}
                     fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
                     stroke="var(--cosmic-soil)"
                     strokeWidth={1.5}
                   />
                   <text
-                    x={22.5}
-                    y={17}
+                    x={27.5}
+                    y={20}
                     textAnchor="middle"
-                    fontSize={10}
+                    fontSize={12}
                     fill="white"
                   >
                     Give ✨
@@ -373,19 +373,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={45}
-                    height={25}
-                    rx={4}
-                    ry={4}
+                    width={55}
+                    height={30}
+                    rx={6}
+                    ry={6}
                     fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
                     stroke="var(--cosmic-soil)"
                     strokeWidth={1.5}
                   />
                   <text
-                    x={22.5}
-                    y={17}
+                    x={27.5}
+                    y={20}
                     textAnchor="middle"
-                    fontSize={10}
+                    fontSize={12}
                     fill="white"
                   >
                     Receive 🌈

@@ -8,7 +8,9 @@ The Dollar Game is a digital implementation of the mathematical chip-firing game
 
 Like the carefully extracted notes of a single-origin Ethiopian pour-over, each vertex in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all vertices resonate with positive or neutral vibrations.
 
-![Dollar Game Logo](./apps/frontend/public/selected-logo.svg)
+![Dollar Game Logo](./apps/frontend/public/logos/logo.png)
+
+> The logo was generated using AI image generation technology. It embodies the "C0sm1c D0ll4r" concept, representing the transcendental flow of currency through quantum graph space.
 
 ## 🧮 Mathematical Foundation
 
@@ -66,7 +68,12 @@ Beyond its mathematical elegance, the Dollar Game serves as an intuitive model f
 
 2. **Receive Energy 🌈**: A vertex draws in the collective energy from its neighbors, gaining one dollar per connection while each neighbor loses one dollar.
 
-3. **Winning State ✨**: Achieve universal harmony by ensuring all vertices have zero or positive dollars.
+3. **Winning State ✨**: Achieve universal harmony by ensuring all vertices have zero or positive dollars. When you win, a cosmic starburst animation celebrates your achievement!
+
+4. **Game States**:
+   - **Won**: When all vertices have zero or positive dollars, the game is won. All interactivity is disabled, and a celebratory starburst animation appears.
+   - **Not Winnable**: When the total money is less than the genus, the game cannot be won. Interactivity is disabled, and a message is displayed.
+   - **In Progress**: When the game is in progress and winnable, you can interact with vertices to give or receive energy.
 
 ### Algorithmic Consciousness
 
@@ -100,38 +107,24 @@ The project includes the following developer tools:
 
 - **Logo Selection CLI Tool**: Located in the `tools/logo-selection` directory - A command-line tool for generating and selecting logo options for the Dollar Game.
 
-#### Using the Logo Selection Tool
+#### Logo Generation
 
-The logo selection tool uses Anthropic's Claude AI to generate SVG logos. To use it:
+The project includes a prompt file for generating logos using AI image generation services:
 
-1. Navigate to the tool directory:
+1. Navigate to the prompt file:
    ```bash
-   cd tools/logo-selection
+   apps/logo-selection/logo-prompt.md
    ```
 
-2. Create an `.env` file with your Anthropic API key:
-   ```
-   ANTHROPIC_API_KEY=your_api_key_here
-   ```
+2. Use this prompt with an online AI image generation service (like DALL-E, Midjourney, or Claude):
+   - The prompt includes detailed specifications for the logo
+   - It offers 6 different concept options to choose from
+   - It specifies the color palette and style guidelines
 
-3. Run the tool:
-   ```bash
-   ./logo-select.sh
-   ```
-   
-   Or alternatively:
-   ```bash
-   pnpm install
-   pnpm start
-   ```
-
-4. The tool will:
-   - Generate 6 SVG logos using Claude AI
-   - Create a static HTML page with the logos
-   - Open the page in your default browser
-   - Prompt you to select a logo in the terminal
-
-5. After viewing the logos in your browser, return to the terminal and enter the number of your preferred logo when prompted.
+3. After generating the logo:
+   - Save it as an SVG or PNG file
+   - Place it in the `apps/frontend/public/` directory as `selected-logo.svg`
+   - The application will automatically display the new logo
 
 The logo selection tool handles:
 - Generating logo suggestions using Claude AI

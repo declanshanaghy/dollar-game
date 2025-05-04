@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Graph, ActionType } from '../types';
 import VertexComponent from './VertexComponent';
 import EdgeComponent from './EdgeComponent';
+import StarburstAnimation from './StarburstAnimation';
 import { canGiveFromVertex, canReceiveToVertex, getActionDisabledReason } from '../gameLogic';
 
 interface GraphComponentProps {
   graph: Graph;
   onVertexAction: (vertexId: number, actionType: ActionType) => void;
+  isWon: boolean;
+  isWinnable: boolean;
 }
 
 const GraphComponent: React.FC<GraphComponentProps> = ({
   graph,
-  onVertexAction
+  onVertexAction,
+  isWon,
+  isWinnable
 }) => {
   const { vertices, edges } = graph;
   
@@ -53,8 +58,53 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
     return `${viewBoxX} ${viewBoxY} ${finalWidth} ${finalHeight}`;
   };
   
+  // Calculate the center of the graph for the starburst animation
+  const graphCenter = useMemo(() => {
+    if (vertices.length === 0) return { x: 300, y: 300 };
+    
+    const xValues = vertices.map(v => v.position.x);
+    const yValues = vertices.map(v => v.position.y);
+    
+    const centerX = xValues.reduce((sum, x) => sum + x, 0) / vertices.length;
+    const centerY = yValues.reduce((sum, y) => sum + y, 0) / vertices.length;
+    
+    return { x: centerX, y: centerY };
+  }, [vertices]);
+  
+  // Determine if interactivity should be disabled
+  const interactivityDisabled = isWon || !isWinnable;
+  
+  // Message to display when game is not winnable
+  const gameStatusMessage = useMemo(() => {
+    if (isWon) return "C0ngr4tul4t10ns! Y0u w0n! 🎉";
+    if (!isWinnable) return "G4m3 1s n0t w1nn4bl3. R3s3t t0 try 4g41n.";
+    return null;
+  }, [isWon, isWinnable]);
+  
   return (
-    <div className="graph-container" style={{ alignSelf: 'stretch', width: '100%', height: '100%' }}>
+    <div className="graph-container" style={{ alignSelf: 'stretch', width: '100%', height: '100%', position: 'relative' }}>
+      {gameStatusMessage && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(49, 50, 68, 0.9)',
+            color: '#f5c2e7',
+            padding: '10px 20px',
+            borderRadius: '10px',
+            zIndex: 10,
+            fontFamily: 'monospace',
+            textAlign: 'center',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
+            border: '2px solid #cba6f7'
+          }}
+        >
+          {gameStatusMessage}
+        </div>
+      )}
+      
       <svg
         viewBox={calculateViewBox()}
         width="100%"
@@ -71,8 +121,9 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
           width="10000"
           height="10000"
           fill="transparent"
-          pointerEvents="all"
+          pointerEvents={interactivityDisabled ? "none" : "all"}
         />
+        
         {/* Render edges first so they appear behind vertices */}
         {edges.map((edge) => (
           <EdgeComponent
@@ -87,14 +138,31 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
           <VertexComponent
             key={vertex.id}
             vertex={vertex}
-            canGive={canGiveFromVertex(graph, vertex.id)}
-            canReceive={canReceiveToVertex(graph, vertex.id)}
-            giveDisabledReason={getActionDisabledReason(graph, vertex.id, ActionType.GIVE)}
-            receiveDisabledReason={getActionDisabledReason(graph, vertex.id, ActionType.RECEIVE)}
+            canGive={!interactivityDisabled && canGiveFromVertex(graph, vertex.id)}
+            canReceive={!interactivityDisabled && canReceiveToVertex(graph, vertex.id)}
+            giveDisabledReason={interactivityDisabled ? "Game is over" : getActionDisabledReason(graph, vertex.id, ActionType.GIVE)}
+            receiveDisabledReason={interactivityDisabled ? "Game is over" : getActionDisabledReason(graph, vertex.id, ActionType.RECEIVE)}
             onAction={onVertexAction}
             graph={graph}
           />
         ))}
+        
+        {/* Render starburst animation when game is won */}
+        {isWon && (
+          <StarburstAnimation centerX={graphCenter.x} centerY={graphCenter.y} />
+        )}
+        
+        {/* Semi-transparent overlay when interactivity is disabled */}
+        {interactivityDisabled && (
+          <rect
+            x="-5000"
+            y="-5000"
+            width="10000"
+            height="10000"
+            fill={isWon ? "rgba(166, 227, 161, 0.1)" : "rgba(243, 139, 168, 0.1)"}
+            pointerEvents="all"
+          />
+        )}
       </svg>
     </div>
   );

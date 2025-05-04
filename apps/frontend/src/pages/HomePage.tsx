@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
 import GraphComponent from '../components/GraphComponent';
 import GameControls from '../components/GameControls';
@@ -11,6 +11,21 @@ import { initializeGameState, performMove, undoMove, resetGame } from '../gameLo
 
 const HomePage = () => {
   const [gameState, setGameState] = useState<GameState>(initializeGameState(5, 30, 5));
+  const [coffeeButtonClass, setCoffeeButtonClass] = useState<string>('');
+  
+  // Watch for game win state and trigger coffee button animation
+  useEffect(() => {
+    if (gameState.isWon) {
+      // Delay adding the class to allow starburst to start first
+      const timer = setTimeout(() => {
+        setCoffeeButtonClass('celebration-mode');
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    } else {
+      setCoffeeButtonClass('');
+    }
+  }, [gameState.isWon]);
 
   // 🌈 Handle vertex actions (give or receive)
   const handleVertexAction = (vertexId: number, actionType: ActionType) => {
@@ -20,6 +35,10 @@ const HomePage = () => {
 
   // 🔄 Handle resetting the game
   const handleReset = (numVertices: number, edgeDensity: number, totalMoney: number) => {
+    // Reset coffee button position first
+    setCoffeeButtonClass('');
+    
+    // Then reset the game state
     setGameState(resetGame(numVertices, edgeDensity, totalMoney));
   };
 
@@ -35,16 +54,20 @@ const HomePage = () => {
     <div className="app-container cosmic-container">
       <ThemeToggle />
       
-      <div className="header-container">
-        <header className="app-header enlightened-header">
+      <div className="header-container" style={{ position: 'relative', width: '100%' }}>
+        <header className="app-header enlightened-header" style={{ width: '100%', minHeight: '80px', position: 'relative' }}>
           <a
             href="https://en.wikipedia.org/wiki/Chip-firing_game"
             target="_blank"
             rel="noopener noreferrer"
             className="title-link"
+            style={{ display: 'block', width: '100%', textAlign: 'center' }}
           >
-            <h1>The Dollar Game ✨</h1>
-            <p className="subtitle cosmic-subtitle">A Graph Theory Odyssey 🌌</p>
+            <img
+              src="/logos/logo.png"
+              alt="The Dollar Game Logo"
+              style={{ maxWidth: '800px', maxHeight: '450px', width: '100%' }}
+            />
           </a>
         </header>
         
@@ -52,9 +75,12 @@ const HomePage = () => {
           href="https://www.buymeacoffee.com/firemandecko"
           target="_blank"
           rel="noopener noreferrer"
-          className="coffee-link"
+          className={`coffee-link ${coffeeButtonClass}`}
+          style={{
+            top: coffeeButtonClass ? undefined : '50%'
+          }}
         >
-          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" style={{ height: "40px" }} />
+          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" />
         </a>
       </div>
 
@@ -63,6 +89,8 @@ const HomePage = () => {
           <GraphComponent
             graph={gameState.graph}
             onVertexAction={handleVertexAction}
+            isWon={gameState.isWon}
+            isWinnable={gameState.isWinnable}
           />
         </div>
 

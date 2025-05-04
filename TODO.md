@@ -68,9 +68,13 @@ Use time difference between now and the last commit timestamp for the developmen
 - [x] Scale the app down so it fits on a single page better
 - [x] Convert TODO.md to a proper markdown format that can distinguish completed tasks from incomplete tasks
 - [x] integrate google analytics into the app
-- [ ] Use the anthropic API to generate a logo for the game and save it in the public directory
-   - Update the game to display the logo
+- [x] Use the OpenAI API to generate a logo for the game in @/apps/logo-selection and save it in the public directory
+   - Logo should be 800 x 450 pixels
+   - Update the game to display the logo in place of the current header "The Dollar Game"
    - Update README.md with the new logo
-   [] When the game is won or not startable disable all interactivity with the app
+   - Added VS Code launch configuration for easy debugging
+- [X] When the game is won or not startable disable all interactivity with the app
    - Display a starburst animation on the canvas when the game is won
    - Make the animation like a fireworks show
+- [] Update the give & receive buttons to be bigger and ensure there is some padding between the buttons and the border   
+- [] Embed https://www.youtube.com/watch?v=mRJUrLD8w9Y in the README.md file as the girst generation of this app

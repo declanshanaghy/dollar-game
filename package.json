@@ -9,10 +9,12 @@
     "build": "pnpm run build:frontend",
     "build:frontend": "pnpm --filter dollar-frontend build",
     "lint": "pnpm run lint:frontend",
-    "lint:frontend": "pnpm --filter dollar-frontend lint"
+    "lint:frontend": "pnpm --filter dollar-frontend lint",
+    "logo": "pnpm --filter logo-selection-tool start"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "ts-node": "^10.9.2"
   },
   "engines": {
     "node": ">=18.0.0",

@@ -35,7 +35,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      # Step 2: Set up AWS profile for OpenTofu
+      # Step 2: Install jq
+      - name: Install jq
+        run: |
+          apt-get update
+          apt-get install -y jq
+      
+      # Step 3: Set up AWS profile for OpenTofu
       - name: Set up AWS profile
         run: |
           mkdir -p ~/.aws
@@ -45,22 +51,22 @@ jobs:
           echo "[dollar-game]" > ~/.aws/config
           echo "region=us-east-1" >> ~/.aws/config
       
-      # Step 3: Initialize OpenTofu
+      # Step 4: Initialize OpenTofu
       - name: Initialize OpenTofu
         working-directory: ./infrastructure
         run: tofu init
       
-      # Step 4: Plan infrastructure changes
+      # Step 5: Plan infrastructure changes
       - name: Plan infrastructure changes
         working-directory: ./infrastructure
         run: tofu plan -out=tfplan
       
-      # Step 5: Apply infrastructure changes
+      # Step 6: Apply infrastructure changes
       - name: Apply OpenTofu
         working-directory: ./infrastructure
         run: tofu apply tfplan
       
-      # Step 6: Display Route53 Nameservers
+      # Step 7: Display Route53 Nameservers
       - name: Display Route53 Nameservers
         working-directory: ./infrastructure
         run: |
@@ -68,7 +74,7 @@ jobs:
           tofu output -json nameservers | jq -r '.[]'
           echo "Please update these nameservers at your domain registrar (Namecheap)"
         
-      # Step 7: Wait for certificate validation
+      # Step 8: Wait for certificate validation
       - name: Wait for certificate validation
         working-directory: ./infrastructure
         run: |
@@ -106,7 +112,7 @@ jobs:
             echo "Certificate ARN not found. Skipping validation wait."
           fi
       
-      # Step 8: Check DNS Propagation
+      # Step 9: Check DNS Propagation
       - name: Check DNS Propagation
         working-directory: ./infrastructure
         run: |
@@ -138,7 +144,7 @@ jobs:
             sleep 60
           done
       
-      # Step 9: Output the deployment status
+      # Step 10: Output the deployment status
       - name: Deployment Status
         working-directory: ./infrastructure
         run: |

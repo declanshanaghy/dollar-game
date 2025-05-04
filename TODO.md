@@ -133,7 +133,17 @@ Use time difference between now and the last commit timestamp for the developmen
    - Update the README.md to reflect the new cash icons
    - Commit to git before finishing
 - [x] Make the game header image float behind the entire game and the controls but dim it down so it doesn't obscure the layer aobve it.
-- [] Investigate the issue with github action error: https://github.com/declanshanaghy/dollar-game/actions/runs/14824435379/job/41617441820
-   - Run echo "Route53 Nameservers for firemandecko.com: Route53 Nameservers for firemandecko.com: 
+- [x] Investigate the issue with github action error: https://github.com/declanshanaghy/dollar-game/actions/runs/14824435379/job/41617441820
+   - Run echo "Route53 Nameservers for firemandecko.com: Route53 Nameservers for firemandecko.com:
    - /__w/_temp/0db7e576-aebe-4fbd-adac-c2dafd501d06.sh: line 2: jq: not found
    - Error: Process completed with exit code 127.
+   - Fixed by adding a step to install jq in the GitHub Actions workflow before it's used
+   - The error occurred because jq was being used for JSON processing but wasn't available in the container
+- [] Investigate error on https://github.com/declanshanaghy/dollar-game/actions/runs/14825410109/job/41617866452 
+   - Run cd apps/frontend
+      > dollar-frontend@0.0.0 build /__w/dollar-game/dollar-game/apps/frontend
+      > tsc -b && vite build
+      src/components/VertexComponent.tsx(58,9): error TS6133: 'getColor' is declared but its value is never read.
+       ELIFECYCLE  Command failed with exit code 2.
+      Error: Process completed with exit code 2.
+   - Ensure linter rules with autofix are run on local code changes before commiting.

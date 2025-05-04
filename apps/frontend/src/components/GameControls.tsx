@@ -8,6 +8,9 @@ interface GameControlsProps {
   genus: number;
   isWinnable: boolean;
   currentTotalMoney: number;
+  showTutorialAgain?: () => void; // Optional function to replay tutorial
+  hideTutorial?: () => void; // Optional function to hide tutorial
+  isTutorialVisible?: boolean; // Whether the tutorial is currently visible
 }
 
 const GameControls: React.FC<GameControlsProps> = ({
@@ -18,6 +21,9 @@ const GameControls: React.FC<GameControlsProps> = ({
   genus,
   isWinnable,
   currentTotalMoney,
+  showTutorialAgain,
+  hideTutorial,
+  isTutorialVisible,
 }) => {
   const [numVertices, setNumVertices] = useState<number>(5);
   const [edgeDensity, setEdgeDensity] = useState<number>(30);
@@ -109,6 +115,31 @@ const GameControls: React.FC<GameControlsProps> = ({
             : "Not winnable ($ < Genus)"}
         </p>
       </div>
+      
+      {/* Tutorial button */}
+      {(showTutorialAgain || hideTutorial) && (
+        <div className="tutorial-button-container" style={{ marginTop: '1rem' }}>
+          <button
+            onClick={isTutorialVisible ? hideTutorial : showTutorialAgain}
+            className="control-button tutorial-button"
+            style={{
+              backgroundColor: 'var(--amethyst-awareness)',
+              color: 'white',
+              border: 'none',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: isMobile ? '0.8rem' : '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%'
+            }}
+          >
+            <span style={{ marginRight: '6px' }}>🔮</span> {isTutorialVisible ? 'Hide Tutorial' : 'Show Tutorial Again'}
+          </button>
+        </div>
+      )}
       
       {/* Game instructions moved to a separate component */}
     </div>

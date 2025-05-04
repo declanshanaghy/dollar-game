@@ -16,7 +16,13 @@ import {
 
 // ✨ H0m3 P4g3 - Th3 c0r3 c0sm1c 3xp3r13nc3 0f th3 D0ll4r G4m3 ✨
 
-const HomePage = () => {
+interface HomePageProps {
+  showTutorialAgain?: () => void;
+  hideTutorial?: () => void;
+  isTutorialVisible?: boolean;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, isTutorialVisible }) => {
   const [gameState, setGameState] = useState<GameState>(initializeGameState(5, 30, 5));
   const [coffeeButtonClass, setCoffeeButtonClass] = useState<string>('');
   
@@ -128,6 +134,9 @@ const HomePage = () => {
             genus={gameState.genus}
             isWinnable={gameState.isWinnable}
             currentTotalMoney={gameState.graph.vertices.reduce((sum, vertex) => sum + vertex.chips, 0)}
+            showTutorialAgain={showTutorialAgain}
+            hideTutorial={hideTutorial}
+            isTutorialVisible={isTutorialVisible}
           />
         </div>
       </main>

@@ -117,3 +117,5 @@ Use time difference between now and the last commit timestamp for the developmen
    - Commit to git before finishing
 - [x] Move the logo to the top of the page in @/README.md, in the left cell. Replace the text that's there with the logo on it's own.
 - [x] Rewrite @dev_workflow.mdc anywhere that it mentions task-master, replace that with a logical equivalent of how we're managing tasks in TODO.md now.
+- [] When a person visits the game for the first time, give a short overlay introduction to the game witn interactive guidance on where to click and what it means.
+- [] Replace the circles with stacks of cash and update the tutorial and README.md accordingly.

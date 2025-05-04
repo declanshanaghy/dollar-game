@@ -18,5 +18,5 @@ Use time difference between now and the last commit timestamp for the developmen
    - Keep all overlays visible within the canvas
    - Keep menus visible within the canvas, even when vertices are near the edge
 [X] Update the app so that there are separate sliders for the number of vertices and the number of edges and the total amount of money to be used in the game
-[] Generate a a summary of changes from the diff of all changed files and the context here and commit to git
+[X] Generate a a summary of changes from the diff of all changed files and the context here and commit to git
 [] Read ~/Downloads/DollarGameProblem.pdf and implement the "Betti number" in the game but call it genus. Display a message on screen when the user changes the vertices, edges or money to determine if the game can be won

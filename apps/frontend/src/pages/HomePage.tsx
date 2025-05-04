@@ -44,7 +44,7 @@ const HomePage = () => {
         </header>
         
         <a href="https://www.buymeacoffee.com/firemandecko" target="_blank" rel="noopener noreferrer" className="coffee-link">
-          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" />
+          <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" className="coffee-button-img" style={{ height: "40px" }} />
         </a>
       </div>
 
@@ -74,11 +74,11 @@ const HomePage = () => {
       </section>
 
       <footer className="app-footer grounded-footer">
-        <p className="mindful-text">
-          Crafted with conscious code & single-origin coffee 🧘‍♂️ | Based on the mathematical concept of chip-firing games in graph theory
+        <p className="mindful-text" style={{ fontSize: "0.8rem", margin: "0.2rem 0" }}>
+          Crafted with conscious code & single-origin coffee 🧘‍♂️ | Based on chip-firing games in graph theory
         </p>
-        <p className="attribution-text">
-          Inspired by <a href="https://www.youtube.com/watch?v=U33dsEcKgeQ" target="_blank" rel="noopener noreferrer" className="attribution-link">Numberphile's "The Dollar Game"</a> YouTube video
+        <p className="attribution-text" style={{ fontSize: "0.8rem", margin: "0.2rem 0" }}>
+          Inspired by <a href="https://www.youtube.com/watch?v=U33dsEcKgeQ" target="_blank" rel="noopener noreferrer" className="attribution-link">Numberphile's "The Dollar Game"</a>
         </p>
       </footer>
     </div>

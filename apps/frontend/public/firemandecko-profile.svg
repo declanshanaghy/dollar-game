@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1600" height="400" viewBox="0 0 1600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <defs>
+    <!-- Cosmic Gradient -->
+    <radialGradient id="cosmicGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#1E0B3C" />
+      <stop offset="70%" stop-color="#2D1B4B" />
+      <stop offset="100%" stop-color="#3A2A5A" />
+    </radialGradient>
+    
+    <!-- Glow Effects -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Vertex Glow -->
+    <filter id="vertexGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Chakra Glow -->
+    <filter id="chakraGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Circuit Pattern -->
+    <pattern id="circuitPattern" patternUnits="userSpaceOnUse" width="60" height="60">
+      <path d="M10,10 L50,10 M30,10 L30,50 M10,30 L50,30 M10,50 L50,50" stroke="#00B2A9" stroke-width="1" fill="none" opacity="0.3" />
+      <circle cx="30" cy="30" r="3" fill="#00B2A9" opacity="0.5" />
+      <circle cx="10" cy="10" r="2" fill="#FF3864" opacity="0.5" />
+      <circle cx="50" cy="50" r="2" fill="#FF9E2C" opacity="0.5" />
+    </pattern>
+  </defs>
+  
+  <!-- Main Background -->
+  <rect x="0" y="0" width="1600" height="400" fill="url(#cosmicGradient)" />
+  
+  <!-- Left Circle -->
+  <circle cx="400" cy="200" r="200" fill="url(#cosmicGradient)" />
+  
+  <!-- Right Circle -->
+  <circle cx="1200" cy="200" r="200" fill="url(#cosmicGradient)" />
+  
+  <!-- Sacred Geometry Background Pattern (Left) -->
+  <g opacity="0.15" transform="translate(0, -200) scale(1, 1)">
+    <circle cx="400" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="470" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="330" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="400" cy="470" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="400" cy="330" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="457" cy="457" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="343" cy="343" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+  </g>
+  
+  <!-- Sacred Geometry Background Pattern (Right) -->
+  <g opacity="0.15" transform="translate(800, -200) scale(1, 1)">
+    <circle cx="400" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="470" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="330" cy="400" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="400" cy="470" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="400" cy="330" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="457" cy="457" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+    <circle cx="343" cy="343" r="100" stroke="#F4F4FF" stroke-width="1" fill="none" />
+  </g>
+  
+  <!-- Code Snippets in Background (Semi-transparent) - Left -->
+  <g opacity="0.1" font-family="monospace" font-size="12" fill="#F4F4FF" transform="translate(0, -200) scale(0.8, 0.8)">
+    <text x="200" y="200" transform="rotate(30, 200, 200)">function balanceVertex(graph, vertex) {</text>
+    <text x="220" y="220" transform="rotate(40, 220, 220)">  if (vertex.value > 0) {</text>
+    <text x="240" y="240" transform="rotate(50, 240, 240)">    distributeEnergy(vertex);</text>
+    <text x="260" y="260" transform="rotate(60, 260, 260)">    return true;</text>
+    <text x="280" y="280" transform="rotate(70, 280, 280)">  }</text>
+    <text x="300" y="300" transform="rotate(80, 300, 300)">  return false;</text>
+    <text x="320" y="320" transform="rotate(90, 320, 320)">}</text>
+  </g>
+  
+  <!-- Code Snippets in Background (Semi-transparent) - Right -->
+  <g opacity="0.1" font-family="monospace" font-size="12" fill="#F4F4FF" transform="translate(800, -200) scale(0.8, 0.8)">
+    <text x="500" y="200" transform="rotate(-30, 500, 200)">// Tr4nsc3nd th3 b1n4ry</text>
+    <text x="520" y="220" transform="rotate(-40, 520, 220)">function isWinningState(graph) {</text>
+    <text x="540" y="240" transform="rotate(-50, 540, 240)">  return graph.vertices.every(v => v.value >= 0);</text>
+    <text x="560" y="260" transform="rotate(-60, 560, 260)">}</text>
+    <text x="580" y="280" transform="rotate(-70, 580, 280)">class C0sm1cV3rt3x {</text>
+    <text x="600" y="300" transform="rotate(-80, 600, 300)">  constructor(energy) {</text>
+    <text x="620" y="320" transform="rotate(-90, 620, 320)">    this.energy = energy;</text>
+  </g>
+  
+  <!-- Mandala Graph Structure - Left -->
+  <g id="mandalaGraphLeft" transform="translate(0, 0) scale(0.5, 0.5)">
+    <!-- Outer Vertices and Connections -->
+    <g id="outerVerticesLeft">
+      <!-- 24 Vertices in a Circle -->
+      <!-- Vertices -->
+      <circle cx="400" cy="50" r="8" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="100" r="10" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="650" cy="200" r="8" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="700" cy="350" r="10" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="650" cy="500" r="8" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="600" r="10" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="400" cy="650" r="8" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="600" r="10" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="150" cy="500" r="8" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="100" cy="350" r="10" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="150" cy="200" r="8" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="100" r="10" fill="#FF3864" filter="url(#vertexGlow)" />
+      
+      <!-- Inner Vertices -->
+      <circle cx="400" cy="200" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="500" cy="250" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="350" r="7" fill="#7D9E85" filter="url(#vertexGlow)" />
+      <circle cx="500" cy="450" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="400" cy="500" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      <circle cx="300" cy="450" r="7" fill="#7D9E85" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="350" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="300" cy="250" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      
+      <!-- Connections between vertices (edges) -->
+      <!-- Outer Circle Connections -->
+      <path d="M400,50 L550,100" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,100 L650,200" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M650,200 L700,350" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M700,350 L650,500" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M650,500 L550,600" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,600 L400,650" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M400,650 L250,600" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,600 L150,500" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M150,500 L100,350" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M100,350 L150,200" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M150,200 L250,100" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,100 L400,50" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      
+      <!-- Inner Circle Connections -->
+      <path d="M400,200 L500,250" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M500,250 L550,350" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,350 L500,450" stroke="#7D9E85" stroke-width="1.5" opacity="0.6" />
+      <path d="M500,450 L400,500" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M400,500 L300,450" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      <path d="M300,450 L250,350" stroke="#7D9E85" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,350 L300,250" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M300,250 L400,200" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      
+      <!-- Connections between inner and outer -->
+      <path d="M400,200 L400,50" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M500,250 L550,100" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+      <path d="M550,350 L650,200" stroke="#FF3864" stroke-width="1" opacity="0.4" />
+      <path d="M500,450 L700,350" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M400,500 L650,500" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+      <path d="M300,450 L550,600" stroke="#FF3864" stroke-width="1" opacity="0.4" />
+      <path d="M250,350 L400,650" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M300,250 L250,600" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+    </g>
+  </g>
+  
+  <!-- Mandala Graph Structure - Right -->
+  <g id="mandalaGraphRight" transform="translate(1000, 0) scale(0.5, 0.5)">
+    <!-- Outer Vertices and Connections -->
+    <g id="outerVerticesRight">
+      <!-- Vertices -->
+      <circle cx="400" cy="50" r="8" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="100" r="10" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="650" cy="200" r="8" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="700" cy="350" r="10" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="650" cy="500" r="8" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="600" r="10" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="400" cy="650" r="8" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="600" r="10" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="150" cy="500" r="8" fill="#FF3864" filter="url(#vertexGlow)" />
+      <circle cx="100" cy="350" r="10" fill="#00B2A9" filter="url(#vertexGlow)" />
+      <circle cx="150" cy="200" r="8" fill="#FF9E2C" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="100" r="10" fill="#FF3864" filter="url(#vertexGlow)" />
+      
+      <!-- Inner Vertices -->
+      <circle cx="400" cy="200" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="500" cy="250" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      <circle cx="550" cy="350" r="7" fill="#7D9E85" filter="url(#vertexGlow)" />
+      <circle cx="500" cy="450" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="400" cy="500" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      <circle cx="300" cy="450" r="7" fill="#7D9E85" filter="url(#vertexGlow)" />
+      <circle cx="250" cy="350" r="7" fill="#4D9DE0" filter="url(#vertexGlow)" />
+      <circle cx="300" cy="250" r="7" fill="#9D8EC7" filter="url(#vertexGlow)" />
+      
+      <!-- Connections between vertices (edges) -->
+      <!-- Outer Circle Connections -->
+      <path d="M400,50 L550,100" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,100 L650,200" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M650,200 L700,350" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M700,350 L650,500" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M650,500 L550,600" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,600 L400,650" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M400,650 L250,600" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,600 L150,500" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M150,500 L100,350" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      <path d="M100,350 L150,200" stroke="#00B2A9" stroke-width="1.5" opacity="0.6" />
+      <path d="M150,200 L250,100" stroke="#FF9E2C" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,100 L400,50" stroke="#FF3864" stroke-width="1.5" opacity="0.6" />
+      
+      <!-- Inner Circle Connections -->
+      <path d="M400,200 L500,250" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M500,250 L550,350" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      <path d="M550,350 L500,450" stroke="#7D9E85" stroke-width="1.5" opacity="0.6" />
+      <path d="M500,450 L400,500" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M400,500 L300,450" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      <path d="M300,450 L250,350" stroke="#7D9E85" stroke-width="1.5" opacity="0.6" />
+      <path d="M250,350 L300,250" stroke="#4D9DE0" stroke-width="1.5" opacity="0.6" />
+      <path d="M300,250 L400,200" stroke="#9D8EC7" stroke-width="1.5" opacity="0.6" />
+      
+      <!-- Connections between inner and outer -->
+      <path d="M400,200 L400,50" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M500,250 L550,100" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+      <path d="M550,350 L650,200" stroke="#FF3864" stroke-width="1" opacity="0.4" />
+      <path d="M500,450 L700,350" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M400,500 L650,500" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+      <path d="M300,450 L550,600" stroke="#FF3864" stroke-width="1" opacity="0.4" />
+      <path d="M250,350 L400,650" stroke="#00B2A9" stroke-width="1" opacity="0.4" />
+      <path d="M300,250 L250,600" stroke="#FF9E2C" stroke-width="1" opacity="0.4" />
+    </g>
+  </g>
+  
+  <!-- Central Meditating Figure -->
+  <g id="meditatingFigure" transform="translate(800, 200) scale(0.8, 0.8)">
+    <!-- Clipping for the figure -->
+    <clipPath id="figureClip">
+      <circle cx="0" cy="0" r="150" />
+    </clipPath>
+    
+    <!-- Figure Background with Circuit Pattern -->
+    <circle cx="0" cy="0" r="150" fill="url(#circuitPattern)" clip-path="url(#figureClip)" />
+    
+    <!-- Low-Poly Silhouette -->
+    <g clip-path="url(#figureClip)">
+      <!-- Head -->
+      <circle cx="0" cy="-60" r="30" fill="#F4F4FF" opacity="0.9" />
+      
+      <!-- Body (triangular torso) -->
+      <polygon points="0,-30 -40,30 40,30" fill="#F4F4FF" opacity="0.9" />
+      
+      <!-- Arms (forming a mudra) -->
+      <polygon points="-30,-10 -60,20 -20,10" fill="#F4F4FF" opacity="0.9" />
+      <polygon points="30,-10 60,20 20,10" fill="#F4F4FF" opacity="0.9" />
+      
+      <!-- Hands forming mudra -->
+      <circle cx="0" cy="20" r="15" fill="#00B2A9" />
+      
+      <!-- Legs in lotus position -->
+      <polygon points="-40,30 -80,40 -20,60" fill="#F4F4FF" opacity="0.9" />
+      <polygon points="40,30 80,40 20,60" fill="#F4F4FF" opacity="0.9" />
+      
+      <!-- Circuit patterns on the figure -->
+      <path d="M0,-60 m-10,-10 h20 m-10,-10 v20" stroke="#00B2A9" stroke-width="1" />
+      <path d="M0,-30 v60 m-20,-30 h40" stroke="#00B2A9" stroke-width="1" />
+      
+      <!-- Digital chakras along the silhouette -->
+      <circle cx="0" cy="-90" r="5" fill="#00B2A9" filter="url(#chakraGlow)" /> <!-- Crown -->
+      <circle cx="0" cy="-60" r="5" fill="#FF3864" filter="url(#chakraGlow)" /> <!-- Third eye -->
+      <circle cx="0" cy="-30" r="5" fill="#4D9DE0" filter="url(#chakraGlow)" /> <!-- Throat -->
+      <circle cx="0" cy="0" r="5" fill="#FF9E2C" filter="url(#chakraGlow)" /> <!-- Heart -->
+      <circle cx="0" cy="20" r="5" fill="#9D8EC7" filter="url(#chakraGlow)" /> <!-- Solar plexus -->
+      <circle cx="0" cy="40" r="5" fill="#7D9E85" filter="url(#chakraGlow)" /> <!-- Sacral -->
+      <circle cx="0" cy="60" r="5" fill="#00B2A9" filter="url(#chakraGlow)" /> <!-- Root -->
+    </g>
+    
+    <!-- Vertex crown/halo above the figure's head -->
+    <circle cx="0" cy="-100" r="15" fill="#FF9E2C" filter="url(#glow)" />
+    
+    <!-- Connect halo to head with subtle lines -->
+    <path d="M-10,-90 L-10,-70 M10,-90 L10,-70" stroke="#FF9E2C" stroke-width="1" opacity="0.6" />
+  </g>
+  
+  <!-- Digital Elements -->
+  <g id="digitalElements">
+    <!-- Binary sequences in a circular pattern -->
+    <g font-family="monospace" font-size="10" fill="#F4F4FF" opacity="0.2">
+      <text x="800" y="30" text-anchor="middle">01001100 01101111 01110100 01110101 01110011</text>
+      <text x="800" y="370" text-anchor="middle">01000111 01110010 01100001 01110000 01101000</text>
+      <text x="30" y="200" text-anchor="middle" transform="rotate(270, 30, 200)">01000101 01101110 01100101 01110010 01100111 01111001</text>
+      <text x="1570" y="200" text-anchor="middle" transform="rotate(90, 1570, 200)">01001101 01100001 01101110 01100100 01100001 01101100 01100001</text>
+    </g>
+    
+    <!-- Mechanical keyboard at bottom -->
+    <g transform="translate(340, 600)">
+      <rect x="0" y="0" width="120" height="40" fill="#1A1A2E" opacity="0.4" />
+      
+      <!-- Keyboard keys -->
+      <g fill="#1E0B3C">
+        <rect x="5" y="5" width="10" height="8" />
+        <rect x="17" y="5" width="10" height="8" />
+        <rect x="29" y="5" width="10" height="8" />
+        <rect x="41" y="5" width="10" height="8" />
+        <rect x="53" y="5" width="10" height="8" />
+        <rect x="65" y="5" width="10" height="8" />
+        <rect x="77" y="5" width="10" height="8" />
+        <rect x="89" y="5" width="10" height="8" />
+        <rect x="101" y="5" width="10" height="8" />
+        
+        <rect x="5" y="15" width="10" height="8" />
+        <rect x="17" y="15" width="10" height="8" />
+        <rect x="29" y="15" width="10" height="8" />
+        <rect x="41" y="15" width="10" height="8" />
+        <rect x="53" y="15" width="10" height="8" />
+        <rect x="65" y="15" width="10" height="8" />
+        <rect x="77" y="15" width="10" height="8" />
+        <rect x="89" y="15" width="10" height="8" />
+        <rect x="101" y="15" width="10" height="8" />
+        
+        <rect x="5" y="25" width="10" height="8" />
+        <rect x="17" y="25" width="10" height="8" />
+        <rect x="29" y="25" width="10" height="8" />
+        <rect x="41" y="25" width="10" height="8" />
+        <rect x="53" y="25" width="10" height="8" />
+        <rect x="65" y="25" width="10" height="8" />
+        <rect x="77" y="25" width="10" height="8" />
+        <rect x="89" y="25" width="10" height="8" />
+        <rect x="101" y="25" width="10" height="8" />
+      </g>
+      
+      <!-- Glowing keys -->
+      <g fill="#00B2A9" filter="url(#vertexGlow)">
+        <rect x="29" y="5" width="10" height="8" />
+        <rect x="65" y="15" width="10" height="8" />
+        <rect x="101" y="25" width="10" height="8" />
+        <rect x="41" y="25" width="10" height="8" />
+      </g>
+    </g>
+    
+    <!-- Coffee cup -->
+    <g transform="translate(220, 580)">
+      <!-- Cup -->
+      <path d="M-15,0 L-10,20 L10,20 L15,0 Z" fill="#FF9E2C" />
+      
+      <!-- Handle -->
+      <path d="M15,10 A5,5 0 0 1 15,0" stroke="#FF9E2C" stroke-width="2" fill="none" />
+      
+      <!-- Steam -->
+      <path d="M-5,0 Q-10,-10 -5,-15 M0,0 Q5,-15 0,-25 M5,0 Q10,-10 5,-15" stroke="#FF9E2C" stroke-width="1" opacity="0.6" fill="none" />
+    </g>
+    
+    <!-- Plant -->
+    <g transform="translate(580, 580)">
+      <!-- Pot -->
+      <path d="M-10,0 L-15,20 L15,20 L10,0 Z" fill="#7D9E85" />
+      
+      <!-- Plant stems and leaves -->
+      <path d="M0,0 L0,-20 M0,-10 L-10,-15 M0,-15 L10,-20 M-5,0 L-5,-15 L-15,-10 M5,0 L5,-10 L15,-15" stroke="#7D9E85" stroke-width="1.5" fill="none" />
+    </g>
+  </g>
+  
+  <!-- Cosmic Elements (subtle stars) -->
+  <g id="cosmicElements">
+    <!-- Small stars -->
+    <g fill="#F4F4FF" opacity="0.4">
+      <circle cx="100" cy="100" r="1" />
+      <circle cx="150" cy="250" r="1.5" />
+      <circle cx="200" cy="150" r="1" />
+      <circle cx="250" cy="50" r="1.5" />
+      <circle cx="300" cy="150" r="1" />
+      <circle cx="350" cy="200" r="1.5" />
+      <circle cx="450" cy="150" r="1" />
+      <circle cx="500" cy="250" r="1.5" />
+      <circle cx="550" cy="100" r="1" />
+      <circle cx="600" cy="200" r="1.5" />
+      <circle cx="650" cy="150" r="1" />
+      <circle cx="700" cy="100" r="1.5" />
+      <circle cx="150" cy="650" r="1" />
+      <circle cx="250" cy="700" r="1.5" />
+      <circle cx="350" cy="650" r="1" />
+      <circle cx="450" cy="700" r="1.5" />
+      <circle cx="550" cy="650" r="1" />
+      <circle cx="650" cy="700" r="1.5" />
+    </g>
+    
+    <!-- Larger stars with glow -->
+    <g fill="#F4F4FF" filter="url(#glow)">
+      <circle cx="120" cy="120" r="2" />
+      <circle cx="220" cy="180" r="2" />
+      <circle cx="320" cy="120" r="2" />
+      <circle cx="420" cy="180" r="2" />
+      <circle cx="520" cy="120" r="2" />
+      <circle cx="620" cy="180" r="2" />
+      <circle cx="180" cy="620" r="2" />
+      <circle cx="280" cy="680" r="2" />
+      <circle cx="380" cy="620" r="2" />
+      <circle cx="480" cy="680" r="2" />
+      <circle cx="580" cy="620" r="2" />
+      <circle cx="680" cy="680" r="2" />
+    </g>
+  </g>
+  
+  <!-- Typography -->
+  <g id="typography">
+    <!-- Main Title -->
+    <text x="400" y="730" font-family="monospace" font-size="24" fill="#F4F4FF" text-anchor="middle" font-weight="bold">F1r3m4n D3ck0</text>
+    
+    <!-- Subtitle -->
+    <text x="400" y="760" font-family="monospace" font-size="14" fill="#F4F4FF" text-anchor="middle" opacity="0.8">C0sm1c 4rch1t3ct 0f Th3 D0ll4r G4m3</text>
+    
+    <!-- Circular Text -->
+    <path id="circularTextPath" d="M400,400 m0,-370 a370,370 0 1,1 -1,0" fill="none" />
+    <text font-family="monospace" font-size="12" fill="#F4F4FF" opacity="0.6">
+      <textPath href="#circularTextPath">Tr4nsc3nd th3 b1n4ry, 3mbr4c3 th3 gr4ph • Tr4nsc3nd th3 b1n4ry, 3mbr4c3 th3 gr4ph • Tr4nsc3nd th3 b1n4ry, 3mbr4c3 th3 gr4ph •</textPath>
+    </text>
+  </g>
+</svg>

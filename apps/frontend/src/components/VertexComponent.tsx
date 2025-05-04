@@ -185,17 +185,17 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       {/* Aura layer for positive vertices */}
       {chips >= 0 && (canGive || canReceive) && (
         <circle
-          r={48}
+          r={40}
           fill="none"
           stroke={chips > 0 ? 'var(--positive-energy)' : 'var(--neutral-karma)'}
-          strokeWidth={3}
+          strokeWidth={2}
           strokeOpacity={0.4}
           className="aura-layer"
         />
       )}
       
       <circle
-        r={40}
+        r={32}
         fill={getColor()}
         stroke={(canGive || canReceive) ? 'var(--amethyst-awareness)' : 'var(--sunset-clay)'}
         strokeWidth={2}
@@ -205,7 +205,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       <text
         textAnchor="middle"
         dy=".3em"
-        fontSize="22"
+        fontSize="18"
         fontWeight="bold"
         fill={chips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
         className="dollar-value"
@@ -258,10 +258,10 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               <rect
                 x={menuX}
                 y={menuY}
-                width={160}
-                height={80}
-                rx={12}
-                ry={12}
+                width={140}
+                height={70}
+                rx={10}
+                ry={10}
                 fill="var(--card-background)"
                 stroke="var(--sunset-clay)"
                 strokeWidth={1.5}
@@ -309,9 +309,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             }
             
             // Calculate button positions based on menu position
-            const giveButtonX = menuX + 20;
-            const receiveButtonX = menuX + 90;
-            const buttonY = menuY + 30;
+            const giveButtonX = menuX + 15;
+            const receiveButtonX = menuX + 80;
+            const buttonY = menuY + 25;
             
             return (
               <>
@@ -333,19 +333,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={50}
-                    height={30}
-                    rx={5}
-                    ry={5}
+                    width={45}
+                    height={25}
+                    rx={4}
+                    ry={4}
                     fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
                     stroke="var(--cosmic-soil)"
                     strokeWidth={1.5}
                   />
                   <text
-                    x={25}
-                    y={20}
+                    x={22.5}
+                    y={17}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={10}
                     fill="white"
                   >
                     Give ✨
@@ -373,19 +373,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={50}
-                    height={30}
-                    rx={5}
-                    ry={5}
+                    width={45}
+                    height={25}
+                    rx={4}
+                    ry={4}
                     fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
                     stroke="var(--cosmic-soil)"
                     strokeWidth={1.5}
                   />
                   <text
-                    x={25}
-                    y={20}
+                    x={22.5}
+                    y={17}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={10}
                     fill="white"
                   >
                     Receive 🌈
@@ -411,16 +411,16 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           <circle
-            r={30}
+            r={25}
             fill={getPreviewChipCount(hoveredAction) < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
             stroke={(canGive || canReceive) ? 'rgba(155, 93, 229, 0.7)' : 'rgba(193, 127, 88, 0.7)'}
-            strokeWidth={2}
-            strokeDasharray="4 2"
+            strokeWidth={1.5}
+            strokeDasharray="3 2"
           />
           <text
             textAnchor="middle"
             dy=".3em"
-            fontSize="16"
+            fontSize="14"
             fontWeight="bold"
             fill={getPreviewChipCount(hoveredAction) >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
           >
@@ -450,16 +450,16 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                 onClick={(e) => e.stopPropagation()}
               >
                 <circle
-                  r={25}
+                  r={20}
                   fill={neighbor.newChips < 0 ? 'rgba(255, 51, 102, 0.7)' : 'rgba(0, 245, 212, 0.7)'}
                   stroke={'rgba(155, 93, 229, 0.7)'}
-                  strokeWidth={2}
-                  strokeDasharray="4 2"
+                  strokeWidth={1.5}
+                  strokeDasharray="3 2"
                 />
                 <text
                   textAnchor="middle"
                   dy=".3em"
-                  fontSize="16"
+                  fontSize="14"
                   fontWeight="bold"
                   fill={neighbor.newChips >= 0 ? 'var(--cosmic-soil)' : 'var(--text-color)'}
                 >

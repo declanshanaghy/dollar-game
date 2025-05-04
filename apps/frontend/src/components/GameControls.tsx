@@ -26,7 +26,7 @@ const GameControls: React.FC<GameControlsProps> = ({
   return (
     <div className="game-controls consciousness-slider">
       <div className="control-group">
-        <label htmlFor="vertices-slider">Number of Nodes: {numVertices}</label>
+        <label htmlFor="vertices-slider" style={{ fontSize: '0.9rem' }}>Nodes: {numVertices}</label>
         <input
           id="vertices-slider"
           type="range"
@@ -35,11 +35,12 @@ const GameControls: React.FC<GameControlsProps> = ({
           value={numVertices}
           onChange={(e) => setNumVertices(parseInt(e.target.value))}
           className="slider wooden-slider"
+          style={{ height: '8px' }}
         />
       </div>
 
       <div className="control-group">
-        <label htmlFor="edges-slider">Connection Density: {edgeDensity}%</label>
+        <label htmlFor="edges-slider" style={{ fontSize: '0.9rem' }}>Density: {edgeDensity}%</label>
         <input
           id="edges-slider"
           type="range"
@@ -48,11 +49,12 @@ const GameControls: React.FC<GameControlsProps> = ({
           value={edgeDensity}
           onChange={(e) => setEdgeDensity(parseInt(e.target.value))}
           className="slider wooden-slider"
+          style={{ height: '8px' }}
         />
       </div>
 
       <div className="control-group">
-        <label htmlFor="money-slider">Starting Dollars: {totalMoney}</label>
+        <label htmlFor="money-slider" style={{ fontSize: '0.9rem' }}>Dollars: {totalMoney}</label>
         <input
           id="money-slider"
           type="range"
@@ -61,6 +63,7 @@ const GameControls: React.FC<GameControlsProps> = ({
           value={totalMoney}
           onChange={(e) => setTotalMoney(parseInt(e.target.value))}
           className="slider wooden-slider"
+          style={{ height: '8px' }}
         />
       </div>
       
@@ -85,22 +88,22 @@ const GameControls: React.FC<GameControlsProps> = ({
       {isWon && (
         <div className="win-message">
           <h2>You Won! 🎉</h2>
-          <p>All nodes have zero or positive dollars. Great job!</p>
+          <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>All nodes have zero or positive dollars!</p>
         </div>
       )}
       
       <div className="genus-info">
         <h3>Game Statistics:</h3>
-        <p>
+        <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>
           <strong>Genus:</strong> {genus} (E - V + 1)
         </p>
-        <p>
+        <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>
           <strong>Total Dollars:</strong> {currentTotalMoney}
         </p>
         <p className={isWinnable ? "winnable-message" : "unwinnable-message"}>
           {isWinnable
-            ? "This game is winnable (Dollars ≥ Genus)"
-            : "This game is not winnable (Dollars < Genus)"}
+            ? "Winnable ($ ≥ Genus)"
+            : "Not winnable ($ < Genus)"}
         </p>
       </div>
       

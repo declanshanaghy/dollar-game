@@ -84,9 +84,9 @@ body {
 }
 
 #root {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   align-self: flex-start;
   width: 100%;
@@ -107,8 +107,8 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: var(--outer-space);
-  padding: var(--inner-space) 0;
+  margin-bottom: calc(var(--outer-space) * 0.5);
+  padding: calc(var(--inner-space) * 0.5) 0;
   position: relative;
 }
 
@@ -134,15 +134,15 @@ body {
 .app-header h1 {
   color: var(--cosmic-soil);
   font-family: var(--heading-font);
-  font-size: 2.8rem;
+  font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .subtitle {
   color: var(--sunset-clay);
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   margin-top: 0;
   font-style: italic;
 }
@@ -151,7 +151,7 @@ body {
 .game-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   flex: 1;
 }
 
@@ -165,17 +165,17 @@ body {
 .graph-section {
   flex: 3;
   border: 2px solid var(--sunset-clay);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0;
   background-color: var(--card-background);
-  box-shadow: 0 8px 15px var(--card-shadow);
+  box-shadow: 0 6px 12px var(--card-shadow);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  min-height: 50vh;
   height: 100%;
 }
 
@@ -314,12 +314,12 @@ body {
 .game-controls {
   background-color: var(--card-background);
   border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: var(--outer-space);
+  border-radius: 10px;
+  padding: calc(var(--outer-space) * 0.5);
   display: flex;
   flex-direction: column;
-  gap: var(--outer-space);
-  box-shadow: 0 8px 15px var(--card-shadow);
+  gap: calc(var(--outer-space) * 0.5);
+  box-shadow: 0 6px 12px var(--card-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -338,7 +338,7 @@ body {
 .control-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .control-group label {
@@ -381,14 +381,14 @@ body {
 
 .button-group {
   display: flex;
-  gap: 1rem;
+  gap: 0.7rem;
 }
 
 .control-button {
   flex: 1;
-  padding: 0.85rem 1.2rem;
+  padding: 0.6rem 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
@@ -452,9 +452,9 @@ body {
 .win-message {
   background: linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(184, 248, 74, 0.1));
   border: 2px solid var(--positive-energy);
-  border-radius: 12px;
-  padding: var(--inner-space);
-  margin-top: var(--inner-space);
+  border-radius: 8px;
+  padding: calc(var(--inner-space) * 0.7);
+  margin-top: calc(var(--inner-space) * 0.7);
   position: relative;
   overflow: hidden;
 }
@@ -471,16 +471,18 @@ body {
 .win-message h2 {
   color: var(--meditation-moss);
   margin-top: 0;
+  margin-bottom: 0.3rem;
   font-family: var(--heading-font);
   letter-spacing: -0.03em;
+  font-size: 1.1rem;
 }
 
 /* ✨ Genus info ✨ */
 .genus-info {
   text-align: left;
   border-top: 1px solid rgba(193, 127, 88, 0.3);
-  padding-top: var(--inner-space);
-  margin-bottom: var(--inner-space);
+  padding-top: calc(var(--inner-space) * 0.7);
+  margin-bottom: calc(var(--inner-space) * 0.7);
   position: relative;
 }
 
@@ -495,17 +497,19 @@ body {
 
 .genus-info h3 {
   margin-top: 0;
+  margin-bottom: 0.3rem;
   color: var(--cosmic-soil);
   font-family: var(--heading-font);
   letter-spacing: -0.03em;
+  font-size: 0.95rem;
 }
 
 .winnable-message {
   background: linear-gradient(to right, rgba(0, 245, 212, 0.1), rgba(184, 248, 74, 0.05));
   border-left: 3px solid var(--positive-energy);
-  padding: 0.6rem 1.2rem;
-  margin-top: 0.7rem;
-  border-radius: 0 8px 8px 0;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+  border-radius: 0 6px 6px 0;
   font-weight: bold;
   color: var(--meditation-moss);
   position: relative;
@@ -520,9 +524,9 @@ body {
 .unwinnable-message {
   background: linear-gradient(to right, rgba(255, 51, 102, 0.1), rgba(255, 0, 255, 0.05));
   border-left: 3px solid var(--negative-space);
-  padding: 0.6rem 1.2rem;
-  margin-top: 0.7rem;
-  border-radius: 0 8px 8px 0;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+  border-radius: 0 6px 6px 0;
   font-weight: bold;
   color: var(--negative-space);
   position: relative;
@@ -538,7 +542,7 @@ body {
 .game-info {
   text-align: left;
   border-top: 1px solid rgba(193, 127, 88, 0.3);
-  padding-top: var(--inner-space);
+  padding-top: calc(var(--inner-space) * 0.7);
   position: relative;
 }
 
@@ -553,26 +557,30 @@ body {
 
 .game-info h3 {
   margin-top: 0;
+  margin-bottom: 0.3rem;
   color: var(--cosmic-soil);
   font-family: var(--heading-font);
   letter-spacing: -0.03em;
+  font-size: 0.95rem;
 }
 
 .game-instructions {
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.3rem;
 }
 
 .game-instructions li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
 }
 
 .tip {
   background: linear-gradient(to right, rgba(249, 200, 14, 0.15), rgba(249, 200, 14, 0.05));
   border-left: 3px solid var(--neutral-karma);
-  padding: 0.6rem 1.2rem;
-  margin-top: var(--inner-space);
-  border-radius: 0 8px 8px 0;
+  padding: 0.4rem 0.8rem;
+  margin-top: calc(var(--inner-space) * 0.7);
+  border-radius: 0 6px 6px 0;
   position: relative;
 }
 
@@ -583,11 +591,11 @@ body {
 
 /* ✨ Footer ✨ */
 .app-footer {
-  margin-top: var(--outer-space);
-  padding-top: var(--inner-space);
+  margin-top: calc(var(--outer-space) * 0.7);
+  padding-top: calc(var(--inner-space) * 0.7);
   border-top: 1px solid rgba(193, 127, 88, 0.3);
   color: var(--sunset-clay);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-style: italic;
   position: relative;
 }
@@ -675,7 +683,7 @@ body {
 }
 
 .coffee-button-img {
-  height: 60px;
+  height: 50px;
   width: auto;
   transition: transform 0.3s ease;
   box-shadow: 0 6px 12px var(--card-shadow);
@@ -1088,19 +1096,19 @@ body {
 
 /* ✨ Instructions Section ✨ */
 .instructions-section {
-  margin: var(--outer-space) 0;
+  margin: calc(var(--outer-space) * 0.7) 0;
   width: 100%;
 }
 
 .game-instructions-panel {
   background-color: var(--card-background);
   border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: var(--outer-space);
-  box-shadow: 0 8px 15px var(--card-shadow);
+  border-radius: 10px;
+  padding: calc(var(--outer-space) * 0.5);
+  box-shadow: 0 6px 12px var(--card-shadow);
   position: relative;
   overflow: hidden;
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
 }
 

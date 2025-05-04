@@ -28,23 +28,23 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
     const xValues = vertices.map(v => v.position.x);
     const yValues = vertices.map(v => v.position.y);
     
-    // Add more padding to accommodate menus and overlays
-    const minX = Math.min(...xValues) - 100;
-    const minY = Math.min(...yValues) - 100;
-    const maxX = Math.max(...xValues) + 100;
-    const maxY = Math.max(...yValues) + 100;
+    // Add padding to accommodate menus and overlays, but more compact
+    const minX = Math.min(...xValues) - 80;
+    const minY = Math.min(...yValues) - 80;
+    const maxX = Math.max(...xValues) + 80;
+    const maxY = Math.max(...yValues) + 80;
     
     // Calculate center of the graph
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
     
-    // Calculate dimensions with some extra padding
-    const width = (maxX - minX) * 1.2;
-    const height = (maxY - minY) * 1.2;
+    // Calculate dimensions with some padding
+    const width = (maxX - minX) * 1.1;
+    const height = (maxY - minY) * 1.1;
     
     // Ensure minimum dimensions and maintain aspect ratio
-    const finalWidth = Math.max(width, 600);
-    const finalHeight = Math.max(height, 600);
+    const finalWidth = Math.max(width, 500);
+    const finalHeight = Math.max(height, 500);
     
     // Calculate the new viewBox that centers the graph
     const viewBoxX = centerX - finalWidth / 2;

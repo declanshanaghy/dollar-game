@@ -4,23 +4,23 @@ const GameInstructions: React.FC = () => {
   return (
     <div className="game-instructions-panel">
       <div className="game-info">
-        <h3>Metaphysical Interactions:</h3>
-        <p>
-          Channel your energy through each vertex with mindful clicks:
+        <h3>Game Controls:</h3>
+        <p style={{ margin: '0.2rem 0' }}>
+          Control the game by clicking on nodes:
         </p>
         <ul className="game-instructions">
           <li>
-            <strong>Give Energy 🌊:</strong> The node shares its essence with all connected neighbors, like a pour-over releasing its aromatic notes.
+            <strong>Give 🌊:</strong> Node gives 1$ to each neighbor
           </li>
           <li>
-            <strong>Receive Energy 🌈:</strong> The node draws in the collective energy from its neighbors, like a deep meditation gathering cosmic vibrations.
+            <strong>Take 🌈:</strong> Node takes 1$ from each neighbor
           </li>
         </ul>
-        <p>
-          Seek to balance all nodes into positive or neutral energy states, achieving universal harmony.
+        <p style={{ margin: '0.2rem 0' }}>
+          Goal: Make all nodes have zero or positive dollars.
         </p>
         <p className="tip">
-          <strong>Cosmic Insight:</strong> Even nodes with negative energy can give! The universe works in mysterious ways. 🔮
+          <strong>Tip:</strong> Negative nodes can still give!
         </p>
       </div>
     </div>

@@ -117,5 +117,13 @@ Use time difference between now and the last commit timestamp for the developmen
    - Commit to git before finishing
 - [x] Move the logo to the top of the page in @/README.md, in the left cell. Replace the text that's there with the logo on it's own.
 - [x] Rewrite @dev_workflow.mdc anywhere that it mentions task-master, replace that with a logical equivalent of how we're managing tasks in TODO.md now.
-- [] When a person visits the game for the first time, give a short overlay introduction to the game witn interactive guidance on where to click and what it means.
+- [x] When a person visits the game for the first time, give a short overlay introduction to the game witn interactive guidance on where to click and what it means.
 - [] Replace the circles with stacks of cash and update the tutorial and README.md accordingly.
+   - The cash icons are stored in @/apps/frontend/public/icons/cash_icons
+   - each file is named according to the amount of cash it represents form -50 to +50
+   - Modify the game to display the cash icons instead of the circles
+   - The cash icons should be displayed where the circles were before with similar styling
+   - Update the tutorial to reflect the new cash icons
+   - Update the README.md to reflect the new cash icons
+   - Commit to git before finishing
+- [] Make the game header image float behind the entire game and the controls but dim it down so it doesn't obscure the layer aobve it.

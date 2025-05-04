@@ -37,13 +37,29 @@ jobs:
       # Step 1: Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      # Step 2: Install AWS CLI
+      
+      # Step 2: Install pnpm
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm
+      
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pnpm install
+      
+      # Step 4: Build application
+      - name: Build application
+        run: |
+          cd apps/frontend
+          pnpm build
+          
+      # Step 5: Install AWS CLI
       - name: Install AWS CLI
         run: |
           pip install --upgrade awscli
       
-      # Step 2: Set up AWS profile
+      # Step 6: Set up AWS profile
       - name: Set up AWS profile
         run: |
           mkdir -p ~/.aws
@@ -53,12 +69,12 @@ jobs:
           echo "[dollar-game]" > ~/.aws/config
           echo "region=us-east-1" >> ~/.aws/config
       
-      # Step 3: Deploy to S3
+      # Step 7: Deploy to S3
       - name: Deploy to S3
         run: |
           aws s3 sync apps/frontend/dist/ s3://${{ env.S3_BUCKET }} --delete
       
-      # Step 4: Verify deployment
+      # Step 8: Verify deployment
       - name: Verify deployment
         id: verify_deployment
         run: |
@@ -74,7 +90,7 @@ jobs:
       
       # CloudFront step removed as it's not being used
       
-      # Step 6: Output the deployment status and URLs
+      # Step 9: Output the deployment status and URLs
       - name: Deployment Status
         run: |
           echo "Application deployment completed"

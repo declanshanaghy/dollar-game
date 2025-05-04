@@ -30,7 +30,12 @@ Use time difference between now and the last commit timestamp for the developmen
 [X] Update the app so that there are separate sliders for the number of vertices and the number of edges and the total amount of money to be used in the game
 [X] Generate a a summary of changes from the diff of all changed files and the context here and commit to git
 [X] Read ./design/DollarGameProblem.pdf and implement the "Betti number" in the game but call it genus. Display a message on screen when the user changes the vertices, edges or money to determine if the game can be won
-[] Update the game graphical resources and all text to be more appealing, in the style of the "l33tc0dzr, l4tt3 drinking, hippy trousers architect in an ivory tower."
+[X] Update the game graphical resources and all text to be more appealing, in the style of the "l33tc0dzr, l4tt3 drinking, hippy trousers architect in an ivory tower."
    - Immortalize this style as the defacto standard for game and documentation throughout the project be embedding it in the readme and create a new style guide md file.
    - Commit changes to git before completion
-[] Update the main README.md with all the latest information about the project
+[X] Update the main README.md with all the latest information about the project
+[] App attribution enhancements
+  - Ensure the game is aligned at the top center of the screen
+  - Refer to https://www.youtube.com/watch?v=U33dsEcKgeQ as an inspiration for the game
+  - Incdlude a link and summary of the video in README.md
+[] Update the infrastructure to use HTTPS with an ACME certificate from zerossl.com

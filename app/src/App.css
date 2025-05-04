@@ -52,6 +52,8 @@ body {
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
+  align-self: flex-start;
+  width: 100%;
 }
 
 /* App container */
@@ -59,6 +61,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  justify-content: flex-start;
 }
 
 /* Header */

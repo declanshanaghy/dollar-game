@@ -139,7 +139,7 @@ Use time difference between now and the last commit timestamp for the developmen
    - Error: Process completed with exit code 127.
    - Fixed by adding a step to install jq in the GitHub Actions workflow before it's used
    - The error occurred because jq was being used for JSON processing but wasn't available in the container
-- [] Investigate error on https://github.com/declanshanaghy/dollar-game/actions/runs/14825410109/job/41617866452 
+- [x] Investigate error on https://github.com/declanshanaghy/dollar-game/actions/runs/14825410109/job/41617866452 
    - Run cd apps/frontend
       > dollar-frontend@0.0.0 build /__w/dollar-game/dollar-game/apps/frontend
       > tsc -b && vite build
@@ -159,4 +159,9 @@ Use time difference between now and the last commit timestamp for the developmen
 Inspired by Numberphile's "The Dollar Game"
    ```
    - Commit to git before finishing
-
+- [] Commit & push to git before proceeding
+- [] Update the card icons at the bottom so that the tooltip doesn't display by the mouse
+   - Display the normal mouse link cursor on hover
+   - the popup drawer overlay at the bottom of the card is nicer.
+   - Decrease the font size of the text so it displays properly on the card
+   - Commit & push to git before finishing

@@ -159,9 +159,32 @@ Use time difference between now and the last commit timestamp for the developmen
 Inspired by Numberphile's "The Dollar Game"
    ```
    - Commit to git before finishing
-- [] Commit & push to git before proceeding
-- [] Update the card icons at the bottom so that the tooltip doesn't display by the mouse
+- [x] Commit & push to git before proceeding
+- [x] Update the card icons at the bottom so that the tooltip doesn't display by the mouse
    - Display the normal mouse link cursor on hover
    - the popup drawer overlay at the bottom of the card is nicer.
    - Decrease the font size of the text so it displays properly on the card
    - Commit & push to git before finishing
+- [x] The positive cash images are not appearing properly on https://dollar-game.firemandecko.com/
+   - GET https://dollar-game.firemandecko.com/icons/cash_icons/cash_+4.png 403 (Forbidden)
+   - GET https://dollar-game.firemandecko.com/icons/cash_icons/cash_+2.png 403 (Forbidden)
+   - GET https://dollar-game.firemandecko.com/icons/cash_icons/cash_+2.png 403 (Forbidden)
+   - GET https://dollar-game.firemandecko.com/icons/cash_icons/cash_+0.png 403 (Forbidden)
+   - GET https://dollar-game.firemandecko.com/icons/cash_icons/cash_+2.png 403 (Forbidden)
+   - GET https://dollar-game.firemandecko.com/selected-logo.svg 403 (Forbidden)
+   - Ensure the S3 bucket policy allows all assets in the bucket to be publicly read
+- [x] UX & UI Enhancements:
+  - Make the Give/Receive dialog pop up when the user mouses over the stack.
+  - Ensure the Give/Receive dialog is big enough to display the buttons and labels. 
+    - Make it bigger than it is now.
+    - Enhance the buttons with vibrant mouseover effects
+    - Enhance the animated arrows with curved lines and animated stacks of cash
+  - Ensure it disappears if the user clicks outside the dialog or clicks the buttons
+  - Ensure it disappears after a short delay if the user moves away from the stack
+  - Make the logo in the background more visible
+  - Swap the logos of the 1st and 3rd cards
+  - Use DigitalBohoIcon.webp as the icon for the 3st card (to wikipedia article)
+  - Scale the game panel down so it's the same height as the control panel
+- [] UI Bugs
+  - Too many cash stacks are appearing on the animated lines, ensure only a negative 1 or positive 1 cash stack appears depending on whether the action is to give or receive.
+Add arrows at the end of the animated lines, ensure the animated lines don't cross over the buttons  

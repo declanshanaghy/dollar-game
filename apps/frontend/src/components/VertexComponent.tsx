@@ -33,6 +33,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   const [showMenu, setShowMenu] = useState(false);
   const [hoveredAction, setHoveredAction] = useState<ActionType | null>(null);
   const [neighborPreviews, setNeighborPreviews] = useState<NeighborPreview[]>([]);
+  const menuTimeoutRef = React.useRef<number | null>(null);
   
   // Close menu when clicking outside
   useEffect(() => {
@@ -54,13 +55,33 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
     }
   }, [showMenu]);
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowMenu(!showMenu);
-    if (!showMenu) {
-      setHoveredAction(null);
+  // Handle mouse enter to show menu
+  const handleMouseEnter = () => {
+    // Clear any existing timeout
+    if (menuTimeoutRef.current !== null) {
+      window.clearTimeout(menuTimeoutRef.current);
+      menuTimeoutRef.current = null;
     }
+    setShowMenu(true);
   };
+
+  // Handle mouse leave to hide menu after delay
+  const handleMouseLeave = () => {
+    // Set a timeout to hide the menu
+    menuTimeoutRef.current = window.setTimeout(() => {
+      setShowMenu(false);
+      setHoveredAction(null);
+    }, 500); // 500ms delay before hiding
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (menuTimeoutRef.current !== null) {
+        window.clearTimeout(menuTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleAction = (actionType: ActionType) => {
     onAction(id, actionType);
@@ -121,18 +142,24 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   };
 
   // Handle mouse enter for action buttons
-  const handleMouseEnter = (actionType: ActionType) => {
+  const handleActionButtonMouseEnter = (actionType: ActionType) => {
     setHoveredAction(actionType);
     calculateNeighborPreviews(actionType);
+    
+    // Ensure the menu stays open when hovering over buttons
+    if (menuTimeoutRef.current !== null) {
+      window.clearTimeout(menuTimeoutRef.current);
+      menuTimeoutRef.current = null;
+    }
   };
 
   // Handle mouse leave for action buttons
-  const handleMouseLeave = () => {
+  const handleActionButtonMouseLeave = () => {
     setHoveredAction(null);
     setNeighborPreviews([]);
   };
   
-  // Create animated dashed lines to neighbors
+  // Create animated curved lines to neighbors with cash icons
   const renderAnimatedLines = () => {
     if (!hoveredAction || neighborPreviews.length === 0) return null;
     
@@ -153,18 +180,71 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       const endX = dx - unitX * 30; // Relative to current vertex position
       const endY = dy - unitY * 30;
       
+      // Calculate control point for curved path (perpendicular to line)
+      const midX = (startX + endX) / 2;
+      const midY = (startY + endY) / 2;
+      
+      // Perpendicular vector for curve control point
+      const perpX = -unitY * (length * 0.2); // Adjust multiplier for curve intensity
+      const perpY = unitX * (length * 0.2);
+      
+      // Control point
+      const ctrlX = midX + perpX;
+      const ctrlY = midY + perpY;
+      
+      // Path for curved line
+      const pathD = `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
+      
+      // Determine animation class and color based on action type
+      const isGiving = hoveredAction === ActionType.GIVE;
+      const animationClass = isGiving ? 'give-animation' : 'receive-animation';
+      const lineColor = isGiving ? "rgba(42, 157, 143, 0.9)" : "rgba(233, 196, 106, 0.9)";
+      
+      // Calculate position for animated cash icon along the path
+      const cashIconPosition = 0.5; // Position along the path (0-1)
+      
       return (
-        <line
-          key={`preview-line-${id}-${neighbor.id}`}
-          x1={startX}
-          y1={startY}
-          x2={endX}
-          y2={endY}
-          stroke={hoveredAction === ActionType.GIVE ? "rgba(42, 157, 143, 0.9)" : "rgba(233, 196, 106, 0.9)"}
-          strokeWidth={3}
-          strokeDasharray="8,4"
-          className={`animated-dash ${hoveredAction === ActionType.GIVE ? 'give-animation' : 'receive-animation'}`}
-        />
+        <g key={`preview-line-${id}-${neighbor.id}`}>
+          {/* Curved path */}
+          <path
+            d={pathD}
+            fill="none"
+            stroke={lineColor}
+            strokeWidth={3}
+            strokeDasharray="8,4"
+            className={`animated-dash ${animationClass}`}
+          />
+          
+          {/* Single animated cash icon along the path */}
+          {(() => {
+            // Calculate point along the quadratic curve
+            // For a quadratic curve: P = (1-t)²P₀ + 2(1-t)tP₁ + t²P₂
+            const t = cashIconPosition;
+            const oneMinusT = 1 - t;
+            const xPos = oneMinusT * oneMinusT * startX + 2 * oneMinusT * t * ctrlX + t * t * endX;
+            const yPos = oneMinusT * oneMinusT * startY + 2 * oneMinusT * t * ctrlY + t * t * endY;
+            
+            // Determine which cash icon to use based on action
+            const iconSize = 24; // Slightly larger for better visibility
+            const iconOffset = iconSize / 2;
+            
+            return (
+              <image
+                key={`cash-icon-${id}-${neighbor.id}`}
+                href={`/icons/cash_icons/cash_${isGiving ? 'plus' : 'minus'}1.png`}
+                x={xPos - iconOffset}
+                y={yPos - iconOffset}
+                width={iconSize}
+                height={iconSize}
+                opacity={0.9}
+                className={`cash-flow-icon ${animationClass}-icon`}
+                style={{
+                  animation: `float 1.2s infinite alternate ease-in-out`
+                }}
+              />
+            );
+          })()}
+        </g>
       );
     });
   };
@@ -172,7 +252,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   return (
     <g
       transform={`translate(${position.x}, ${position.y})`}
-      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{ cursor: 'pointer' }}
     >
       {/* Aura layer for vertices */}
@@ -233,7 +314,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       
       {/* Cash icon image */}
       <image
-        href={`/icons/cash_icons/cash_${chips >= 0 ? '+' : ''}${chips}.png`}
+        href={`/icons/cash_icons/cash_${chips >= 0 ? 'plus' : 'minus'}${Math.abs(chips)}.png`}
         x={-32}
         y={-32}
         width={64}
@@ -312,14 +393,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               <rect
                 x={menuX}
                 y={menuY}
-                width={140}
-                height={70}
-                rx={8}
-                ry={8}
+                width={180}
+                height={90}
+                rx={10}
+                ry={10}
                 fill="var(--card-background)"
-                stroke="var(--sunset-clay)"
-                strokeWidth={1.5}
-                strokeDasharray="2 1"
+                filter="drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))"
               />
             );
           })()}
@@ -345,8 +424,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               const svgHeight = height;
               
               // Menu width and height (smaller on mobile)
-              const menuWidth = isMobile ? 150 : 170;
-              const menuHeight = isMobile ? 75 : 85;
+              const menuWidth = isMobile ? 160 : 180;
+              const menuHeight = isMobile ? 85 : 90;
               
               // Check if menu would go off left edge
               if (position.x + menuX < minX + 10) {
@@ -385,12 +464,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             
             // Calculate button positions based on menu position with padding
             // Adjust spacing for mobile
-            const buttonSpacing = isMobile ? 75 : 95;
-            const buttonPadding = isMobile ? 18 : 20;
+            const buttonSpacing = isMobile ? 90 : 100;
+            const buttonPadding = isMobile ? 20 : 25;
             
             const giveButtonX = menuX + buttonPadding;
             const receiveButtonX = menuX + buttonSpacing;
-            const buttonY = menuY + (isMobile ? 25 : 30);
+            const buttonY = menuY + (isMobile ? 30 : 35);
             
             return (
               <>
@@ -401,8 +480,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     e.stopPropagation();
                     if (canGive) handleAction(ActionType.GIVE);
                   }}
-                  onMouseEnter={() => handleMouseEnter(ActionType.GIVE)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => handleActionButtonMouseEnter(ActionType.GIVE)}
+                  onMouseLeave={handleActionButtonMouseLeave}
                   style={{
                     cursor: canGive ? 'pointer' : 'not-allowed',
                     opacity: canGive ? 1 : 0.5
@@ -412,20 +491,20 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={48}
-                    height={26}
-                    rx={6}
-                    ry={6}
+                    width={65}
+                    height={32}
+                    rx={8}
+                    ry={8}
                     fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
-                    stroke="var(--cosmic-soil)"
-                    strokeWidth={1.5}
+                    className="give-button-bg"
                   />
                   <text
-                    x={24}
-                    y={18}
+                    x={30}
+                    y={21}
                     textAnchor="middle"
-                    fontSize={10}
+                    fontSize={12}
                     fill="white"
+                    fontWeight="bold"
                   >
                     Give ✨
                   </text>
@@ -441,8 +520,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     e.stopPropagation();
                     if (canReceive) handleAction(ActionType.RECEIVE);
                   }}
-                  onMouseEnter={() => handleMouseEnter(ActionType.RECEIVE)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => handleActionButtonMouseEnter(ActionType.RECEIVE)}
+                  onMouseLeave={handleActionButtonMouseLeave}
                   style={{
                     cursor: canReceive ? 'pointer' : 'not-allowed',
                     opacity: canReceive ? 1 : 0.5
@@ -452,20 +531,20 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={48}
-                    height={26}
-                    rx={6}
-                    ry={6}
+                    width={85}
+                    height={32}
+                    rx={8}
+                    ry={8}
                     fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
-                    stroke="var(--cosmic-soil)"
-                    strokeWidth={1.5}
+                    className="receive-button-bg"
                   />
                   <text
-                    x={24}
-                    y={18}
+                    x={30}
+                    y={21}
                     textAnchor="middle"
-                    fontSize={10}
+                    fontSize={12}
                     fill="white"
+                    fontWeight="bold"
                   >
                     Receive 🌈
                   </text>
@@ -491,7 +570,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
         >
           {/* Preview cash icon with transparency */}
           <image
-            href={`/icons/cash_icons/cash_${getPreviewChipCount(hoveredAction) >= 0 ? '+' : ''}${getPreviewChipCount(hoveredAction)}.png`}
+            href={`/icons/cash_icons/cash_${getPreviewChipCount(hoveredAction) >= 0 ? 'plus' : 'minus'}${Math.abs(getPreviewChipCount(hoveredAction))}.png`}
             x={-25}
             y={-25}
             width={50}
@@ -526,7 +605,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               >
                 {/* Neighbor preview cash icon with transparency */}
                 <image
-                  href={`/icons/cash_icons/cash_${neighbor.newChips >= 0 ? '+' : ''}${neighbor.newChips}.png`}
+                  href={`/icons/cash_icons/cash_${neighbor.newChips >= 0 ? 'plus' : 'minus'}${Math.abs(neighbor.newChips)}.png`}
                   x={-20}
                   y={-20}
                   width={40}

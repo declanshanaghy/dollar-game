@@ -134,7 +134,7 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           onClick={() => trackExternalLinkClick('https://github.com/declanshanaghy/dollar-game/blob/master/README.md')}
         >
           <div className="card-icon">
-            <img src="/icons/card_icons/BohemianMathTome.webp" alt="Documentation" width="56" height="56" />
+            <img src="/icons/card_icons/ChakraGraphMandala.webp" alt="Documentation" width="56" height="56" />
           </div>
         </a>
         
@@ -160,7 +160,7 @@ const HomePage: React.FC<HomePageProps> = ({ showTutorialAgain, hideTutorial, is
           onClick={() => trackExternalLinkClick('https://en.wikipedia.org/wiki/Chip-firing_game')}
         >
           <div className="card-icon">
-            <img src="/icons/card_icons/ChakraGraphMandala.webp" alt="Graph Theory" width="56" height="56" />
+            <img src="/icons/card_icons/DigitalBohoIcon.webp" alt="Graph Theory" width="56" height="56" />
           </div>
         </a>
       </section>

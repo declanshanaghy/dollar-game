@@ -120,8 +120,8 @@ body {
   width: 90%;
   max-width: 800px;
   height: auto;
-  opacity: 0.15; /* Dimmed down to not obscure content */
-  filter: blur(3px); /* Subtle blur for visual separation */
+  opacity: 0.3; /* Further increased opacity for better visibility */
+  filter: blur(1.5px); /* Further reduced blur for better visibility */
   object-fit: contain;
 }
 
@@ -206,7 +206,7 @@ body {
 
 /* Graph section */
 .graph-section {
-  flex: 3;
+  flex: 1.5; /* Reduced from 3 to make it closer to control panel height */
   border: 2px solid var(--sunset-clay);
   border-radius: 8px;
   padding: 0;
@@ -218,7 +218,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 45vh;
+  min-height: 40vh; /* Reduced from 45vh */
   height: 100%;
 }
 

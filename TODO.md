@@ -113,5 +113,7 @@ Use time difference between now and the last commit timestamp for the developmen
 - [X] The Buy Me a Coffee button is off the bottom of the page on mobile, fix that.
 - [X] Include a Buy Me a Coffee button in the header of the @README.md file
 - [x] Add to @/.cursor/rules/dev_workflow.mdc that the user will run the dev server. Confirm that it's up yourself before running and if it's not ask the user to start it
-- [] IN @/README.md Move "The Dollar Game: A Graph Theory Odyssey ✨" and the quote into a 2 column table with an invisible border, Move the Buy me a coffee button into the right cell of the table.
+- [x] IN @/README.md Move "The Dollar Game: A Graph Theory Odyssey ✨" and the quote into a 2 column table with an invisible border, Move the Buy me a coffee button into the right cell of the table.
    - Commit to git before finishing
+- [x] Move the logo to the top of the page in @/README.md, in the left cell. Replace the text that's there with the logo on it's own.
+- [x] Rewrite @dev_workflow.mdc anywhere that it mentions task-master, replace that with a logical equivalent of how we're managing tasks in TODO.md now.

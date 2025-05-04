@@ -1,7 +1,29 @@
-| <div align="left"><h1>The Dollar Game: A Graph Theory Odyssey ✨</h1><p><em>"In the cosmic dance of vertices and edges, we find not merely a game, but a profound meditation on the interconnectedness of all things, man."</em></p></div> | <div align="right"><a href="https://www.buymeacoffee.com/firemandecko" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" style="height: 50px !important;width: auto !important;" ></a></div> |
-|---|---|
+<table style="border: none; width: 75%; margin: 0 auto;">
+<tr style="border: none;">
+<td style="border: none; text-align: center; width: 75%;">
+<img src="./apps/frontend/public/logos/logo.png" alt="Dollar Game Logo" width="100%" />
+</td>
+<td style="border: none; text-align: right; width: 25%; padding-right: 0;">
+<em style="font-size: 0.9em; float: right;">One observes how the logo emerges from the digital ether, manifesting the "C0sm1c D0ll4r" essence - currency transcending through quantum graph space.</em>
+</td>
+</tr>
+</table>
+
+<table style="border: none; width: 100%;">
+<tr style="border: none;">
+<td style="border: none; width: 30%;">
 
 ## 🎬 Inspiration
+
+</td>
+<td style="border: none; width: 50%;">
+&nbsp;
+</td>
+<td style="border: none; text-align: right; padding-right: 0; width: 20%;">
+<div style="float: right;"><a href="https://www.buymeacoffee.com/firemandecko" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" style="height: 40px !important;width: auto !important;" ></a></div>
+</td>
+</tr>
+</table>
 
 This project was inspired by the excellent educational video [The Dollar Game](https://www.youtube.com/watch?v=U33dsEcKgeQ), which provides a clear and engaging introduction to this fascinating mathematical concept.
 
@@ -17,9 +39,6 @@ The first generation of the Dollar Game application can be seen in this video:
 
 This initial implementation demonstrates the core concepts of the Dollar Game in a digital format, serving as the foundation for our current more advanced version.
 
-![Dollar Game Logo](./apps/frontend/public/logos/logo.png)
-
-> The logo was generated using AI image generation technology. It embodies the "C0sm1c D0ll4r" concept, representing the transcendental flow of currency through quantum graph space.
 
 ## 🚀 Conscious Interaction
 

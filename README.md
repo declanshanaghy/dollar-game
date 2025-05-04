@@ -1,62 +1,11 @@
-# The Dollar Game: A Graph Theory Odyssey ✨
-
-> *"In the cosmic dance of vertices and edges, we find not merely a game, but a profound meditation on the interconnectedness of all things, man."*
-
-## 🌌 Cosmic Overview
-
-The Dollar Game is a digital implementation of the mathematical chip-firing game, reimagined through the lens of bohemian-tech aesthetics. This application invites you to explore the elegant complexity of graph theory while engaging with a visually captivating interface that balances technical precision with free-spirited energy.
-
-Like the carefully extracted notes of a single-origin Ethiopian pour-over, each vertex in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all vertices resonate with positive or neutral vibrations.
-
-![Dollar Game Logo](./apps/frontend/public/logos/logo.png)
-
-> The logo was generated using AI image generation technology. It embodies the "C0sm1c D0ll4r" concept, representing the transcendental flow of currency through quantum graph space.
-
-## 🧮 Mathematical Foundation
-
-### The Essence of Chip-Firing Games
-
-The Dollar Game is based on the mathematical concept of chip-firing games, a branch of graph theory with connections to:
-
-- **Sandpile models** in statistical physics
-- **Divisor theory** in algebraic geometry
-- **Laplacian dynamics** on graphs
-- **Self-organized criticality** in complex systems
-
-In its purest form, a chip-firing game consists of a graph where each vertex contains some number of chips. Vertices can "fire" when they have at least as many chips as their degree (number of connected edges), distributing one chip along each edge to their neighbors.
-
-### The Genus: Cosmic Harmony Potential
-
-At the heart of our implementation lies the concept of **genus** (also known as the first Betti number in algebraic topology). For a connected graph:
-
-```
-Genus = E - V + 1
-```
-
-Where:
-- E is the number of edges
-- V is the number of vertices
-
-The genus represents the maximum number of edges you can remove without disconnecting the graph, or equivalently, the number of independent cycles in the graph. In the context of the Dollar Game:
-
-- A game is **winnable** if and only if the total money in the system is greater than or equal to the genus
-- This mathematical truth connects to the Riemann-Roch theorem in algebraic geometry
-
-Our implementation extends the traditional rules by allowing vertices with negative dollars to give, creating a more dynamic and meditative experience.
+| <div align="left"><h1>The Dollar Game: A Graph Theory Odyssey ✨</h1><p><em>"In the cosmic dance of vertices and edges, we find not merely a game, but a profound meditation on the interconnectedness of all things, man."</em></p></div> | <div align="right"><a href="https://www.buymeacoffee.com/firemandecko" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=firemandecko&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" style="height: 50px !important;width: auto !important;" ></a></div> |
+|---|---|
 
 ## 🎬 Inspiration
 
 This project was inspired by the excellent educational video [The Dollar Game](https://www.youtube.com/watch?v=U33dsEcKgeQ), which provides a clear and engaging introduction to this fascinating mathematical concept.
 
-### The Dollar Game: A Mathematical Exploration of Graph Theory
-
 The Dollar Game is a fascinating mathematical puzzle based on chip-firing games in graph theory. Originally introduced by mathematician Matthew Baker, it represents a financial system where vertices (nodes) in a graph can hold positive or negative dollar amounts, representing wealth or debt.
-
-In the Dollar Game, players interact with a graph where each vertex contains some number of dollars (positive) or debt (negative). The goal is to eliminate all debt through strategic moves: either "giving" (where a vertex gives one dollar to each of its neighbors) or "borrowing" (where a vertex takes one dollar from each neighbor). The total amount of money in the system remains constant throughout the game.
-
-What makes this game mathematically significant is its connection to fundamental concepts in graph theory. The game's solvability is directly tied to the graph's genus (or Betti number), calculated as E - V + 1, where E is the number of edges and V is the number of vertices. A key theorem states that a Dollar Game is winnable if and only if the total money in the system is greater than or equal to the graph's genus.
-
-For trees (graphs with no cycles), any non-negative total makes the game winnable. However, for graphs with cycles, having a non-negative total is necessary but not sufficient for winning. The Dollar Game demonstrates connections to algebraic geometry through the Riemann-Roch theorem and provides insights into the mathematical properties of networks and resource distribution.
 
 Beyond its mathematical elegance, the Dollar Game serves as an intuitive model for understanding complex systems where resources flow between interconnected entities, making it relevant to fields ranging from economics to network theory.
 
@@ -67,6 +16,10 @@ The first generation of the Dollar Game application can be seen in this video:
 [![First Generation of the Dollar Game](https://img.youtube.com/vi/mRJUrLD8w9Y/0.jpg)](https://www.youtube.com/watch?v=mRJUrLD8w9Y)
 
 This initial implementation demonstrates the core concepts of the Dollar Game in a digital format, serving as the foundation for our current more advanced version.
+
+![Dollar Game Logo](./apps/frontend/public/logos/logo.png)
+
+> The logo was generated using AI image generation technology. It embodies the "C0sm1c D0ll4r" concept, representing the transcendental flow of currency through quantum graph space.
 
 ## 🚀 Conscious Interaction
 
@@ -202,112 +155,30 @@ Two separate workflows ensure efficient and targeted deployments:
 
 These workflows are triggered based on which files have changed in a commit, ensuring mindful and efficient deployment processes.
 
-## 🔒 DNS and SSL Implementation
+For more details on the GitHub Actions architecture, see [github-actions-architecture.md](github-actions-architecture.md).
 
-The Dollar Game has transcended its earthly HTTP origins to embrace the secure cosmic vibrations of HTTPS through a mindful migration of DNS services from Namecheap to AWS Route53, facilitating a harmonious SSL implementation.
+## 🌌 Cosmic Overview
 
-```mermaid
-flowchart TD
-    A[User Consciousness] -->|HTTPS Energy Request| B[CloudFront Distribution]
-    B -->|Origin Vibration| C[S3 Bucket]
-    D[Route53 Cosmic DNS] -->|Domain Resolution| A
-    E[ACM Certificate] -->|SSL/TLS Encryption| B
-    F[Namecheap Domain Registrar] -->|Nameserver Delegation| D
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
-    style D fill:#fbb,stroke:#333,stroke-width:2px
-    style E fill:#bff,stroke:#333,stroke-width:2px
-    style F fill:#ffb,stroke:#333,stroke-width:2px
-```
+The Dollar Game is a digital implementation of the mathematical chip-firing game, reimagined through the lens of bohemian-tech aesthetics. This application invites you to explore the elegant complexity of graph theory while engaging with a visually captivating interface that balances technical precision with free-spirited energy.
 
-### The Cosmic Purpose of DNS Migration
+Like the carefully extracted notes of a single-origin Ethiopian pour-over, each vertex in our graph holds unique potential energy in the form of dollars (or debt). Your journey is to achieve harmonic balance by mindfully redistributing this energy until all vertices resonate with positive or neutral vibrations.
 
-The migration of DNS management from Namecheap to AWS Route53 serves as a digital chakra alignment, enabling:
+## 🧮 Mathematical Foundation
 
-- **Secure Energy Flow**: Implementation of SSL/TLS encryption for HTTPS connections
-- **Unified Consciousness**: Integration with AWS Certificate Manager for automated certificate management
-- **Harmonic Distribution**: Seamless connection with CloudFront for global content delivery
-- **Digital Authenticity**: Enhanced trust signals through secure connections and domain validation
+For a detailed exploration of the mathematical concepts behind the Dollar Game, see [mathematical-foundation.md](mathematical-foundation.md).
 
-### Infrastructure Transmutation
+In brief, the Dollar Game is based on chip-firing games in graph theory, with connections to:
 
-The DNS and SSL implementation involves these key components in our digital ecosystem:
+- **Sandpile models** in statistical physics
+- **Divisor theory** in algebraic geometry
+- **Laplacian dynamics** on graphs
+- **Self-organized criticality** in complex systems
 
-1. **Route53 Cosmic DNS**: AWS's highly available and scalable domain name system, serving as the new DNS authority for firemandecko.com
-2. **ACM Certificate Vibrations**: AWS Certificate Manager providing free SSL/TLS certificates with automatic renewal
-3. **CloudFront Energy Distribution**: Content delivery network providing HTTPS support and improved global performance
-4. **S3 Origin Essence**: Secure bucket configuration allowing access only through CloudFront
-
-### Nameserver Alignment Process
-
-To redirect the domain's energy flow from Namecheap to AWS Route53:
-
-1. **Create Route53 Hosted Zone**: Establish a new energy center in AWS for the domain
-2. **Channel DNS Records**: Transfer all existing DNS records from Namecheap to Route53
-3. **Update Nameservers at Namecheap**:
-   - Log in to your Namecheap account
-   - Navigate to Domain List > Manage > Domain
-   - Select "Custom DNS" and enter the four AWS nameservers (in the format `ns-XXXX.awsdns-XX.com`)
-   - Save the cosmic realignment
-
-### Verification and Validation Rituals
-
-After updating nameservers, perform these verification ceremonies:
-
-1. **DNS Propagation Verification**:
-   - Use `dig` or `nslookup` to check nameserver assignments:
-     ```bash
-     dig NS firemandecko.com
-     ```
-   - Verify specific records are resolving correctly:
-     ```bash
-     dig dollar-game.firemandecko.com
-     ```
-   - Allow 24-48 hours for complete global propagation of DNS energy
-
-2. **SSL Certificate Validation**:
-   - ACM uses DNS validation to verify domain ownership
-   - Validation CNAME records are automatically created in Route53
-   - Certificate status can be checked in the AWS Console or via AWS CLI:
-     ```bash
-     aws acm describe-certificate --certificate-arn <certificate-arn> --query 'Certificate.Status'
-     ```
-
-### Troubleshooting the Cosmic Flow
-
-If you encounter disruptions in the digital energy field:
-
-1. **DNS Propagation Delays**:
-   - DNS changes may take up to 48 hours to propagate globally
-   - Use multiple DNS lookup tools from different locations to check progress
-   - Clear local DNS caches to see updated records
-
-2. **Certificate Validation Issues**:
-   - Verify that validation CNAME records exist in Route53
-   - Check for typos or formatting errors in DNS records
-   - Ensure the certificate was requested in the us-east-1 region (required for CloudFront)
-
-3. **CloudFront Distribution Delays**:
-   - New distributions or changes can take up to 30 minutes to deploy globally
-   - Check the distribution status in the AWS Console
-
-4. **Nameserver Configuration Errors**:
-   - Confirm all four AWS nameservers are correctly entered at Namecheap
-   - Ensure there are no extra spaces or characters in the nameserver entries
-
-For detailed implementation instructions, consult the [dns-migration-plan.md](dns-migration-plan.md) and [ssl-implementation-guide.md](ssl-implementation-guide.md) sacred texts.
+The key concept is the **genus** (first Betti number), calculated as `E - V + 1`, where E is the number of edges and V is the number of vertices. A game is winnable if and only if the total money in the system is greater than or equal to the genus.
 
 ## 🎨 Bohemian-Tech Aesthetic
 
 The Dollar Game embraces a unique "l33tc0dzr, l4tt3 drinking, hippy trousers architect in an ivory tower" aesthetic that transcends mere visual design. This holistic approach harmonizes technical precision with bohemian sensibilities.
-
-### Core Principles
-
-- **Authenticity**: Each element radiates genuine expression
-- **Conscious Coding**: Acknowledging the interconnectedness of all components
-- **Digital Freedom**: Breaking conventional design paradigms
-- **Mindful Interaction**: Every user touchpoint feels like a meaningful exchange of energy
 
 For the complete aesthetic consciousness, refer to our [Style Guide](style-guide.md).
 

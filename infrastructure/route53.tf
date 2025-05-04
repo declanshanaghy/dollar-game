@@ -27,14 +27,6 @@ resource "aws_route53_record" "apex" {
   }
 }
 
-# CNAME record for www subdomain
-resource "aws_route53_record" "www" {
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = "www.firemandecko.com"
-  type    = "CNAME"
-  ttl     = 300
-  records = [aws_cloudfront_distribution.website_distribution.domain_name]
-}
 
 # A record for dollar-game subdomain
 resource "aws_route53_record" "dollar_game" {

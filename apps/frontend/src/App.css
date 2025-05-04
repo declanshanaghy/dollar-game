@@ -801,11 +801,14 @@ body {
     gap: var(--inner-space);
   }
   
-  /* Adjust coffee button position to avoid overlap */
+  /* Adjust coffee button position to avoid overlap and ensure visibility */
   .coffee-link {
-    bottom: 10px;
-    right: 10px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
     z-index: 1000;
+    transform: scale(0.9);
   }
   
   .coffee-button-img {
@@ -825,10 +828,10 @@ body {
   /* Adjust animation for mobile */
   @keyframes coffee-land {
     0% {
-      bottom: 10px;
-      right: 10px;
+      bottom: 20px;
+      right: 20px;
       left: auto;
-      transform: rotate(0deg) scale(1);
+      transform: rotate(0deg) scale(0.9);
     }
     20% {
       bottom: 50%;
@@ -866,6 +869,19 @@ body {
   .slider::-webkit-slider-thumb {
     width: 28px;
     height: 28px;
+  }
+}
+
+/* Extra small devices (phones, 375px and down) */
+@media (max-width: 375px) {
+  .coffee-link {
+    bottom: max(10px, env(safe-area-inset-bottom, 10px));
+    right: 10px;
+    transform: scale(0.8);
+  }
+  
+  .coffee-button-img {
+    height: 35px; /* Even smaller on very small screens */
   }
 }
 

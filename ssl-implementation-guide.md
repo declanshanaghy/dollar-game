@@ -10,7 +10,7 @@ Create a new file `infrastructure/ssl.tf` with the following content:
 # ACM Certificate for dollar-game.firemandecko.com
 resource "aws_acm_certificate" "cert" {
   domain_name               = "dollar-game.firemandecko.com"
-  subject_alternative_names = ["www.dollar-game.firemandecko.com"]
+  subject_alternative_names = []
   validation_method         = "DNS"
   
   # ACM certificates for CloudFront must be in us-east-1 region
@@ -45,7 +45,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-  aliases             = ["dollar-game.firemandecko.com", "www.dollar-game.firemandecko.com"]
+  aliases             = ["dollar-game.firemandecko.com"]
   price_class         = "PriceClass_100" # Use only North America and Europe edge locations
   
   default_cache_behavior {

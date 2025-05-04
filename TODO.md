@@ -81,20 +81,37 @@ Use time difference between now and the last commit timestamp for the developmen
 - [X] Embed https://www.youtube.com/watch?v=mRJUrLD8w9Y in the README.md file as the girst generation of this app
 - [X] Update the buy me a coffee button so it always floats in the bottom right corner
 - [X] Update all the documentation, all .md files to ensure they all have the latest information
-- [] Create and push a git commit using the dev rules to construct the commit message
+- [X] Create and push a git commit using the dev rules to construct the commit message
 - [x] Ensure google analytics are working
-- [] Ensure the layout works on mobile devices
-- [] DNS Migration and SSL Setup:
-  - [] Create Route53 Hosted Zone for firemandecko.com
-  - [] Export DNS Records from Namecheap (A, CNAME, MX, TXT records)
-  - [] Create DNS Records in Route53 including CloudFront and ACM validation records
-  - [] Create infrastructure/route53.tf with hosted zone and DNS record configurations
-  - [] Update infrastructure/ssl.tf to integrate with Route53 for automatic validation
-  - [] Update infrastructure/variables.tf with new domain variables
-  - [] Update GitHub Actions workflow for DNS validation and propagation checks
-  - [] Update Nameservers at Namecheap to point to AWS Route53
-  - [] Verify DNS Propagation using dig, nslookup, or online DNS checkers
-  - [] Update CloudFront configuration to use the validated SSL certificate
-  - [] Verify SSL Certificate and HTTPS access to the website
-- [] Move "🔒 DNS and SSL Implementation" from the main @README to it's own file and link from this new file to the detailed plans
-- [] Remove www.firemandecko.com from the opentofu infrastructure and exec 1 AWS CLI command to delete the record
+- [x] Ensure the layout works on mobile devices
+- [X] DNS Migration and SSL Setup:
+  - [X] Create Route53 Hosted Zone for firemandecko.com
+  - [X] Export DNS Records from Namecheap (A, CNAME, MX, TXT records)
+  - [X] Create DNS Records in Route53 including CloudFront and ACM validation records
+  - [X] Create infrastructure/route53.tf with hosted zone and DNS record configurations
+  - [X] Update infrastructure/ssl.tf to integrate with Route53 for automatic validation
+  - [X] Update infrastructure/variables.tf with new domain variables
+  - [X] Update GitHub Actions workflow for DNS validation and propagation checks
+  - [X] Update Nameservers at Namecheap to point to AWS Route53
+  - [X] Verify DNS Propagation using dig, nslookup, or online DNS checkers
+  - [X] Update CloudFront configuration to use the validated SSL certificate
+  - [X] Verify SSL Certificate and HTTPS access to the website
+- [x] Remove the Development Cost Metrics from the rules in @/.cursor/rules/dev_workflow.mdc
+  - Development Cost Metrics are not to be used anymore
+- [x] Move "🔒 DNS and SSL Implementation" from the main @README to it's own file and link from this new file to the detailed plans
+- [x] Remove www.firemandecko.com from the opentofu infrastructure and exec 1 AWS CLI command to delete the record. Ensure all DNS documentation is up to date with this change
+- [x] Simplify @README.md by doing the following:
+   - Move 🎬 Inspiration further to the top of the page
+   - Move 🌌 Cosmic Overview further down the page
+   - Move 🧮 Mathematical Foundation further down the page
+   - Move 🎨 Bohemian-Tech Aesthetic further down the page
+   - Move 🔮 Future Vibrations further down the page
+   - Move 🧘‍♂️ Concluding Thoughts to the bottom of the page
+   - Suggest if any of the sections can be removed or combined or moved to their own pages
+   - Generate a TOC.md for navigating around all the documentation
+- [] Commit all changes to git with a summarized commit message and push it
+- [X] The Buy Me a Coffee button is off the bottom of the page on mobile, fix that.
+- [X] Include a Buy Me a Coffee button in the header of the @README.md file
+- [x] Add to @/.cursor/rules/dev_workflow.mdc that the user will run the dev server. Confirm that it's up yourself before running and if it's not ask the user to start it
+- [] IN @/README.md Move "The Dollar Game: A Graph Theory Odyssey ✨" and the quote into a 2 column table with an invisible border, Move the Buy me a coffee button into the right cell of the table.
+   - Commit to git before finishing

@@ -25,8 +25,8 @@ jobs:
     name: Build and Deploy Application
     runs-on: ubuntu-latest
     container:
-      # Using Node.js container and installing AWS CLI
-      image: node:20
+      # Using image with both Node.js and AWS CLI pre-installed
+      image: nikolaik/python-nodejs:python3.9-nodejs20
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -37,23 +37,11 @@ jobs:
       # Step 1: Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v4
-      
+        
       # Step 2: Install AWS CLI
       - name: Install AWS CLI
         run: |
-          apt-get update
-          apt-get install -y curl unzip
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          ./aws/install
-      
-      # Step 3: Install dependencies and build
-      - name: Install dependencies and build
-        working-directory: ./apps/frontend
-        run: |
-          npm ci
-          npm test || echo "No tests found, skipping..."
-          npm run build
+          pip install --upgrade awscli
       
       # Step 2: Set up AWS profile
       - name: Set up AWS profile
@@ -84,18 +72,7 @@ jobs:
             exit 1
           fi
       
-      # Step 5: Invalidate CloudFront cache
-      - name: Invalidate CloudFront cache
-        run: |
-          # Get the CloudFront distribution ID from Terraform state
-          DISTRIBUTION_ID=$(cd infrastructure && aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@, 'dollar-game.firemandecko.com')]].Id" --output text)
-          
-          if [ -n "$DISTRIBUTION_ID" ]; then
-            echo "Invalidating CloudFront distribution: $DISTRIBUTION_ID"
-            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
-          else
-            echo "CloudFront distribution not found. Skipping invalidation."
-          fi
+      # CloudFront step removed as it's not being used
       
       # Step 6: Output the deployment status and URLs
       - name: Deployment Status

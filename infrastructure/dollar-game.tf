@@ -16,6 +16,13 @@ provider "aws" {
   region  = "us-east-1"  # Change to your preferred region
 }
 
+# AWS Provider for us-east-1 region (required for CloudFront certificates)
+provider "aws" {
+  alias   = "us_east_1"
+  profile = "dollar-game"
+  region  = "us-east-1"
+}
+
 # S3 Bucket for Website Hosting
 resource "aws_s3_bucket" "website_bucket" {
   bucket = "dollar-game-firemandecko"
@@ -44,16 +51,18 @@ resource "aws_s3_bucket_public_access_block" "website_public_access" {
   restrict_public_buckets = false
 }
 
-# S3 Bucket Policy for Public Access
+# S3 Bucket Policy for CloudFront Access
 resource "aws_s3_bucket_policy" "website_bucket_policy" {
   bucket = aws_s3_bucket.website_bucket.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "PublicReadGetObject"
+        Sid       = "CloudFrontReadGetObject"
         Effect    = "Allow"
-        Principal = "*"
+        Principal = {
+          AWS = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${aws_cloudfront_origin_access_identity.oai.id}"
+        }
         Action    = "s3:GetObject"
         Resource  = "${aws_s3_bucket.website_bucket.arn}/*"
       }

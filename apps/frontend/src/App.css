@@ -164,6 +164,18 @@ body {
   }
 }
 
+/* Mobile-specific adjustments for game container */
+@media (max-width: 767px) {
+  .game-container {
+    gap: 0.5rem;
+  }
+  
+  /* Ensure graph section has enough height on mobile */
+  .graph-section {
+    min-height: 40vh;
+  }
+}
+
 /* Graph section */
 .graph-section {
   flex: 3;
@@ -789,27 +801,32 @@ body {
     gap: var(--inner-space);
   }
   
+  /* Adjust coffee button position to avoid overlap */
   .coffee-link {
-    bottom: 20px;
-    right: 15px;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
   }
   
   .coffee-button-img {
-    height: 50px; /* Slightly smaller on mobile */
+    height: 40px; /* Smaller on mobile */
   }
   
+  /* Adjust celebration mode positioning */
   .coffee-link.celebration-mode {
-    bottom: 50%;
+    bottom: 40%;
+    z-index: 1001;
   }
   
   .coffee-link.celebration-mode .coffee-button-img {
-    height: 70px; /* Slightly smaller on mobile */
+    height: 60px; /* Slightly smaller on mobile */
   }
   
+  /* Adjust animation for mobile */
   @keyframes coffee-land {
     0% {
-      bottom: 20px;
-      right: 15px;
+      bottom: 10px;
+      right: 10px;
       left: auto;
       transform: rotate(0deg) scale(1);
     }
@@ -833,6 +850,22 @@ body {
       left: 50%;
       transform: translate(-50%, 50%) rotate(1080deg) scale(1);
     }
+  }
+  
+  /* Improve button spacing on mobile */
+  .button-group {
+    gap: 0.5rem;
+  }
+  
+  /* Adjust control button padding for better touch targets */
+  .control-button {
+    padding: 0.7rem 0.8rem;
+  }
+  
+  /* Ensure sliders are easy to interact with */
+  .slider::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -1191,6 +1224,57 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
+  }
+  
+  /* Improve text readability on mobile */
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  /* Adjust game info text for mobile */
+  .genus-info h3, .game-info h3 {
+    font-size: 0.9rem;
+  }
+  
+  /* Ensure footer text is readable */
+  .app-footer {
+    font-size: 0.75rem;
+  }
+  
+  /* Improve vertex action menu positioning on mobile */
+  .action-menu rect {
+    width: 150px;
+    height: 75px;
+  }
+  
+  /* Make action buttons more touch-friendly */
+  .action-button rect {
+    width: 50px;
+    height: 28px;
+  }
+  
+  .action-button text {
+    font-size: 11px;
+  }
+  
+  /* Ensure win message is properly sized */
+  .win-message h2 {
+    font-size: 1rem;
+  }
+  
+  /* Adjust game instructions panel */
+  .game-instructions-panel {
+    padding: calc(var(--inner-space) * 0.7);
+  }
+  
+  /* Ensure graph container fits properly */
+  .graph-container {
+    width: 100%;
+    height: 100%;
   }
 }
 

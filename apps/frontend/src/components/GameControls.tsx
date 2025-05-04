@@ -23,10 +23,13 @@ const GameControls: React.FC<GameControlsProps> = ({
   const [edgeDensity, setEdgeDensity] = useState<number>(30);
   const [totalMoney, setTotalMoney] = useState<number>(5);
 
+  // Check if we're on mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
   return (
     <div className="game-controls consciousness-slider">
       <div className="control-group">
-        <label htmlFor="vertices-slider" style={{ fontSize: '0.9rem' }}>Nodes: {numVertices}</label>
+        <label htmlFor="vertices-slider" style={{ fontSize: isMobile ? '0.85rem' : '0.9rem' }}>Nodes: {numVertices}</label>
         <input
           id="vertices-slider"
           type="range"
@@ -40,7 +43,7 @@ const GameControls: React.FC<GameControlsProps> = ({
       </div>
 
       <div className="control-group">
-        <label htmlFor="edges-slider" style={{ fontSize: '0.9rem' }}>Density: {edgeDensity}%</label>
+        <label htmlFor="edges-slider" style={{ fontSize: isMobile ? '0.85rem' : '0.9rem' }}>Density: {edgeDensity}%</label>
         <input
           id="edges-slider"
           type="range"
@@ -54,7 +57,7 @@ const GameControls: React.FC<GameControlsProps> = ({
       </div>
 
       <div className="control-group">
-        <label htmlFor="money-slider" style={{ fontSize: '0.9rem' }}>Dollars: {totalMoney}</label>
+        <label htmlFor="money-slider" style={{ fontSize: isMobile ? '0.85rem' : '0.9rem' }}>Dollars: {totalMoney}</label>
         <input
           id="money-slider"
           type="range"
@@ -88,19 +91,19 @@ const GameControls: React.FC<GameControlsProps> = ({
       {isWon && (
         <div className="win-message">
           <h2>You Won! 🎉</h2>
-          <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>All nodes have zero or positive dollars!</p>
+          <p style={{ fontSize: isMobile ? '0.8rem' : '0.85rem', margin: '0.2rem 0' }}>All nodes have zero or positive dollars!</p>
         </div>
       )}
       
       <div className="genus-info">
         <h3>Game Statistics:</h3>
-        <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>
+        <p style={{ fontSize: isMobile ? '0.8rem' : '0.85rem', margin: '0.2rem 0' }}>
           <strong>Genus:</strong> {genus} (E - V + 1)
         </p>
-        <p style={{ fontSize: '0.85rem', margin: '0.2rem 0' }}>
+        <p style={{ fontSize: isMobile ? '0.8rem' : '0.85rem', margin: '0.2rem 0' }}>
           <strong>Total Dollars:</strong> {currentTotalMoney}
         </p>
-        <p className={isWinnable ? "winnable-message" : "unwinnable-message"}>
+        <p className={isWinnable ? "winnable-message" : "unwinnable-message"} style={{ fontSize: isMobile ? '0.8rem' : '0.85rem' }}>
           {isWinnable
             ? "Winnable ($ ≥ Genus)"
             : "Not winnable ($ < Genus)"}

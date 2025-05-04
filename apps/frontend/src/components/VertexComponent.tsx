@@ -214,45 +214,66 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       </text>
 
       {/* Action Menu */}
-      {showMenu && (
-        <g className="action-menu">
-          {/* Calculate menu position to ensure it stays within canvas */}
-          {(() => {
-            // Get SVG dimensions from parent
-            const svgElement = document.querySelector('.graph-svg');
-            const svgRect = svgElement?.getBoundingClientRect();
-            const viewBox = svgElement?.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 400, 400];
-            
-            // Default position (above vertex)
-            let menuX = -80;
-            let menuY = -100;
-            
-            // Adjust if we have SVG dimensions
-            if (svgRect && viewBox.length === 4) {
-              const [minX, minY, width, height] = viewBox;
-              const svgWidth = width;
-              const svgHeight = height;
-              
-              // Check if menu would go off left edge
-              if (position.x + menuX < minX + 10) {
-                menuX = -(position.x - minX) + 10;
-              }
-              
-              // Check if menu would go off right edge
-              if (position.x + menuX + 170 > minX + svgWidth - 10) {
-                menuX = (minX + svgWidth) - (position.x + 170) - 10;
-              }
-              
-              // Check if menu would go off top edge
-              if (position.y + menuY < minY + 10) {
-                menuY = -(position.y - minY) + 10;
-              }
-              
-              // Check if menu would go off bottom edge
-              if (position.y + menuY + 85 > minY + svgHeight - 10) {
-                menuY = (minY + svgHeight) - (position.y + 85) - 10;
-              }
-            }
+            {showMenu && (
+              <g className="action-menu">
+                {/* Calculate menu position to ensure it stays within canvas */}
+                {(() => {
+                  // Get SVG dimensions from parent
+                  const svgElement = document.querySelector('.graph-svg');
+                  const svgRect = svgElement?.getBoundingClientRect();
+                  const viewBox = svgElement?.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 400, 400];
+                  
+                  // Check if we're on mobile
+                  const isMobile = window.innerWidth <= 768;
+                  
+                  // Default position (above vertex)
+                  let menuX = isMobile ? -70 : -80;
+                  let menuY = isMobile ? -85 : -100;
+                  
+                  // Adjust if we have SVG dimensions
+                  if (svgRect && viewBox.length === 4) {
+                    const [minX, minY, width, height] = viewBox;
+                    const svgWidth = width;
+                    const svgHeight = height;
+                    
+                    // Menu width and height (smaller on mobile)
+                    const menuWidth = isMobile ? 150 : 170;
+                    const menuHeight = isMobile ? 75 : 85;
+                    
+                    // Check if menu would go off left edge
+                    if (position.x + menuX < minX + 10) {
+                      menuX = -(position.x - minX) + 10;
+                    }
+                    
+                    // Check if menu would go off right edge
+                    if (position.x + menuX + menuWidth > minX + svgWidth - 10) {
+                      menuX = (minX + svgWidth) - (position.x + menuWidth) - 10;
+                    }
+                    
+                    // Check if menu would go off top edge
+                    if (position.y + menuY < minY + 10) {
+                      menuY = -(position.y - minY) + 10;
+                    }
+                    
+                    // Check if menu would go off bottom edge
+                    if (position.y + menuY + menuHeight > minY + svgHeight - 10) {
+                      menuY = (minY + svgHeight) - (position.y + menuHeight) - 10;
+                    }
+                    
+                    // On mobile, prefer positioning to the side if possible
+                    if (isMobile) {
+                      // Try to position to the right of the vertex if there's room
+                      if (position.x + 40 + menuWidth < minX + svgWidth - 10) {
+                        menuX = 40;
+                        menuY = -menuHeight/2;
+                      }
+                      // Otherwise try to the left if there's room
+                      else if (position.x - 40 - menuWidth > minX + 10) {
+                        menuX = -40 - menuWidth;
+                        menuY = -menuHeight/2;
+                      }
+                    }
+                  }
             
             return (
               <rect
@@ -277,9 +298,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             const svgRect = svgElement?.getBoundingClientRect();
             const viewBox = svgElement?.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 400, 400];
             
+            // Check if we're on mobile
+            const isMobile = window.innerWidth <= 768;
+            
             // Default position (above vertex)
-            let menuX = -80;
-            let menuY = -100;
+            let menuX = isMobile ? -70 : -80;
+            let menuY = isMobile ? -85 : -100;
             
             // Adjust if we have SVG dimensions
             if (svgRect && viewBox.length === 4) {
@@ -287,14 +311,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               const svgWidth = width;
               const svgHeight = height;
               
+              // Menu width and height (smaller on mobile)
+              const menuWidth = isMobile ? 150 : 170;
+              const menuHeight = isMobile ? 75 : 85;
+              
               // Check if menu would go off left edge
               if (position.x + menuX < minX + 10) {
                 menuX = -(position.x - minX) + 10;
               }
               
               // Check if menu would go off right edge
-              if (position.x + menuX + 170 > minX + svgWidth - 10) {
-                menuX = (minX + svgWidth) - (position.x + 170) - 10;
+              if (position.x + menuX + menuWidth > minX + svgWidth - 10) {
+                menuX = (minX + svgWidth) - (position.x + menuWidth) - 10;
               }
               
               // Check if menu would go off top edge
@@ -303,15 +331,33 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               }
               
               // Check if menu would go off bottom edge
-              if (position.y + menuY + 85 > minY + svgHeight - 10) {
-                menuY = (minY + svgHeight) - (position.y + 85) - 10;
+              if (position.y + menuY + menuHeight > minY + svgHeight - 10) {
+                menuY = (minY + svgHeight) - (position.y + menuHeight) - 10;
+              }
+              
+              // On mobile, prefer positioning to the side if possible
+              if (isMobile) {
+                // Try to position to the right of the vertex if there's room
+                if (position.x + 40 + menuWidth < minX + svgWidth - 10) {
+                  menuX = 40;
+                  menuY = -menuHeight/2;
+                }
+                // Otherwise try to the left if there's room
+                else if (position.x - 40 - menuWidth > minX + 10) {
+                  menuX = -40 - menuWidth;
+                  menuY = -menuHeight/2;
+                }
               }
             }
             
             // Calculate button positions based on menu position with padding
-            const giveButtonX = menuX + 20;
-            const receiveButtonX = menuX + 95;
-            const buttonY = menuY + 30;
+            // Adjust spacing for mobile
+            const buttonSpacing = isMobile ? 75 : 95;
+            const buttonPadding = isMobile ? 18 : 20;
+            
+            const giveButtonX = menuX + buttonPadding;
+            const receiveButtonX = menuX + buttonSpacing;
+            const buttonY = menuY + (isMobile ? 25 : 30);
             
             return (
               <>

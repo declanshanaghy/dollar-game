@@ -87,7 +87,13 @@ const HomePage = () => {
             <img
               src="/logos/logo.png"
               alt="The Dollar Game Logo"
-              style={{ maxWidth: '800px', maxHeight: '450px', width: '100%' }}
+              style={{
+                maxWidth: '800px',
+                maxHeight: '450px',
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain'
+              }}
             />
           </a>
         </header>

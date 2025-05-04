@@ -1,8 +1,8 @@
-# HTTPS Implementation Plan for Dollar Game (Future Implementation)
+# HTTPS Implementation Plan for Dollar Game
 
 ## Overview
 
-This document outlines the plan for implementing HTTPS with AWS Certificate Manager (ACM) certificates for the Dollar Game project, transitioning from the current S3 website to a secure CloudFront distribution with a custom domain. **This is a plan for future implementation and has not yet been executed.**
+This document outlines the plan for implementing HTTPS with AWS Certificate Manager (ACM) certificates for the Dollar Game project, transitioning from the current S3 website to a secure CloudFront distribution with a custom domain. **We are now executing this plan.**
 
 ## Current Infrastructure
 
@@ -83,13 +83,22 @@ flowchart TD
 ### 1. ACM Certificate Configuration
 
 ```hcl
+# ACM Certificate for dollar-game.firemandecko.com
 resource "aws_acm_certificate" "cert" {
   domain_name               = "dollar-game.firemandecko.com"
   subject_alternative_names = ["www.dollar-game.firemandecko.com"]
   validation_method         = "DNS"
-
+  
+  # ACM certificates for CloudFront must be in us-east-1 region
+  provider = aws.us_east_1
+  
   lifecycle {
     create_before_destroy = true
+  }
+  
+  tags = {
+    Name        = "dollar-game-certificate"
+    Environment = "production"
   }
 }
 
@@ -106,6 +115,10 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   origin {
     domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
     origin_id   = "S3-${aws_s3_bucket.website_bucket.bucket}"
+    
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
+    }
   }
 
   enabled             = true
@@ -114,8 +127,8 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   aliases             = ["dollar-game.firemandecko.com", "www.dollar-game.firemandecko.com"]
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
     target_origin_id = "S3-${aws_s3_bucket.website_bucket.bucket}"
 
     forwarded_values {
@@ -129,6 +142,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+    compress               = true
   }
 
   custom_error_response {
@@ -184,22 +198,23 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
 
 ### 4. DNS Records Required
 
-You'll need to create these records with your DNS provider:
+You'll need to create these records with your external DNS provider:
 
-1. For the primary domain (dollar-game.firemandecko.com):
+1. For ACM certificate validation (these will be provided after running `tofu apply`):
    - Type: CNAME
-   - Name: dollar-game
+   - Name: (provided by ACM, will look like `_a79865eb4cd1a6ab43e0e.dollar-game.firemandecko.com`)
+   - Value: (provided by ACM, will look like `_424242424242424242.acm-validations.aws`)
+
+2. For the apex domain (dollar-game.firemandecko.com):
+   - **Important Note for External DNS Providers**: Many DNS providers don't support CNAME records at the apex domain (also called the "naked domain" or "root domain"). You have these options:
+     - If your provider supports ALIAS/ANAME records: Use this record type pointing to the CloudFront distribution
+     - If not: You may need to use a service like CloudFlare that offers CNAME flattening
+     - As a last resort: Use an A record pointing to CloudFront's IP addresses, but note these IPs can change
+
+3. For the www subdomain:
+   - Type: CNAME
+   - Name: www
    - Value: CloudFront distribution domain name (e.g., d1234abcd.cloudfront.net)
-
-2. For the www subdomain:
-   - Type: CNAME
-   - Name: www.dollar-game
-   - Value: CloudFront distribution domain name (e.g., d1234abcd.cloudfront.net)
-
-3. For ACM certificate validation:
-   - Type: CNAME
-   - Name: (provided by ACM)
-   - Value: (provided by ACM)
 
 ### 5. GitHub Actions Workflow Updates
 
@@ -227,7 +242,7 @@ The deploy-infrastructure.yml workflow will need updates to:
   working-directory: ./infrastructure
   run: |
     echo "Infrastructure deployment completed"
-    echo "S3 Website URL: $(tofu output -raw website_url)"
+    echo "S3 Website URL: $(tofu output -raw s3_website_url)"
     echo "CloudFront URL: $(tofu output -raw cloudfront_url)"
     echo "Custom Domain: $(tofu output -raw custom_domain)"
 ```
@@ -264,7 +279,7 @@ gantt
     title HTTPS Implementation Timeline
     dateFormat  YYYY-MM-DD
     section Infrastructure
-    Update Terraform Configuration    :a1, 2025-06-01, 2d
+    Update Terraform Configuration    :a1, 2025-05-04, 1d
     Request ACM Certificate          :a2, after a1, 1d
     Wait for Certificate Validation  :a3, after a2, 1d
     Create CloudFront Distribution   :a4, after a3, 1d
@@ -272,7 +287,7 @@ gantt
     Update DNS Records               :b1, after a2, 1d
     Verify DNS Propagation           :b2, after b1, 1d
     section Application
-    Update Application Configuration :c1, 2025-06-01, 1d
+    Update Application Configuration :c1, 2025-05-04, 1d
     Update GitHub Actions            :c2, after a1, 1d
     section Documentation
     Update README.md                 :d1, after a4, 1d
@@ -296,6 +311,10 @@ gantt
    - Risk: Existing S3 bucket policies might conflict with CloudFront access
    - Mitigation: Review and update bucket policies as needed
 
+5. **External DNS Provider Limitations**
+   - Risk: Some DNS providers don't support CNAME at the apex domain
+   - Mitigation: Use ALIAS/ANAME records if available, or consider a provider with CNAME flattening
+
 ## Cost Implications
 
 Adding CloudFront and ACM will increase the monthly costs:
@@ -310,9 +329,12 @@ For a low-traffic site, this might add approximately $1-5 per month to your AWS 
 
 ## Next Steps
 
-1. Schedule the implementation for June 2025
-2. Implement the Terraform configuration changes
-3. Deploy the updated infrastructure
-4. Update DNS records
-5. Verify HTTPS functionality
-6. Update application and documentation
+1. Create the ssl.tf file with ACM and CloudFront configuration
+2. Update the dollar-game.tf file to add the us-east-1 provider and modify the S3 bucket policy
+3. Apply the Terraform changes to request the ACM certificate
+4. Create the necessary DNS validation records
+5. Wait for certificate validation
+6. Apply the remaining Terraform changes to create the CloudFront distribution
+7. Update the DNS records to point to the CloudFront distribution
+8. Verify HTTPS functionality
+9. Update application and documentation

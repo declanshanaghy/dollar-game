@@ -33,23 +33,32 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
     const xValues = vertices.map(v => v.position.x);
     const yValues = vertices.map(v => v.position.y);
     
+    // Check if we're on mobile
+    const isMobile = window.innerWidth <= 768;
+    
     // Add padding to accommodate menus and overlays, but more compact
-    const minX = Math.min(...xValues) - 80;
-    const minY = Math.min(...yValues) - 80;
-    const maxX = Math.max(...xValues) + 80;
-    const maxY = Math.max(...yValues) + 80;
+    // Use more padding on mobile for better touch interaction
+    const padding = isMobile ? 100 : 80;
+    const minX = Math.min(...xValues) - padding;
+    const minY = Math.min(...yValues) - padding;
+    const maxX = Math.max(...xValues) + padding;
+    const maxY = Math.max(...yValues) + padding;
     
     // Calculate center of the graph
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
     
     // Calculate dimensions with some padding
-    const width = (maxX - minX) * 1.1;
-    const height = (maxY - minY) * 1.1;
+    // Add more padding on mobile for better visibility
+    const scaleFactor = isMobile ? 1.2 : 1.1;
+    const width = (maxX - minX) * scaleFactor;
+    const height = (maxY - minY) * scaleFactor;
     
     // Ensure minimum dimensions and maintain aspect ratio
-    const finalWidth = Math.max(width, 500);
-    const finalHeight = Math.max(height, 500);
+    // Use smaller minimum dimensions on mobile
+    const minDimension = isMobile ? 400 : 500;
+    const finalWidth = Math.max(width, minDimension);
+    const finalHeight = Math.max(height, minDimension);
     
     // Calculate the new viewBox that centers the graph
     const viewBoxX = centerX - finalWidth / 2;
@@ -98,7 +107,10 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
             fontFamily: 'monospace',
             textAlign: 'center',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-            border: '2px solid #cba6f7'
+            border: '2px solid #cba6f7',
+            maxWidth: '90%',
+            fontSize: window.innerWidth <= 768 ? '0.9rem' : '1rem',
+            whiteSpace: 'nowrap'
           }}
         >
           {gameStatusMessage}

@@ -16,6 +16,7 @@ env:
   TOFU_VERSION: '1.6.0'  # Specify the OpenTofu version to use
   AWS_PAGER: ""  # Disable AWS CLI pagination
   CERTIFICATE_VALIDATION_TIMEOUT: "1800"  # 30 minutes timeout for certificate validation
+  DNS_PROPAGATION_CHECK_TIMEOUT: "1800"   # 30 minutes timeout for DNS propagation check
 
 jobs:
   deploy:
@@ -58,11 +59,106 @@ jobs:
       - name: Apply OpenTofu
         working-directory: ./infrastructure
         run: tofu apply tfplan
+      
+      # Step 6: Display Route53 Nameservers
+      - name: Display Route53 Nameservers
+        working-directory: ./infrastructure
+        run: |
+          echo "Route53 Nameservers for firemandecko.com:"
+          tofu output -json nameservers | jq -r '.[]'
+          echo "Please update these nameservers at your domain registrar (Namecheap)"
         
-      # Step 6: Output the deployment status
+      # Step 7: Wait for certificate validation
+      - name: Wait for certificate validation
+        working-directory: ./infrastructure
+        run: |
+          echo "Waiting for ACM certificate validation..."
+          # Get the certificate ARN
+          CERT_ARN=$(tofu output -raw acm_certificate_arn 2>/dev/null || echo "")
+          
+          if [ -n "$CERT_ARN" ]; then
+            # Wait for certificate validation (timeout after 30 minutes)
+            TIMEOUT=${{ env.CERTIFICATE_VALIDATION_TIMEOUT }}
+            START_TIME=$(date +%s)
+            
+            while true; do
+              # Check certificate status
+              STATUS=$(aws acm describe-certificate --certificate-arn "$CERT_ARN" --query 'Certificate.Status' --output text)
+              
+              if [ "$STATUS" = "ISSUED" ]; then
+                echo "Certificate validated successfully!"
+                break
+              fi
+              
+              # Check timeout
+              CURRENT_TIME=$(date +%s)
+              ELAPSED_TIME=$((CURRENT_TIME - START_TIME))
+              if [ $ELAPSED_TIME -gt $TIMEOUT ]; then
+                echo "Certificate validation timed out after $TIMEOUT seconds"
+                echo "Please check the ACM console and validate the certificate manually"
+                break
+              fi
+              
+              echo "Certificate status: $STATUS. Waiting..."
+              sleep 60
+            done
+          else
+            echo "Certificate ARN not found. Skipping validation wait."
+          fi
+      
+      # Step 8: Check DNS Propagation
+      - name: Check DNS Propagation
+        working-directory: ./infrastructure
+        run: |
+          echo "Checking DNS propagation..."
+          # Get the domain name
+          DOMAIN=$(tofu output -raw domain_name 2>/dev/null || echo "firemandecko.com")
+          
+          # Wait for DNS propagation (timeout after 30 minutes)
+          TIMEOUT=${{ env.DNS_PROPAGATION_CHECK_TIMEOUT }}
+          START_TIME=$(date +%s)
+          
+          while true; do
+            # Check if DNS is resolving correctly
+            if dig +short $DOMAIN | grep -q "cloudfront.net"; then
+              echo "DNS propagation complete for $DOMAIN!"
+              break
+            fi
+            
+            # Check timeout
+            CURRENT_TIME=$(date +%s)
+            ELAPSED_TIME=$((CURRENT_TIME - START_TIME))
+            if [ $ELAPSED_TIME -gt $TIMEOUT ]; then
+              echo "DNS propagation check timed out after $TIMEOUT seconds"
+              echo "Please check DNS resolution manually"
+              break
+            fi
+            
+            echo "DNS still propagating for $DOMAIN. Waiting..."
+            sleep 60
+          done
+      
+      # Step 9: Output the deployment status
       - name: Deployment Status
         working-directory: ./infrastructure
         run: |
           echo "Infrastructure deployment completed"
           echo "S3 Website URL (internal only):"
           tofu output s3_website_url
+          
+          # Output CloudFront and custom domain URLs if available
+          if tofu output -raw cloudfront_url &>/dev/null; then
+            echo "CloudFront URL:"
+            tofu output cloudfront_url
+          fi
+          
+          if tofu output -raw custom_domain &>/dev/null; then
+            echo "Custom Domain (once DNS is configured):"
+            tofu output custom_domain
+          fi
+          
+          # Output certificate validation records if available
+          if tofu output -raw certificate_validation_records &>/dev/null; then
+            echo "Certificate Validation Records:"
+            tofu output -json certificate_validation_records | jq -r 'to_entries[] | "\(.key):\n  Name: \(.value.name)\n  Type: \(.value.type)\n  Value: \(.value.value)"'
+          fi

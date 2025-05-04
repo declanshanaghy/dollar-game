@@ -23,31 +23,46 @@ const GraphComponent: React.FC<GraphComponentProps> = ({
   // Calculate the SVG viewBox dimensions based on vertex positions
   // with extra padding to accommodate menus and overlays
   const calculateViewBox = () => {
-    if (vertices.length === 0) return '0 0 400 400';
+    if (vertices.length === 0) return '0 0 600 600';
     
     const xValues = vertices.map(v => v.position.x);
     const yValues = vertices.map(v => v.position.y);
     
-    // Add more padding (150px instead of 50px) to accommodate menus and overlays
-    const minX = Math.min(...xValues) - 150;
-    const minY = Math.min(...yValues) - 150;
-    const maxX = Math.max(...xValues) + 150;
-    const maxY = Math.max(...yValues) + 150;
+    // Add more padding to accommodate menus and overlays
+    const minX = Math.min(...xValues) - 100;
+    const minY = Math.min(...yValues) - 100;
+    const maxX = Math.max(...xValues) + 100;
+    const maxY = Math.max(...yValues) + 100;
     
-    const width = maxX - minX;
-    const height = maxY - minY;
+    // Calculate center of the graph
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
     
-    return `${minX} ${minY} ${width} ${height}`;
+    // Calculate dimensions with some extra padding
+    const width = (maxX - minX) * 1.2;
+    const height = (maxY - minY) * 1.2;
+    
+    // Ensure minimum dimensions and maintain aspect ratio
+    const finalWidth = Math.max(width, 600);
+    const finalHeight = Math.max(height, 600);
+    
+    // Calculate the new viewBox that centers the graph
+    const viewBoxX = centerX - finalWidth / 2;
+    const viewBoxY = centerY - finalHeight / 2;
+    
+    return `${viewBoxX} ${viewBoxY} ${finalWidth} ${finalHeight}`;
   };
   
   return (
-    <div className="graph-container">
+    <div className="graph-container" style={{ alignSelf: 'stretch', width: '100%', height: '100%' }}>
       <svg
         viewBox={calculateViewBox()}
         width="100%"
-        height="500px"
+        height="100%"
         className="graph-svg"
         onClick={handleBackgroundClick}
+        style={{ display: 'block', marginTop: 0, width: '100%', height: '100%' }}
+        preserveAspectRatio="xMidYMid meet"
       >
         {/* Semi-transparent overlay to capture clicks */}
         <rect

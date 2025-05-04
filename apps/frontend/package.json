@@ -1,5 +1,5 @@
 {
-  "name": "dollar-game",
+  "name": "dollar-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,21 +7,32 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup-server": "cd ../server && pnpm install",
+    "start-server": "cd ../server && pnpm run dev",
+    "dev:all": "concurrently \"pnpm run dev\" \"pnpm run start-server\"",
+    "generate-logos": "tsx scripts/generate-logo-svgs.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.18.0",
+    "dotenv": "^16.5.0",
+    "openai": "^4.97.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@types/node": "^20.11.30",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^8.2.2",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "tsx": "^4.7.1",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1"

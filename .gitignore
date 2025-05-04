@@ -31,3 +31,5 @@ infrastructure/.terraform/
 
 # Secrets
 *secret*
+.env
+.env.*

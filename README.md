@@ -85,40 +85,87 @@ The game tracks several key metrics:
 ### Local Development
 
 ```bash
-# Navigate to the app directory
-cd app
-
 # Install dependencies
-npm install
+pnpm install
 
 # Start the development server
-npm run dev
+pnpm run dev
 ```
 
 The application will be available at `http://localhost:5173/`
+
+### Developer Tools
+
+The project includes the following developer tools:
+
+- **Logo Selection CLI Tool**: Located in the `tools/logo-selection` directory - A command-line tool for generating and selecting logo options for the Dollar Game.
+
+#### Using the Logo Selection Tool
+
+The logo selection tool uses Anthropic's Claude AI to generate SVG logos. To use it:
+
+1. Navigate to the tool directory:
+   ```bash
+   cd tools/logo-selection
+   ```
+
+2. Create an `.env` file with your Anthropic API key:
+   ```
+   ANTHROPIC_API_KEY=your_api_key_here
+   ```
+
+3. Run the tool:
+   ```bash
+   ./logo-select.sh
+   ```
+   
+   Or alternatively:
+   ```bash
+   pnpm install
+   pnpm start
+   ```
+
+4. The tool will:
+   - Generate 6 SVG logos using Claude AI
+   - Create a static HTML page with the logos
+   - Open the page in your default browser
+   - Prompt you to select a logo in the terminal
+
+5. After viewing the logos in your browser, return to the terminal and enter the number of your preferred logo when prompted.
+
+The logo selection tool handles:
+- Generating logo suggestions using Claude AI
+- Saving the selected logo to the project
+- Updating the README.md with the selected logo
 
 ## 🏗️ Project Architecture
 
 The Dollar Game is built with React, TypeScript, and Vite, organized with conscious code structure:
 
 ```
-app/
-├── public/              # Static assets
-├── src/
-│   ├── components/      # React components
-│   │   ├── EdgeComponent.tsx      # Edge visualization
-│   │   ├── GameControls.tsx       # Game interaction controls
-│   │   ├── GraphComponent.tsx     # Graph visualization
-│   │   └── VertexComponent.tsx    # Vertex visualization
-│   ├── App.css          # Styling with bohemian-tech aesthetics
-│   ├── App.tsx          # Main application component
-│   ├── gameLogic.ts     # Core game mechanics
-│   ├── index.css        # Global styles
-│   ├── main.tsx         # Application entry point
-│   └── types.ts         # TypeScript type definitions
-├── index.html           # HTML entry point
-├── package.json         # Dependencies and scripts
-└── tsconfig.json        # TypeScript configuration
+/
+├── apps/
+│   ├── frontend/        # Frontend application
+│   │   ├── public/      # Static assets
+│   │   ├── scripts/     # Build and utility scripts
+│   │   └── src/
+│   │       ├── components/  # React components
+│   │       │   ├── EdgeComponent.tsx      # Edge visualization
+│   │       │   ├── GameControls.tsx       # Game interaction controls
+│   │       │   ├── GraphComponent.tsx     # Graph visualization
+│   │       │   └── VertexComponent.tsx    # Vertex visualization
+│   │       ├── pages/       # Page components
+│   │       ├── services/    # Service modules
+│   │       ├── App.css      # Styling with bohemian-tech aesthetics
+│   │       ├── App.tsx      # Main application component
+│   │       ├── gameLogic.ts # Core game mechanics
+│   │       ├── index.css    # Global styles
+│   │       ├── main.tsx     # Application entry point
+│   │       └── types.ts     # TypeScript type definitions
+├── tools/
+│   └── logo-selection/  # Logo selection CLI tool
+├── infrastructure/      # Terraform/OpenTofu infrastructure code
+└── design/              # Design documents and resources
 ```
 
 ### Key Components

@@ -185,7 +185,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       {/* Aura layer for positive vertices */}
       {chips >= 0 && (canGive || canReceive) && (
         <circle
-          r={38}
+          r={48}
           fill="none"
           stroke={chips > 0 ? 'var(--positive-energy)' : 'var(--neutral-karma)'}
           strokeWidth={3}
@@ -195,7 +195,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       )}
       
       <circle
-        r={30}
+        r={40}
         fill={getColor()}
         stroke={(canGive || canReceive) ? 'var(--amethyst-awareness)' : 'var(--sunset-clay)'}
         strokeWidth={2}
@@ -205,7 +205,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       <text
         textAnchor="middle"
         dy=".3em"
-        fontSize="16"
+        fontSize="22"
         fontWeight="bold"
         fill="var(--terminal-black)"
         className="dollar-value"

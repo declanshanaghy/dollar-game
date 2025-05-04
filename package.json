@@ -1,0 +1,21 @@
+{
+  "name": "dollar-game-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dollar Game monorepo",
+  "scripts": {
+    "dev": "pnpm run dev:frontend",
+    "dev:frontend": "pnpm --filter dollar-frontend dev",
+    "build": "pnpm run build:frontend",
+    "build:frontend": "pnpm --filter dollar-frontend build",
+    "lint": "pnpm run lint:frontend",
+    "lint:frontend": "pnpm --filter dollar-frontend lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

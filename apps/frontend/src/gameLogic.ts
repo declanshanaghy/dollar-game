@@ -45,8 +45,8 @@ export const createGraph = (
       id: i,
       chips: 0, // Initialize with 0, we'll distribute money later
       position: {
-        x: 100 + Math.cos(2 * Math.PI * i / numVertices) * 150,
-        y: 100 + Math.sin(2 * Math.PI * i / numVertices) * 150,
+        x: 300 + Math.cos(2 * Math.PI * i / numVertices) * 250,
+        y: 300 + Math.sin(2 * Math.PI * i / numVertices) * 250,
       },
     });
   }

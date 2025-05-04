@@ -43,7 +43,7 @@ const EdgeComponent: React.FC<EdgeComponentProps> = ({ edge, vertices }) => {
         className="edge-path flowing-energy"
         d={calculateCurvedPath()}
         stroke="var(--sunset-clay)"
-        strokeWidth={2.5}
+        strokeWidth={4}
         strokeOpacity={0.7}
         fill="none"
       />
@@ -53,10 +53,10 @@ const EdgeComponent: React.FC<EdgeComponentProps> = ({ edge, vertices }) => {
         className="energy-flow"
         d={calculateCurvedPath()}
         stroke="url(#edgeGradient)"
-        strokeWidth={1.5}
+        strokeWidth={2.5}
         strokeOpacity={0.4}
         fill="none"
-        strokeDasharray="3 3"
+        strokeDasharray="5 5"
       />
       
       {/* Define gradient for edges */}

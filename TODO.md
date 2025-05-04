@@ -34,8 +34,24 @@ Use time difference between now and the last commit timestamp for the developmen
    - Immortalize this style as the defacto standard for game and documentation throughout the project be embedding it in the readme and create a new style guide md file.
    - Commit changes to git before completion
 [X] Update the main README.md with all the latest information about the project
-[] App attribution enhancements
+[X] App attribution enhancements
   - Ensure the game is aligned at the top center of the screen
   - Refer to https://www.youtube.com/watch?v=U33dsEcKgeQ as an inspiration for the game
   - Incdlude a link and summary of the video in README.md
-[] Update the infrastructure to use HTTPS with an ACME certificate from zerossl.com
+[] Generate a profile description for firemandecko as the architect of the game accoring to the stylistic rules
+[] Update the game to include a header in the top left to "Buy Me a Coffee" with a link to https://buymeacoffee.com/firemandecko
+[X] Generate a logo for the game and add it to the app
+ - Created a CLI tool for logo selection instead of a frontend page:
+   - Generates 6 SVG logos using Claude AI
+   - Displays them in a static HTML page
+   - Allows selection via CLI
+   - Updates the README.md with the selected logo
+ - Tool is located in tools/logo-selection directory
+ - Removed server dependency and backend components
+ - Simplified the project structure
+[] Update the infrastructure to use HTTPS with an ACME certificate from zerossl.com in the terraform and github actions
+ - Update the DNS record for the domain name to point to the new infrastructure
+ - Update the GitHub action to deploy the infrastructure
+ - Update the README.md to include the new domain name
+ - Update the app to use the new domain name
+ - Update the app to use the new ACME certificate

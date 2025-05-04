@@ -95,45 +95,133 @@ export const createGraph = (
   }
   
   // Distribute money among vertices
-  if (randomize && totalMoney > 0) {
-    // First, distribute money randomly
-    let remainingMoney = totalMoney;
-    
-    // Ensure each vertex has a chance to get money
-    for (let i = 0; i < numVertices && remainingMoney > 0; i++) {
-      const amount = Math.floor(Math.random() * 3) + 1; // 1-3 chips
-      const actualAmount = Math.min(amount, remainingMoney);
+  if (randomize) {
+    if (totalMoney >= 0) {
+      // For positive or zero total money, distribute randomly
+      let remainingMoney = totalMoney;
       
-      vertices[i].chips = actualAmount;
-      remainingMoney -= actualAmount;
-    }
-    
-    // Distribute any remaining money randomly
-    while (remainingMoney > 0) {
-      const vertexIndex = Math.floor(Math.random() * numVertices);
-      vertices[vertexIndex].chips += 1;
-      remainingMoney -= 1;
-    }
-    
-    // Make some vertices negative to make the game challenging
-    // The sum of all chips should still equal totalMoney
-    for (let i = 0; i < Math.min(numVertices / 2, 3); i++) {
-      const vertexIndex = Math.floor(Math.random() * numVertices);
-      const negativeAmount = Math.floor(Math.random() * 3) + 1; // 1-3 negative chips
-      
-      // Find a vertex with enough positive chips to balance
-      const positiveVertices = vertices.filter(v => v.chips > negativeAmount);
-      if (positiveVertices.length > 0) {
-        const positiveIndex = Math.floor(Math.random() * positiveVertices.length);
-        const positiveVertex = positiveVertices[positiveIndex];
+      // Ensure each vertex has a chance to get money
+      for (let i = 0; i < numVertices && remainingMoney > 0; i++) {
+        const amount = Math.floor(Math.random() * 3) + 1; // 1-3 chips
+        const actualAmount = Math.min(amount, remainingMoney);
         
-        // Make the selected vertex negative
-        vertices[vertexIndex].chips -= negativeAmount;
-        
-        // Add the same amount to the positive vertex to maintain the total
-        const positiveVertexIndex = vertices.findIndex(v => v.id === positiveVertex.id);
-        vertices[positiveVertexIndex].chips += negativeAmount;
+        vertices[i].chips = actualAmount;
+        remainingMoney -= actualAmount;
       }
+      
+      // Distribute any remaining money randomly
+      while (remainingMoney > 0) {
+        const vertexIndex = Math.floor(Math.random() * numVertices);
+        vertices[vertexIndex].chips += 1;
+        remainingMoney -= 1;
+      }
+      
+      // Verify the total is correct
+      const actualTotal = vertices.reduce((sum, v) => sum + v.chips, 0);
+      if (actualTotal !== totalMoney) {
+        // If there's a discrepancy, adjust the first vertex to fix it
+        vertices[0].chips += (totalMoney - actualTotal);
+      }
+    } else {
+      // For negative total money, we need to ensure the total equals exactly the totalMoney value
+      
+      // First, distribute some positive values to make the game interesting
+      const totalPositive = Math.max(Math.abs(totalMoney), numVertices * 2);
+      let remainingPositive = totalPositive;
+      
+      // Give each vertex at least 1 chip
+      for (let i = 0; i < numVertices; i++) {
+        vertices[i].chips = 1;
+        remainingPositive -= 1;
+      }
+      
+      // Distribute remaining positive chips randomly
+      while (remainingPositive > 0) {
+        const vertexIndex = Math.floor(Math.random() * numVertices);
+        vertices[vertexIndex].chips += 1;
+        remainingPositive -= 1;
+      }
+      
+      // Now distribute negative values to reach the desired total
+      // We need to remove (totalPositive + totalMoney) chips to reach the target
+      let remainingNegative = totalPositive + Math.abs(totalMoney);
+      
+      while (remainingNegative > 0) {
+        const vertexIndex = Math.floor(Math.random() * numVertices);
+        vertices[vertexIndex].chips -= 1;
+        remainingNegative -= 1;
+      }
+      
+      // Verify the total is correct
+      const actualTotal = vertices.reduce((sum, v) => sum + v.chips, 0);
+      if (actualTotal !== totalMoney) {
+        // If there's a discrepancy, adjust the first vertex to fix it
+        vertices[0].chips += (totalMoney - actualTotal);
+      }
+    }
+    
+    // If total money is positive, make some vertices negative to make the game challenging
+    // The sum of all chips should still equal totalMoney
+    if (totalMoney > 0) {
+      let madeNegative = false;
+      
+      // Try to make at least 1 and up to 3 vertices negative
+      for (let i = 0; i < Math.min(numVertices / 2, 3); i++) {
+        const vertexIndex = Math.floor(Math.random() * numVertices);
+        const negativeAmount = Math.floor(Math.random() * 3) + 1; // 1-3 negative chips
+        
+        // Find a vertex with enough positive chips to balance
+        const positiveVertices = vertices.filter(v => v.chips > negativeAmount);
+        if (positiveVertices.length > 0) {
+          const positiveIndex = Math.floor(Math.random() * positiveVertices.length);
+          const positiveVertex = positiveVertices[positiveIndex];
+          
+          // Make the selected vertex negative
+          vertices[vertexIndex].chips -= negativeAmount;
+          
+          // Add the same amount to the positive vertex to maintain the total
+          const positiveVertexIndex = vertices.findIndex(v => v.id === positiveVertex.id);
+          vertices[positiveVertexIndex].chips += negativeAmount;
+          
+          madeNegative = true;
+        }
+      }
+      
+      // If we couldn't make any vertex negative, force at least one to be negative
+      if (!madeNegative && numVertices >= 2 && totalMoney >= 2) {
+        // Find the vertex with the most chips
+        const sortedVertices = [...vertices].sort((a, b) => b.chips - a.chips);
+        const richestVertex = sortedVertices[0];
+        const secondVertex = sortedVertices[1] || sortedVertices[0];
+        
+        if (richestVertex && richestVertex.chips > 0) {
+          // Take 1 chip from the richest vertex and make it -1
+          const richestIndex = vertices.findIndex(v => v.id === richestVertex.id);
+          const secondIndex = vertices.findIndex(v => v.id === secondVertex.id);
+          
+          vertices[richestIndex].chips -= 1;
+          vertices[secondIndex].chips -= 1;
+          
+          // Add 2 chips to another vertex to maintain the total
+          const targetIndex = Math.floor(Math.random() * numVertices);
+          vertices[targetIndex].chips += 2;
+        }
+      }
+    }
+  }
+  
+  // Final verification to ensure total money matches exactly
+  const finalTotal = vertices.reduce((sum, v) => sum + v.chips, 0);
+  if (finalTotal !== totalMoney) {
+    console.warn(`Final total money mismatch: requested ${totalMoney}, got ${finalTotal}. Fixing...`);
+    
+    // If there's a discrepancy, adjust the first vertex with positive chips
+    const positiveIndex = vertices.findIndex(v => v.chips > 0);
+    if (positiveIndex !== -1) {
+      vertices[positiveIndex].chips += (totalMoney - finalTotal);
+    } else {
+      // If no positive vertex, adjust the first one
+      vertices[0].chips += (totalMoney - finalTotal);
     }
   }
   
@@ -254,13 +342,52 @@ export const initializeGameState = (
   edgeDensity: number = 30,
   totalMoney: number = 5
 ): GameState => {
-  const graph = createGraph(numVertices, edgeDensity, totalMoney);
+  // Create a new graph
+  let graph = createGraph(numVertices, edgeDensity, totalMoney);
+  
+  // Verify that the total money in the graph matches the requested total
+  const actualTotal = calculateTotalMoney(graph);
+  if (actualTotal !== totalMoney) {
+    console.warn(`Total money mismatch: requested ${totalMoney}, got ${actualTotal}. Fixing...`);
+    
+    // Fix the discrepancy by adjusting a vertex
+    if (graph.vertices.length > 0) {
+      const adjustmentNeeded = totalMoney - actualTotal;
+      graph.vertices[0].chips += adjustmentNeeded;
+    }
+  }
+  
+  let isWon = checkWinCondition(graph);
+  
+  // If the initial game is already won, try to regenerate it up to 3 times
+  // to ensure the game starts with a challenge
+  let attempts = 0;
+  const maxAttempts = 3;
+  
+  while (isWon && attempts < maxAttempts) {
+    graph = createGraph(numVertices, edgeDensity, totalMoney);
+    
+    // Verify total money again for each regenerated graph
+    const newActualTotal = calculateTotalMoney(graph);
+    if (newActualTotal !== totalMoney) {
+      console.warn(`Total money mismatch after regeneration: requested ${totalMoney}, got ${newActualTotal}. Fixing...`);
+      
+      if (graph.vertices.length > 0) {
+        const adjustmentNeeded = totalMoney - newActualTotal;
+        graph.vertices[0].chips += adjustmentNeeded;
+      }
+    }
+    
+    isWon = checkWinCondition(graph);
+    attempts++;
+  }
+  
   const genus = calculateGenus(graph);
   
   return {
     graph,
     history: [graph],
-    isWon: checkWinCondition(graph),
+    isWon: isWon,
     genus: genus,
     isWinnable: isGameWinnable(graph),
   };
@@ -329,7 +456,51 @@ export const resetGame = (
   edgeDensity: number = 30,
   totalMoney: number = 5
 ): GameState => {
-  return initializeGameState(numVertices, edgeDensity, totalMoney);
+  // Generate a new game state
+  let newGameState = initializeGameState(numVertices, edgeDensity, totalMoney);
+  
+  // Verify that the total money in the graph matches the requested total
+  const actualTotal = calculateTotalMoney(newGameState.graph);
+  if (actualTotal !== totalMoney) {
+    console.warn(`Total money mismatch in resetGame: requested ${totalMoney}, got ${actualTotal}. Fixing...`);
+    
+    // Fix the discrepancy by adjusting a vertex
+    if (newGameState.graph.vertices.length > 0) {
+      const adjustmentNeeded = totalMoney - actualTotal;
+      newGameState.graph.vertices[0].chips += adjustmentNeeded;
+      
+      // Update game state properties that depend on the graph
+      newGameState.isWon = checkWinCondition(newGameState.graph);
+      newGameState.isWinnable = isGameWinnable(newGameState.graph);
+    }
+  }
+  
+  // If the game is already won, regenerate it up to 5 times to get a non-won state
+  let attempts = 0;
+  const maxAttempts = 5;
+  
+  while (newGameState.isWon && attempts < maxAttempts) {
+    newGameState = initializeGameState(numVertices, edgeDensity, totalMoney);
+    
+    // Verify total money again for each regenerated game state
+    const newActualTotal = calculateTotalMoney(newGameState.graph);
+    if (newActualTotal !== totalMoney) {
+      console.warn(`Total money mismatch after regeneration in resetGame: requested ${totalMoney}, got ${newActualTotal}. Fixing...`);
+      
+      if (newGameState.graph.vertices.length > 0) {
+        const adjustmentNeeded = totalMoney - newActualTotal;
+        newGameState.graph.vertices[0].chips += adjustmentNeeded;
+        
+        // Update game state properties that depend on the graph
+        newGameState.isWon = checkWinCondition(newGameState.graph);
+        newGameState.isWinnable = isGameWinnable(newGameState.graph);
+      }
+    }
+    
+    attempts++;
+  }
+  
+  return newGameState;
 };
 
 /**

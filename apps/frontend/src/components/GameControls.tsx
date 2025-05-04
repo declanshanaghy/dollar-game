@@ -26,7 +26,7 @@ const GameControls: React.FC<GameControlsProps> = ({
   return (
     <div className="game-controls consciousness-slider">
       <div className="control-group">
-        <label htmlFor="vertices-slider">V3rt3x D3ns1ty 🔮: {numVertices}</label>
+        <label htmlFor="vertices-slider">Number of Nodes: {numVertices}</label>
         <input
           id="vertices-slider"
           type="range"
@@ -39,7 +39,7 @@ const GameControls: React.FC<GameControlsProps> = ({
       </div>
 
       <div className="control-group">
-        <label htmlFor="edges-slider">C0nn3ct10n Fl0w 🧠: {edgeDensity}%</label>
+        <label htmlFor="edges-slider">Connection Density: {edgeDensity}%</label>
         <input
           id="edges-slider"
           type="range"
@@ -52,11 +52,11 @@ const GameControls: React.FC<GameControlsProps> = ({
       </div>
 
       <div className="control-group">
-        <label htmlFor="money-slider">K4rm4 B4l4nc3 ✨: {totalMoney}</label>
+        <label htmlFor="money-slider">Starting Dollars: {totalMoney}</label>
         <input
           id="money-slider"
           type="range"
-          min="0"
+          min="-10"
           max="20"
           value={totalMoney}
           onChange={(e) => setTotalMoney(parseInt(e.target.value))}
@@ -70,7 +70,7 @@ const GameControls: React.FC<GameControlsProps> = ({
           className="control-button reset-button cosmic-button primary-action"
         >
           <span className="button-aura"></span>
-          <span className="button-text">Initiate Harmony 🌱</span>
+          <span className="button-text">Reset Game</span>
         </button>
         
         <button
@@ -78,29 +78,29 @@ const GameControls: React.FC<GameControlsProps> = ({
           disabled={!canUndo}
           className={`control-button undo-button ${!canUndo ? 'disabled' : ''}`}
         >
-          Undo Vibration 🔄
+          Undo Move
         </button>
       </div>
       
       {isWon && (
         <div className="win-message">
-          <h2>Cosmic Harmony Achieved! 🎉✨</h2>
-          <p>All nodes have reached energetic equilibrium, like the carefully extracted notes of a single-origin Ethiopian pour-over.</p>
+          <h2>You Won! 🎉</h2>
+          <p>All nodes have zero or positive dollars. Great job!</p>
         </div>
       )}
       
       <div className="genus-info">
-        <h3>Algorithmic Consciousness:</h3>
+        <h3>Game Statistics:</h3>
         <p>
-          <strong>Genus Potential:</strong> {genus} (E - V + 1) 🧮
+          <strong>Genus:</strong> {genus} (E - V + 1)
         </p>
         <p>
-          <strong>Energy Flow Total:</strong> {currentTotalMoney} 💫
+          <strong>Total Dollars:</strong> {currentTotalMoney}
         </p>
         <p className={isWinnable ? "winnable-message" : "unwinnable-message"}>
           {isWinnable
-            ? "This graph vibrates with winnable potential (Energy ≥ Genus)"
-            : "This graph requires additional cosmic energy (Energy < Genus)"}
+            ? "This game is winnable (Dollars ≥ Genus)"
+            : "This game is not winnable (Dollars < Genus)"}
         </p>
       </div>
       

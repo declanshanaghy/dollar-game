@@ -186,10 +186,10 @@ Inspired by Numberphile's "The Dollar Game"
   - Use DigitalBohoIcon.webp as the icon for the 3st card (to wikipedia article)
   - Scale the game panel down so it's the same height as the control panel
 - [x] UI Bugs
-  - Too many cash stacks are appearing on the animated lines, ensure only a negative 1 or positive 1 cash stack appears depending on whether the action is to give or receive.
-  - Add arrows at the end of the animated lines, ensure the animated lines don't cross over the buttons
-  - Make give/receive arrows use different paths
-  - Fix arrow head alignment
-  - Move line ending points to cash stacks
-  - Fix receive animations that were looping back to the same node
+  - [x] Too many cash stacks are appearing on the animated lines, ensure only a negative 1 or positive 1 cash stack appears depending on whether the action is to give or receive.
+  - [x] Add arrows at the end of the animated lines, ensure the animated lines don't cross over the buttons
+  - [x] Make give/receive arrows use different paths
+  - [x] Fix arrow head alignment
+  - [x] Move line ending points to cash stacks
+  - [x] Fix receive animations that were looping back to the same node
 - [x] Ensure that all the hover actions work for clicks on mobile devices

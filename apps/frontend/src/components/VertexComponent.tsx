@@ -11,7 +11,6 @@ const globalMenuState: {
   },
   closeAllMenus: () => {
     if (globalMenuState.openVertexId !== null) {
-      const previousId = globalMenuState.openVertexId;
       globalMenuState.openVertexId = null;
       // Force a re-render of all vertices
       document.querySelectorAll('.vertex-core').forEach(el => {
@@ -58,7 +57,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   
   // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (_: MouseEvent) => {
+    const handleClickOutside = (_event: MouseEvent) => {
       setShowMenu(false);
       setHoveredAction(null);
     };
@@ -237,9 +236,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           
           // Calculate the position of the cash stack icon
           // The cash stack is positioned at an offset from the vertex center
-          const cashIconOffset = isGiving ? 50 : -50; // From line 198-200
-          const cashIconX = isGiving ? cashIconOffset : -cashIconOffset;
-          const cashIconY = isGiving ? -15 : 15;
+          // These values are used for reference in the original code
           
           // Calculate start and end points differently for give vs receive
           let startX, startY, endX, endY;
@@ -654,11 +651,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             // and centered within the panel
             const buttonSpacing = 120; // Space between buttons
             const panelWidth = 260;
-            const panelHeight = 60;
             
             // Calculate total width of both buttons
             const giveButtonWidth = 75;
-            const receiveButtonWidth = 95;
             const totalButtonsWidth = giveButtonWidth + buttonSpacing;
             
             // Center the buttons horizontally
@@ -835,4 +830,5 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   );
 };
 
+// Make sure the component is exported
 export default VertexComponent;

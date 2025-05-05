@@ -193,3 +193,4 @@ Inspired by Numberphile's "The Dollar Game"
   - [x] Move line ending points to cash stacks
   - [x] Fix receive animations that were looping back to the same node
 - [x] Ensure that all the hover actions work for clicks on mobile devices
+- [x] Fix build error in https://github.com/declanshanaghy/dollar-game/actions/runs/14826675234/job/41620746833

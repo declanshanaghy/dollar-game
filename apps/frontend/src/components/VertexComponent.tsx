@@ -3,10 +3,21 @@ import React, { useState, useEffect } from 'react';
 const globalMenuState: {
   openVertexId: number | null;
   setOpenVertexId: (id: number | null) => void;
+  closeAllMenus: () => void;
 } = {
   openVertexId: null,
   setOpenVertexId: (id: number | null) => {
     globalMenuState.openVertexId = id;
+  },
+  closeAllMenus: () => {
+    if (globalMenuState.openVertexId !== null) {
+      const previousId = globalMenuState.openVertexId;
+      globalMenuState.openVertexId = null;
+      // Force a re-render of all vertices
+      document.querySelectorAll('.vertex-core').forEach(el => {
+        el.dispatchEvent(new Event('mouseleave', { bubbles: true }));
+      });
+    }
   }
 };
 import './VertexComponent.css'; // Import CSS for animations
@@ -73,13 +84,9 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
       menuTimeoutRef.current = null;
     }
     
-    // Close any other open menus
+    // Close any other open menus before opening this one
     if (globalMenuState.openVertexId !== null && globalMenuState.openVertexId !== id) {
-      globalMenuState.openVertexId = null;
-      // Force a re-render of all vertices
-      document.querySelectorAll('.vertex-core').forEach(el => {
-        el.dispatchEvent(new Event('mouseleave', { bubbles: true }));
-      });
+      globalMenuState.closeAllMenus();
     }
     
     // Set this vertex as the one with open menu
@@ -237,31 +244,55 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           // Calculate start and end points differently for give vs receive
           let startX, startY, endX, endY;
           
+          // Calculate cash stack positions for both current vertex and neighbor
+          // For the current vertex, we know the exact position of the cash stack
+          const currentCashX = 0; // Cash stack is centered on the vertex
+          const currentCashY = 0; // Cash stack is centered on the vertex
+          
+          // For the neighbor vertex, we need to calculate the position of its cash stack
+          // The cash stack is centered on the neighbor vertex
+          const neighborCashX = dx; // Neighbor's cash stack is at the neighbor's center
+          const neighborCashY = dy; // Neighbor's cash stack is at the neighbor's center
+          
+          // Helper function to shorten arrows by a fixed amount
+          const shortenArrow = (fromX: number, fromY: number, toX: number, toY: number, shortenAmount: number) => {
+            // Calculate direction vector from start to end
+            const dirX = toX - fromX;
+            const dirY = toY - fromY;
+            
+            // Calculate length of the vector
+            const length = Math.sqrt(dirX * dirX + dirY * dirY);
+            
+            // Normalize the direction vector
+            const normDirX = dirX / length;
+            const normDirY = dirY / length;
+            
+            // Apply shortening in the opposite direction of the arrow
+            // This makes the arrow shorter by a fixed amount
+            const shortenedX = toX - normDirX * shortenAmount;
+            const shortenedY = toY - normDirY * shortenAmount;
+            
+            return { x: shortenedX, y: shortenedY };
+          };
+          
           if (isGiving) {
             // For giving: start at current vertex cash stack, end at neighbor's cash stack
-            // Start at the current vertex's cash stack
-            startX = cashIconX;
-            startY = cashIconY;
+            startX = currentCashX;
+            startY = currentCashY;
             
-            // End at the neighbor's cash stack position
-            // Calculate the position of the neighbor's cash stack
-            const neighborCashOffset = 50; // Same offset as used for cash icons
-            const neighborCashX = neighbor.position.x - position.x; // Vector to neighbor
-            const neighborCashY = neighbor.position.y - position.y;
-            
-            // Position the endpoint at the neighbor's cash stack
-            endX = neighborCashX - unitX * neighborCashOffset * 0.5; // Adjust to hit the cash stack
-            endY = neighborCashY - unitY * neighborCashOffset * 0.5;
+            // End at the neighbor's cash stack, shortened by 10 pixels
+            const shortenedEnd = shortenArrow(currentCashX, currentCashY, neighborCashX, neighborCashY, 10);
+            endX = shortenedEnd.x;
+            endY = shortenedEnd.y;
           } else {
             // For receiving: start at neighbor's cash stack, end at current vertex's cash stack
-            // Calculate position of the neighbor's cash stack
-            const neighborCashOffset = 50; // Same offset as used for cash icons
-            startX = dx - unitX * neighborCashOffset * 0.5; // Start at neighbor's cash stack
-            startY = dy - unitY * neighborCashOffset * 0.5;
+            startX = neighborCashX;
+            startY = neighborCashY;
             
-            // End at the current vertex's cash stack
-            endX = cashIconX;
-            endY = cashIconY;
+            // End at the current vertex's cash stack, shortened by 10 pixels
+            const shortenedEnd = shortenArrow(neighborCashX, neighborCashY, currentCashX, currentCashY, 10);
+            endX = shortenedEnd.x;
+            endY = shortenedEnd.y;
           }
           
           // Calculate different control points for give vs receive actions
@@ -307,23 +338,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
           // Path for curved line
           const pathD = `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`;
           
-          // Calculate arrow points with improved orientation
-          // Use a position closer to the end for more accurate direction calculation
-          const t = isGiving ? 0.98 : 0.02; // Position along the curve for calculating direction
-          const oneMinusT = 1 - t;
+          // Calculate the tangent direction directly from the endpoints
+          // This ensures the arrow heads are aligned with the line direction
+          const directTangentX = endX - startX;
+          const directTangentY = endY - startY;
           
-          // Calculate the point on the curve at position t
-          const pointX = oneMinusT * oneMinusT * startX + 2 * oneMinusT * t * ctrlX + t * t * endX;
-          const pointY = oneMinusT * oneMinusT * startY + 2 * oneMinusT * t * ctrlY + t * t * endY;
+          // Normalize the direct tangent
+          const directTangentLength = Math.sqrt(directTangentX * directTangentX + directTangentY * directTangentY);
+          const normalizedDirectTangentX = directTangentX / directTangentLength;
+          const normalizedDirectTangentY = directTangentY / directTangentLength;
           
-          // Calculate tangent direction at point t with improved accuracy
-          const tangentX = 2 * (1 - t) * (ctrlX - startX) + 2 * t * (endX - ctrlX);
-          const tangentY = 2 * (1 - t) * (ctrlY - startY) + 2 * t * (endY - ctrlY);
-          
-          // Normalize the tangent vector
-          const tangentLength = Math.sqrt(tangentX * tangentX + tangentY * tangentY);
-          const normalizedTangentX = tangentX / tangentLength;
-          const normalizedTangentY = tangentY / tangentLength;
+          // Use the direct tangent for arrow calculations
+          const normalizedTangentX = normalizedDirectTangentX;
+          const normalizedTangentY = normalizedDirectTangentY;
           
           // Calculate arrow points with improved alignment
           const arrowSize = 12; // Size of arrow head
@@ -346,11 +373,12 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             rightArrowY = arrowBaseY - arrowSize * (normalizedTangentY * Math.cos(arrowAngle) - normalizedTangentX * Math.sin(arrowAngle));
           } else {
             // For receiving, arrow points toward current vertex's cash stack
-            // Position the arrow at the start of the path
-            arrowBaseX = startX;
-            arrowBaseY = startY;
+            // Position the arrow at the end of the path (near current vertex)
+            arrowBaseX = endX;
+            arrowBaseY = endY;
             
-            // Calculate arrow points with direction pointing into the current vertex
+            // For receive arrows, we want them pointing into the cash stack
+            // So we need to reverse the direction of the tangent
             leftArrowX = arrowBaseX + arrowSize * (normalizedTangentX * Math.cos(arrowAngle) - normalizedTangentY * Math.sin(arrowAngle));
             leftArrowY = arrowBaseY + arrowSize * (normalizedTangentY * Math.cos(arrowAngle) + normalizedTangentX * Math.sin(arrowAngle));
             rightArrowX = arrowBaseX + arrowSize * (normalizedTangentX * Math.cos(arrowAngle) + normalizedTangentY * Math.sin(arrowAngle));
@@ -371,7 +399,7 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               
               {/* Arrow at the appropriate end of the path - enhanced with stroke for better visibility */}
               <polygon
-                points={`${isGiving ? endX : startX},${isGiving ? endY : startY} ${leftArrowX},${leftArrowY} ${rightArrowX},${rightArrowY}`}
+                points={`${arrowBaseX},${arrowBaseY} ${leftArrowX},${leftArrowY} ${rightArrowX},${rightArrowY}`}
                 fill={lineColor}
                 stroke={lineColor}
                 strokeWidth={1.5}
@@ -391,9 +419,19 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
   return (
     <g
       transform={`translate(${position.x}, ${position.y})`}
-      onMouseEnter={handleMouseEnter}
+      onMouseEnter={() => {
+        // Close any existing menus first
+        globalMenuState.closeAllMenus();
+        // Then open this menu
+        handleMouseEnter();
+      }}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleMouseEnter} // Add touch support for mobile
+      onTouchStart={() => {
+        // Close any existing menus first
+        globalMenuState.closeAllMenus();
+        // Then open this menu
+        handleMouseEnter();
+      }} // Add touch support for mobile
       onTouchEnd={(e) => {
         // Prevent default to avoid unwanted behaviors
         e.preventDefault();
@@ -499,8 +537,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                     const svgHeight = height;
                     
                     // Menu width and height (smaller on mobile)
-                    const menuWidth = isMobile ? 150 : 170;
-                    const menuHeight = isMobile ? 75 : 85;
+                    const menuWidth = isMobile ? 220 : 260;
+                    const menuHeight = isMobile ? 60 : 60;
                     
                     // Check if menu would go off left edge
                     if (position.x + menuX < minX + 10) {
@@ -541,11 +579,11 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               <rect
                 x={menuX}
                 y={menuY}
-                width={180}
-                height={90}
+                width={260}
+                height={60}
                 rx={10}
                 ry={10}
-                fill="var(--card-background)"
+                fill="rgba(0, 0, 0, 0.5)"
                 filter="drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))"
               />
             );
@@ -572,8 +610,8 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
               const svgHeight = height;
               
               // Menu width and height (smaller on mobile)
-              const menuWidth = isMobile ? 160 : 180;
-              const menuHeight = isMobile ? 85 : 90;
+              const menuWidth = isMobile ? 220 : 260;
+              const menuHeight = isMobile ? 60 : 60;
               
               // Check if menu would go off left edge
               if (position.x + menuX < minX + 10) {
@@ -612,12 +650,24 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
             
             // Calculate button positions based on menu position with padding
             // Adjust spacing for mobile
-            const buttonSpacing = isMobile ? 90 : 100;
-            const buttonPadding = isMobile ? 20 : 25;
+            // Calculate button positions with 10px padding all around
+            // and centered within the panel
+            const buttonSpacing = 120; // Space between buttons
+            const panelWidth = 260;
+            const panelHeight = 60;
             
-            const giveButtonX = menuX + buttonPadding;
-            const receiveButtonX = menuX + buttonSpacing;
-            const buttonY = menuY + (isMobile ? 30 : 35);
+            // Calculate total width of both buttons
+            const giveButtonWidth = 75;
+            const receiveButtonWidth = 95;
+            const totalButtonsWidth = giveButtonWidth + buttonSpacing;
+            
+            // Center the buttons horizontally
+            const startX = menuX + (panelWidth - totalButtonsWidth) / 2;
+            const giveButtonX = startX;
+            const receiveButtonX = startX + buttonSpacing;
+            
+            // Center the buttons vertically (10px from top)
+            const buttonY = menuY + 10;
             
             return (
               <>
@@ -647,18 +697,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={65}
-                    height={32}
+                    width={75}
+                    height={40}
                     rx={8}
                     ry={8}
                     fill={canGive ? "var(--meditation-moss)" : "#cccccc"}
                     className="give-button-bg"
                   />
                   <text
-                    x={30}
-                    y={21}
+                    x={37}
+                    y={25}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={14}
                     fill="white"
                     fontWeight="bold"
                   >
@@ -695,18 +745,18 @@ const VertexComponent: React.FC<VertexComponentProps> = ({
                   <rect
                     x={0}
                     y={0}
-                    width={85}
-                    height={32}
+                    width={95}
+                    height={40}
                     rx={8}
                     ry={8}
                     fill={canReceive ? "var(--neutral-karma)" : "#cccccc"}
                     className="receive-button-bg"
                   />
                   <text
-                    x={30}
-                    y={21}
+                    x={47}
+                    y={25}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={14}
                     fill="white"
                     fontWeight="bold"
                   >
